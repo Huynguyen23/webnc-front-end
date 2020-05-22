@@ -1,6 +1,9 @@
 .ant-table-title {
-  font-size: small;
+  font-size: large;
   font-weight: bold;
   color: #FFFFFF;
   background-color: #336600;
+}
+.form1 {
+  background-color: #FFFFFF;
 }

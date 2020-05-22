@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Table , Row, Col, Typography } from 'antd';
+import { BookFilled } from '@ant-design/icons';
 import './Dashboard.css';
 
 const { Title } = Typography;
@@ -12,7 +13,7 @@ const Dashboard = () => {
     {
       title: 'Loại Tài Khoản',
       dataIndex: 'acct_cate',
-      align: 'right',
+      align: 'center',
     },
     {
       title: 'Loại Tiền',
@@ -21,29 +22,16 @@ const Dashboard = () => {
   ];
   
   const data = [
-    {
-      key: '1',
-      acct_no: 'John Brown',
-      money: '￥300,000.00',
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      money: '￥1,256,000.00',
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      money: '￥120,000.00',
-      address: 'Sidney No. 1 Lake Park',
-    },
   ];
   return (
     <div>
     <Row>
-      <Title level={3}>DANH SÁCH TÀI KHOẢN</Title>
+      <Col>  
+        <Title level={3} style={{color: '#006633'}}>
+          <BookFilled style={{fontSize:30, marginRight: 10, color: '#009900'}}/>
+          DANH SÁCH TÀI KHOẢN
+        </Title>
+      </Col>
     </Row>
     <Row>
     <Col>

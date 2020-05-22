@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
+import { ReceiverList } from '../ReceiverList';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
@@ -40,12 +41,12 @@ function App() {
           {/* <Route exact path="/login">
             {!true ? <Login /> : <Redirect to="/" />}
           </Route> */}
-{/* 
+
           <PrivateRoute
             exact
-            path="/dashboard"
-            render={() => <BankLayout Child={<Dashboard />} />}
-          /> */}
+            path="/receiver-list"
+            render={() => <BankLayout Child={<ReceiverList />} />}
+          />
         </Switch>
       </Router>
 

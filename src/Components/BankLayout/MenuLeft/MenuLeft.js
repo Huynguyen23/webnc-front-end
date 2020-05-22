@@ -2,16 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import {
-  UserOutlined,
-  MailOutlined,
-  // UploadOutlined,
-  ScheduleFilled,
   HomeOutlined,
-  TeamOutlined,
-  NodeIndexOutlined,
-  AuditOutlined,
-  SnippetsOutlined,
-  ProfileOutlined
+  ContactsOutlined
 } from '@ant-design/icons';
 
 const MenuLeft = () => {
@@ -22,7 +14,7 @@ const MenuLeft = () => {
   };
   useEffect(() => {
     switch (window.location.pathname) {
-      case '/company-management':
+      case '/receiver-list':
         setKey('2');
         break;
       default:
@@ -39,11 +31,18 @@ const MenuLeft = () => {
       selectedKeys={[key]}
     >
       <Menu.Item key="1">
-        <Link to="/">
+        <Link to="/dashboard">
           <HomeOutlined />
-          <span>Dashboard</span>
+          <span>Danh sách tài khoản</span>
         </Link>
       </Menu.Item>
+      <Menu.Item key="2">
+        <Link to="/receiver-list">
+        <ContactsOutlined />
+          <span>Danh sách người nhận</span>
+        </Link>
+      </Menu.Item>
+
     </Menu>
   );
 };
