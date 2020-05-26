@@ -19,7 +19,6 @@ const BankLayout = props => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
   };
-
   const menu = (
     <Menu>
       <Menu.Item>Hồ sơ</Menu.Item>

@@ -35,7 +35,7 @@ const Dashboard = () => {
     </Row>
     <Row>
     <Col>
-      <Card title="TÀI KHOẢN THANH TOÁN" bordered={false}>
+      <Card title="TÀI KHOẢN THANH TOÁN" bordered={false} >
         <p>Chủ Thẻ:</p>
         <p>Số Tài Khoản:</p>
         <p>Số Dư:</p>

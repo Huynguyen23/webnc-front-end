@@ -9,6 +9,7 @@ import {
 import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
+import { Transfer } from '../Transfer';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
@@ -20,37 +21,63 @@ function App() {
     try {
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
     } catch {
-      console.log();
+      console.log("error");
     }
   }
   const setTokens = data => {
     localStorage.setItem('tokens', JSON.stringify(data));
-    setAuthTokens(data);
+    setAuthTokens(true);
   };
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
         <Switch>
-        <Route 
-        exact 
-        path="/dashboard"
-        render={() => <BankLayout Child={<Dashboard />} />}
-        >
-        </Route>
+        
+          {/* <Route exact path="/login">
+            {!authTokens ? <Login /> : <Redirect to="/" />}
+          </Route> */}
+          {/* <PrivateRoute 
+            exact 
+            path="/"
+            render={() => <BankLayout Child={<Dashboard />} />}
+          >
+          </PrivateRoute> */}
+
           {/* <Route exact path="/login">
             {!true ? <Login /> : <Redirect to="/" />}
           </Route> */}
-
+          {/* <Route
+            exact path="/dashboard"
+          >
+            <BankLayout Child={<ReceiverList />}/>
+          </Route>
+          <Route
+            exact path="/tranfer"
+          >
+            <BankLayout Child={<Transfer />}/>
+          </Route> */}
+          <Route exact path="/"
+          render={() => <BankLayout Child={<Dashboard/>} />}
+          >
+          </Route>
+          {/* <PrivateRoute 
+            exact 
+            path="/"
+            render={() => <BankLayout Child={<Dashboard />} />}
+          /> */}
           <PrivateRoute
             exact
             path="/receiver-list"
             render={() => <BankLayout Child={<ReceiverList />} />}
           />
+          <PrivateRoute
+            exact
+            path="/transfer"
+            render={() => <BankLayout Child={<Transfer />} />}
+          />
         </Switch>
       </Router>
-
-      
     </AuthContext.Provider>
   );
 }
