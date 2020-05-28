@@ -73,7 +73,12 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/transfer"
+            path="/bank-transfer"
+            render={() => <BankLayout Child={<Transfer />} />}
+          />
+          <PrivateRoute
+            exact
+            path="/interbank-transfer"
             render={() => <BankLayout Child={<Transfer />} />}
           />
         </Switch>

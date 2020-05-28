@@ -8,6 +8,7 @@ import {
   Typography,
   Form,
   Table,
+  Select,
   Collapse,
   Input
 } from 'antd';
@@ -21,7 +22,6 @@ import './Transfer.css';
 
 const { Content } = Layout;
 const { Title } = Typography;
-const { Panel } = Collapse;
 
 const Transfer = () => {
   const [isShow, setIsShow] = useState(true);
@@ -93,6 +93,19 @@ const Transfer = () => {
         </Col>
       </Row>
         <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
+        <Form.Item name = "acct_pay" label="Tài Khoản thanh toán nguồn">
+          <Select
+              showSearch
+              style={{ width: '100%' }}
+              placeholder="Lĩnh vực"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              
+          </Select>
+          </Form.Item>
           <Form.Item name="acct_receiver_cd" label="Tài Khoản Người Nhận">
             <Input />
           </Form.Item>
@@ -100,8 +113,8 @@ const Transfer = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button style={{backgroundColor:"#006600"}} type="primary" htmlType="submit" icon={<SearchOutlined />}>
-              TÌM KIẾM
+            <Button style={{backgroundColor:"#006600", borderColor: '#006600'}} type="primary" htmlType="submit" icon={<SearchOutlined />}>
+              CHUYỂN TIỀN
             </Button>
           </Form.Item>
         </Form>   

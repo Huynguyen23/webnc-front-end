@@ -8,6 +8,7 @@ import {
   Typography,
   Form,
   Table,
+  Select,
   Collapse,
   Input
 } from 'antd';
@@ -17,13 +18,12 @@ import {
   EditFilled,
   IdcardFilled
 } from '@ant-design/icons';
-import './ReceiverList.css';
+import './Transfer.css';
 
 const { Content } = Layout;
 const { Title } = Typography;
-const { Panel } = Collapse;
 
-const ReceiverList = () => {
+const Transfer = () => {
   const [isShow, setIsShow] = useState(true);
   const [form] = Form.useForm();
   const layout = {
@@ -88,43 +88,36 @@ const ReceiverList = () => {
         <Col span={18}>
           <Title level={3} style={{color: '#006633'}}>
           <IdcardFilled  style={{fontSize:30, marginRight: 10, color: '#009900'}}/>
-            THÔNG TIN NGƯỜI NHẬN
+            CHUYỂN KHOẢN
           </Title>
         </Col>
-        <Col span={6}>
-          <Row gutter={10}>
-            <Col span={24} style={{ textAlign: 'right' }}>
-              <Button
-                type="primary"
-                style={{ background: '#f55d3e', borderColor: '#f55d3e' }}
-                icon={<PlusSquareFilled />}
-                onClick={() => {
-                  
-                }}
-              >
-                THÊM
-              </Button>
-            </Col>
-          </Row>
-        </Col>
       </Row>
-      <Collapse defaultActiveKey={['1']} onChange={callback} bordered={false}>
-        <Panel header="BỘ LỌC" key="1" className="form1">
-          <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
-            <Form.Item name="acct_receiver_cd" label="Tài Khoản Người Nhận">
-              <Input />
-            </Form.Item>
-            <Form.Item name="receiver_nm" label="Tên Người Nhận">
-              <Input />
-            </Form.Item>
-            <Form.Item>
-              <Button style={{backgroundColor:"#006600", background: '#006633', borderColor:'#006633'}} type="primary" htmlType="submit" icon={<SearchOutlined />}>
-                TÌM KIẾM
-              </Button>
-            </Form.Item>
-          </Form>
-        </Panel>
-      </Collapse>
+        <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
+        <Form.Item>
+          <Select
+              showSearch
+              style={{ width: '100%' }}
+              placeholder="Lĩnh vực"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              
+          </Select>
+          </Form.Item>
+          <Form.Item name="acct_receiver_cd" label="Tài Khoản Người Nhận">
+            <Input />
+          </Form.Item>
+          <Form.Item name="receiver_nm" label="Tên Người Nhận">
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button style={{backgroundColor:"#006600"}} type="primary" htmlType="submit" icon={<SearchOutlined />}>
+              TÌM KIẾM
+            </Button>
+          </Form.Item>
+        </Form>   
       <Table
         columns={columns}
         onChange={onChange}
@@ -133,4 +126,4 @@ const ReceiverList = () => {
     </Content>
   );
 };
-export default ReceiverList;
+export default Transfer;

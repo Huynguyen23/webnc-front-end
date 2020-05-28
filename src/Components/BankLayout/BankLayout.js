@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Avatar, Menu, Dropdown } from 'antd';
+import { Layout, Menu, Dropdown } from 'antd';
 import {
-  UserOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
+  CaretDownOutlined
 } from '@ant-design/icons';
 import './BankLayout.css';
 import { MenuLeft } from './MenuLeft';
@@ -20,9 +20,9 @@ const BankLayout = props => {
     localStorage.removeItem('tokens');
   };
   const menu = (
-    <Menu>
-      <Menu.Item>Hồ sơ</Menu.Item>
-      <Menu.Item onClick={logOut}>Đăng xuất</Menu.Item>
+    <Menu >
+      <Menu.Item style={{fontWeight:'bold'}}>Hồ sơ</Menu.Item>
+      <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
     </Menu>
   );
 
@@ -30,6 +30,7 @@ const BankLayout = props => {
   const [collapsed, setCollapsed] = useState(isSmallScreen);
   const toggle = () => {
     setCollapsed(!collapsed);
+
   };
 
   return (
@@ -56,7 +57,7 @@ const BankLayout = props => {
           />
         </div>
 
-        <MenuLeft />
+        <MenuLeft collapsed={collapsed}/>
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -74,10 +75,13 @@ const BankLayout = props => {
 
           {/* <LoginOutlined style={{  float:'right', }} onClick={logOut} /> */}
           <Dropdown overlay={menu}>
-            <Avatar
-              style={{ backgroundColor: '#f55d3e', marginRight: '40px' }}
-              icon={<UserOutlined />}
-            />
+            <span
+              style={{  marginRight: '40px', fontSize:16, fontWeight:'bold' }}
+            >
+              Xin chào
+              <CaretDownOutlined/>
+            </span>
+          
           </Dropdown>
         </Header>
 
