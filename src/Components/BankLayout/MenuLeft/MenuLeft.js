@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import {
   HomeOutlined,
   ContactsOutlined,
-  SendOutlined
+  SendOutlined,
+  ApartmentOutlined
 } from '@ant-design/icons';
 import './MenuLeft.css';
 
@@ -22,9 +23,13 @@ const MenuLeft = props => {
       case '/receiver-list':
         setKey('2');
         break;
-      // case '/transfer':
-      //   setKey('3');
-      //   break;
+      case '/otp':
+        setKey('3');
+        break;
+        
+      case '/debt-reminder':
+        setKey('5');
+        break;
       case '/bank-transfer':
         setKey('g1');
         break;
@@ -59,12 +64,24 @@ const MenuLeft = props => {
           <span>Danh Sách Người Nhận</span>
         </Link>
       </Menu.Item>
+      <Menu.Item key="3">
+        <Link to="/otp">
+        <ContactsOutlined />
+          <span>OTP</span>
+        </Link>
+      </Menu.Item>
       {/* <Menu.Item key="3">
         <Link to="/transfer">
         <ContactsOutlined />
           <span>Chuyển khoản</span>
         </Link><SendOutlined />
       </Menu.Item> */}
+      <Menu.Item key="5">
+        <Link to="/debt-reminder">
+        <ContactsOutlined />
+          <span>Quản Lí Nhắc Nợ</span>
+        </Link>
+      </Menu.Item>
       {collapsed ?  <Menu.Item><ContactsOutlined/></Menu.Item> :
         <Menu.ItemGroup title={<span><SendOutlined style={{marginRight:10}}/><span>Chuyển Khoản</span></span>}>
           <Menu.Item key="g1">
@@ -76,11 +93,13 @@ const MenuLeft = props => {
 
           <Menu.Item key="g2">
             <Link to="/interbank-transfer">
-              <ContactsOutlined />
+              <ApartmentOutlined />
               <span>Liên Ngân Hàng</span>
             </Link>
           </Menu.Item>
         </Menu.ItemGroup>
+
+
       }
     </Menu>
   );

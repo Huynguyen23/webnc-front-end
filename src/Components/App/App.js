@@ -10,6 +10,8 @@ import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
 import { Transfer } from '../Transfer';
+import { OTP } from '../OTP';
+import { DebtReminder } from '../DebtReminder';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
@@ -26,46 +28,21 @@ function App() {
   }
   const setTokens = data => {
     localStorage.setItem('tokens', JSON.stringify(data));
-    setAuthTokens(true);
+    setAuthTokens(data);
   };
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
         <Switch>
-        
-          {/* <Route exact path="/login">
+          <Route exact path="/login">
             {!authTokens ? <Login /> : <Redirect to="/" />}
-          </Route> */}
-          {/* <PrivateRoute 
+          </Route>
+         <PrivateRoute 
             exact 
             path="/"
             render={() => <BankLayout Child={<Dashboard />} />}
-          >
-          </PrivateRoute> */}
-
-          {/* <Route exact path="/login">
-            {!true ? <Login /> : <Redirect to="/" />}
-          </Route> */}
-          {/* <Route
-            exact path="/dashboard"
-          >
-            <BankLayout Child={<ReceiverList />}/>
-          </Route>
-          <Route
-            exact path="/tranfer"
-          >
-            <BankLayout Child={<Transfer />}/>
-          </Route> */}
-          <Route exact path="/"
-          render={() => <BankLayout Child={<Dashboard/>} />}
-          >
-          </Route>
-          {/* <PrivateRoute 
-            exact 
-            path="/"
-            render={() => <BankLayout Child={<Dashboard />} />}
-          /> */}
+          />
           <PrivateRoute
             exact
             path="/receiver-list"
@@ -80,6 +57,16 @@ function App() {
             exact
             path="/interbank-transfer"
             render={() => <BankLayout Child={<Transfer />} />}
+          />
+           <PrivateRoute
+            exact
+            path="/otp"
+            render={() => <OTP/>}
+          />
+          <PrivateRoute 
+            exact 
+            path="/debt-reminder"
+            render={() => <BankLayout Child={<DebtReminder />} />}
           />
         </Switch>
       </Router>

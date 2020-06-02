@@ -10,15 +10,11 @@
   color: #1890ff;
 }
 
-.logo {
+/* .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
-}
-
-.site-layout .site-layout-background {
-  background: #1890ff;
-}
+} */
 .body-layout {
   height: inherit;
 }
@@ -28,4 +24,38 @@
 
 #title {
   flex: 1;
+}
+
+
+#components-layout-demo-fixed .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.ant-layout-header {
+  background: #009900;
+  height: 60px;
+  padding: 0;
+  color: #FFFFFF;
+  line-height: 64px;
+  display: flex;
+}
+
+.ant-dropdown-trigger {
+  float: right;
+  height: 64px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: 24px;
+}
+
+.ant-layout {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-height: 0;
+  background: #f0f2f5;
 }

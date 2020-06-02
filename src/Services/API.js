@@ -1,9 +1,9 @@
 import URL from './URL';
 
 const API = {
-  LOGIN: `${URL}/auth/login`,
+  LOGIN: `${URL}/api/auth`,
   // login
-  LOGIN_SUBMIT_USERNAME: `${URL}/auth/login`,
+  GET_USER_ACCOUNT: `${URL}/api/saving-account/list`,
 };
 
 export default API;

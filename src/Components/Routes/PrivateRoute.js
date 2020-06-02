@@ -13,7 +13,7 @@ export const PrivateRoute = ({ component: Component, render, ...rest }) => {
     <Route
       {...rest}
       render={props => {
-        return true ? (
+        return authTokens ? (
           render ? (
             render(props)
           ) : (
