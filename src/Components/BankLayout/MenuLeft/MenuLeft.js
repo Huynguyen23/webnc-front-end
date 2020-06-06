@@ -9,7 +9,7 @@ import {
   ApartmentOutlined
 } from '@ant-design/icons';
 import './MenuLeft.css';
-
+import {RemindIcon, TransfrerIcon} from './icons';
 const { SubMenu } = Menu;
 const MenuLeft = props => {
   const {collapsed} =props;
@@ -70,30 +70,24 @@ const MenuLeft = props => {
           <span>OTP</span>
         </Link>
       </Menu.Item>
-      {/* <Menu.Item key="3">
-        <Link to="/transfer">
-        <ContactsOutlined />
-          <span>Chuyển khoản</span>
-        </Link><SendOutlined />
-      </Menu.Item> */}
       <Menu.Item key="5">
         <Link to="/debt-reminder">
-        <ContactsOutlined />
-          <span>Quản Lí Nhắc Nợ</span>
+        <RemindIcon />
+          {collapsed ? "" : <span style={{marginLeft:10}} >Quản Lí Nhắc Nợ</span>}
         </Link>
       </Menu.Item>
       {collapsed ?  <Menu.Item><ContactsOutlined/></Menu.Item> :
-        <Menu.ItemGroup title={<span><SendOutlined style={{marginRight:10}}/><span>Chuyển Khoản</span></span>}>
+        <Menu.ItemGroup title={<span><TransfrerIcon /><span style={{marginLeft:8, color: '#006600'}}>Chuyển Khoản</span></span>}>
           <Menu.Item key="g1">
             <Link to="/bank-transfer">
-              <ContactsOutlined />
+              <ContactsOutlined style={{marginLeft:15}}/>
               <span>Nội Bộ</span>
             </Link>
           </Menu.Item>
 
           <Menu.Item key="g2">
             <Link to="/interbank-transfer">
-              <ApartmentOutlined />
+              <ApartmentOutlined style={{marginLeft:15}}/>
               <span>Liên Ngân Hàng</span>
             </Link>
           </Menu.Item>

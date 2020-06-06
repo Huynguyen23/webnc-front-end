@@ -17,6 +17,6 @@ export const getInfo = (body, callBack) => {
     })
     .catch(error => {
       
-      Swal.fire('Thông báo', error.message, 'error');
+      Swal.fire('Thông báo', error.msg, 'error');
     });
 };

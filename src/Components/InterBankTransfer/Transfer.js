@@ -94,17 +94,7 @@ const Transfer = () => {
       </Row>
         <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
         <Form.Item>
-          <Select
-              showSearch
-              style={{ width: '100%' }}
-              placeholder="Lĩnh vực"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              
-          </Select>
+          <Input disabled/>
           </Form.Item>
           <Form.Item name="acct_receiver_cd" label="Tài Khoản Người Nhận">
             <Input />

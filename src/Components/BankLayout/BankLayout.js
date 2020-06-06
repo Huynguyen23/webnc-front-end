@@ -29,7 +29,7 @@ const BankLayout = props => {
   );
 
   const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
-  const [collapsed, setCollapsed] = useState(isSmallScreen);
+  const [collapsed, setCollapsed] = useState(!isSmallScreen);
   const toggle = () => {
     setCollapsed(!collapsed);
 
@@ -37,8 +37,8 @@ const BankLayout = props => {
 
   return (
     <Layout className="body-layout">
-      <Header  style={{width:'100%'}}>
-        <div style={{ display: 'flex' }} onClick={toggle}>
+      <Header style={{width:'100%'}}>
+        <div style={{ display: 'flex', backgroundColor:'#FFFFFF' }} onClick={toggle}>
           <img
             id="sm-logo"
             className="logo1"
@@ -48,12 +48,12 @@ const BankLayout = props => {
               objectFit: 'cover',
               objectPosition: '0 0',
               width: collapsed ? 58 : 140,
+              marginRight: collapsed ? 20 :58,
               height: 60,
               transition: 'width 0.2s'
             }}
           />
         </div>
-
           {/* <div className="logo" /> */}
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
