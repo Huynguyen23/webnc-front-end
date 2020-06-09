@@ -5,8 +5,7 @@ import API from '../Services/API';
 
 const RECEIVER_LIST = 'RECEIVER_LIST';
 const ADD_RECEIVER = 'ADD_RECEIVER';
-const DELETE_RECEIVER = 'DELETE_COMPANY';
-const SET_AUTH_RECEIVER = 'SET_AUTH_RECEIVER';
+const DELETE_RECEIVER = 'DELETE_RECEIVER';
 const UPDATE_RECEIVER = 'UPDATE_RECEIVER';
 // action
 
@@ -35,22 +34,21 @@ export const getReceiverList = body => dispatch => {
 };
 
 export const addReceiver = body => dispatch => {
+  console.log("banke", body);
   return (
     fetch(API.ADD_RECEIVER, {
       method: 'POST',
-      body: body,
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       }
     })
-      // .then(response => response.json())
+      .then(response => response.json())
       .then(res => {
-        console.log(res);
-        if (res) {
+        if (res.status > 0) {
           dispatch({ type: ADD_RECEIVER, payload: body });
-          return true;
         }
-        return false;
+        return res;
       })
   );
 };
@@ -65,26 +63,29 @@ export const updateReceiver = body => dispatch => {
         'Content-Type': 'application/json;charset=utf-8'
       }
     })
-      // .then(response => response.json())
+      .then(response => response.json())
       .then(res => {
         console.log(res);
-        if (res) {
+        if (res.status > 0) {
           dispatch({ type: UPDATE_RECEIVER, payload: body });
-          return true;
         }
-        return false;
+        return res;
       })
   );
 };
 
 export const deleteReceiver = body => dispatch => {
-  return fetch(API.DELETE_RECEIVER(body.id), {
-    method: 'GET'
+  return fetch(API.DELETE_RECEIVER, {
+    method: 'PUT',
+    body:JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
   })
     .then(response => response.json())
     .then(res => {
       if (res === true) {
-        dispatch({ type: DELETE_RECEIVER, payload: body.id });
+        dispatch({ type: DELETE_RECEIVER, payload: body.stk_nguoi_nhan });
       }
     })
     .finally(() => {});
@@ -97,11 +98,13 @@ export const receiverList = (state = [], action) => {
     case ADD_RECEIVER:
       return [...state, action.payload];
     case DELETE_RECEIVER:
-      return state.filter(item => item.id !== action.payload);
+      return state.filter(item => item.stk_nguoi_nhan !== action.payload);
     case UPDATE_RECEIVER: {
-      const newState = state.filter(item => item.id !== action.payload.id);
-      console.log('aaaaa', [...newState, action.payload]);
-      return [...newState, action.payload];
+      const oldValue= state.filter(item => item.stk_nguoi_nhan === action.payload.stk_nguoi_nhan)[0];
+      console.log("oldv", oldValue)
+      const newState = state.filter(item => item.stk_nguoi_nhan !== action.payload.stk_nguoi_nhan);
+      console.log('aaaaa', [...newState, {stk_nguoi_nhan:action.payload.stk_nguoi_nhan,ten_goi_nho:action.payload.ten, id_ngan_hang: oldValue.id_ngan_hang}]);
+      return [...newState, {stk_nguoi_nhan:action.payload.stk_nguoi_nhan,ten_goi_nho:action.payload.ten, id_ngan_hang: oldValue.id_ngan_hang}];
     }
     default:
       return state;

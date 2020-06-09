@@ -27,10 +27,10 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 
 export const ReceiverList = props => {
-  const {data, getReceiverList} = props;
+  const {data, getReceiverList, addReceiver, deleteReceiver, updateReceiver} = props;
   const [isShow, setIsShow] = useState(true);
   const [visible, setVisible] = useState(false);
-  const [bankList, setBankList] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({});
   const [form] = Form.useForm();
@@ -46,7 +46,6 @@ export const ReceiverList = props => {
     });
   }, [getReceiverList, info.stkThanhToan]);
 
-  console.log("data", data);
   const handleOk = () => {
   
   };
@@ -55,11 +54,18 @@ export const ReceiverList = props => {
     param.stk_nguoi_gui = info.stkThanhToan;
     getReceiverList(param).finally(() => {
       setLoading(false);
-    });;
+    });
   };
 
-  const handleDelete = param => {
-    
+  const handleDelete = record => {
+    const param ={
+      stk_nguoi_gui: info.stkThanhToan,
+      stk_nguoi_nhan: record.stk_nguoi_nhan
+    }
+    deleteReceiver(param).finally(() => {
+      setLoading(false);
+    });
+    console.log("handleDelete", param);
   };
   const onChange = () => {};
   const callback = () => {
@@ -132,8 +138,9 @@ export const ReceiverList = props => {
           <AddReceiverModal
             show={visible}
             handleCancel={() => setVisible(false)}
+            addReceiver= {addReceiver}
+            updateReceiver={updateReceiver}
             handleOk={() => handleOk()}
-            bankList={bankList}
             values={values}
           />
         )}
