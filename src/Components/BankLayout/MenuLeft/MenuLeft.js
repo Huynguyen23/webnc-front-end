@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import {
   HomeOutlined,
   ContactsOutlined,
-  SendOutlined,
+  BankFilled,
+  HistoryOutlined,
+  ControlOutlined,
   ApartmentOutlined
 } from '@ant-design/icons';
 import './MenuLeft.css';
-import {RemindIcon, TransfrerIcon} from './icons';
+import {RemindIcon, TransfrerIcon, CreateAcctIcon, RechargeIcon, EmployeeIcon} from './icons';
 const { SubMenu } = Menu;
 const MenuLeft = props => {
   const {collapsed} =props;
@@ -25,15 +27,20 @@ const MenuLeft = props => {
         break;
       case '/otp':
         setKey('3');
-        break;
-        
+        break;  
       case '/debt-reminder':
         setKey('5');
         break;
-      case '/bank-transfer':
+      case '/create-acct':
+      setKey('6');
+      break;
+      case '/recharge':
+      setKey('7');
+      break;
+      case '/interbank-transfer':
         setKey('g1');
         break;
-      case '/interbank-transfer':
+      case '/bank-transfer':
         setKey('g2');
         break;
       default:
@@ -76,25 +83,59 @@ const MenuLeft = props => {
           {collapsed ? "" : <span style={{marginLeft:10}} >Quản Lí Nhắc Nợ</span>}
         </Link>
       </Menu.Item>
-      {collapsed ?  <Menu.Item><ContactsOutlined/></Menu.Item> :
+      {collapsed ?  <Menu.Item><TransfrerIcon/></Menu.Item> :
         <Menu.ItemGroup title={<span><TransfrerIcon /><span style={{marginLeft:8, color: '#006600'}}>Chuyển Khoản</span></span>}>
           <Menu.Item key="g1">
-            <Link to="/bank-transfer">
-              <ContactsOutlined style={{marginLeft:15}}/>
+            <Link to="/interbank-transfer">
+              <BankFilled style={{marginLeft:15}}/>
               <span>Nội Bộ</span>
             </Link>
           </Menu.Item>
 
           <Menu.Item key="g2">
-            <Link to="/interbank-transfer">
+            <Link to="/bank-transfer">
               <ApartmentOutlined style={{marginLeft:15}}/>
               <span>Liên Ngân Hàng</span>
             </Link>
           </Menu.Item>
         </Menu.ItemGroup>
-
-
       }
+      <Menu.Item>
+      {collapsed ? "" : <span style={{fontSize:15, color:'#006600', paddingLeft:0}}>GIAO DỊCH VIÊN</span>}
+      </Menu.Item>
+      <Menu.Item key="6">
+        <Link to="/create-acct">
+        <CreateAcctIcon />
+        {collapsed ? "" : <span style={{marginLeft:10}} >Tạo Tài Khoản</span>}
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="7">
+        <Link to="/recharge">
+          <RechargeIcon />
+          {collapsed ? "" : <span style={{marginLeft:10}} >Nạp Tiền</span>}
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="8">
+        <Link to="/history">
+        <HistoryOutlined />
+          {collapsed ? "" : <span>Lịch Sử</span>}
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+      {collapsed ? "" : <span style={{fontSize:15, color:'#006600', paddingLeft:0}}>QUẢN TRỊ VIÊN</span>}
+      </Menu.Item>
+      <Menu.Item key="9">
+        <Link to="/employee-manager">
+        <EmployeeIcon />
+        {collapsed ? "" : <span style={{marginLeft:10}}>Quản Lí Nhân Viên</span>}
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="10">
+        <Link to="/report">
+        <ControlOutlined />
+        {collapsed ? "" : <span >Quản Lí Giao Dịch</span>}
+        </Link>
+      </Menu.Item>
     </Menu>
   );
 };

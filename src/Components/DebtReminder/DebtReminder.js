@@ -8,6 +8,8 @@ import {
   Typography,
   Form,
   Table,
+  Result,
+  Tabs,
   Collapse,
   Input
 } from 'antd';
@@ -15,6 +17,9 @@ import {
   SearchOutlined,
   PlusSquareFilled,
   EditFilled,
+  AppleOutlined, 
+  AndroidOutlined,
+  DeleteFilled,
   IdcardFilled
 } from '@ant-design/icons';
 import './DebtReminder.css';
@@ -22,8 +27,10 @@ import './DebtReminder.css';
 const { Content } = Layout;
 const { Title } = Typography;
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 
-const DebtReminder = () => {
+export const DebtReminder = props => {
+  const {data, getRe} = props;
   const [isShow, setIsShow] = useState(true);
   const [form] = Form.useForm();
   const layout = {
@@ -72,8 +79,18 @@ const DebtReminder = () => {
     {
       title: 'Loại Bỏ',
       dataIndex: 'delete',
-      align: 'center'
-        
+      align: 'center',
+      render: (text, record) =>
+      data.length >= 1 ? (
+        <Result
+          title="Bạn thật sự muốn xóa?"
+          onConfirm={() => handleDelete(record)}
+          okText="Xóa"
+          cancelText="Hủy"
+        >
+          <DeleteFilled style={{color:'#FF0000'}}/>
+        </Result>
+      ) : null
     }
   ];
   return (
@@ -96,7 +113,7 @@ const DebtReminder = () => {
             <Col span={24} style={{ textAlign: 'right' }}>
               <Button
                 type="primary"
-                style={{ background: '#f55d3e', borderColor: '#f55d3e' }}
+                style={{ background: '#006600', borderColor: '#006600' }}
                 icon={<PlusSquareFilled />}
                 onClick={() => {
                   
@@ -125,12 +142,39 @@ const DebtReminder = () => {
           </Form>
         </Panel>
       </Collapse>
-      <Table
-        columns={columns}
-        onChange={onChange}
-        title={()=> "DANH SÁCH NGƯỜI NHẬN"}
-      />
+      <Tabs defaultActiveKey="2">
+        <TabPane
+          tab={
+            <span>
+              <AppleOutlined />
+              Danh sách đã tạo
+            </span>
+          }
+          key="1"
+        >
+          <Table
+            columns={columns}
+            onChange={onChange}
+            title={()=> "DANH SÁCH NHẮC NỢ"}
+          />
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <AndroidOutlined />
+              Danh sách đã nhận
+            </span>
+          }
+          key="2"
+        >
+          <Table
+            columns={columns}
+            onChange={onChange}
+            title={()=> "DANH SÁCH NHẮC NỢ"}
+          />
+        </TabPane>
+      </Tabs>,
+     
     </Content>
   );
 };
-export default DebtReminder;

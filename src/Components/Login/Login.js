@@ -35,7 +35,7 @@ const onChange= value => {
           <Col className="col-login" span={24} style={{ display: 'flex' }}>
             <Form className="login-form" name="basic" onFinish={loginClick}>
               <div style={{ textAlign: 'center', marginBottom: 50 }}>
-                <img alt="" src="extalk_logo.png" style={{ width: '150px' }} />
+                <img alt="" src="sblogo.png" style={{ width: '150px' }} />
 
                 <h3
                   style={{

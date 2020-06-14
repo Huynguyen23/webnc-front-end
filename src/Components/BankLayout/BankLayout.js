@@ -38,18 +38,19 @@ const BankLayout = props => {
   return (
     <Layout className="body-layout">
       <Header style={{width:'100%'}}>
-        <div style={{ display: 'flex', backgroundColor:'#FFFFFF' }} onClick={toggle}>
+        <div style={{ display: 'flex', backgroundColor:'#FFFFFF'}} onClick={toggle}>
           <img
             id="sm-logo"
             className="logo1"
-            src="/extalk_logo.png"
-            alt="logo extalk"
+            src="/smartbanking.png"
+            alt="logo"
             style={{
               objectFit: 'cover',
               objectPosition: '0 0',
-              width: collapsed ? 58 : 140,
-              marginRight: collapsed ? 20 :58,
-              height: 60,
+              width: collapsed ? 64 : 170,
+              marginRight: collapsed ? 6 : 20,
+              marginLeft:10,
+              height:70,
               transition: 'width 0.2s'
             }}
           />

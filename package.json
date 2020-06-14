@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.1.1",
+    "antd-form-has-error-hoc": "0.0.7",
     "bizcharts": "^3.5.7",
     "cross-fetch": "^3.0.4",
     "env-cmd": "^10.1.0",

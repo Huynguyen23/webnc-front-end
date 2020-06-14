@@ -24,3 +24,29 @@ export const login = (username, password, callBack) => {
       callBack(false);
     });
 };
+
+export const getUserInfo = (body, callBack) => {
+  console.log("getUserInfo", body);
+  return fetch(API.GET_USER_INFO, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+    .then(res => {
+      console.log("GET_USER_INFO",res);
+      if (res.data) {
+        callBack(res.data);
+        return res.data;
+      } else {
+        callBack([]);
+        return false;
+      }
+    })
+    .catch(error => {
+      Swal.fire('Thông báo', error.message, 'error');
+      callBack(false);
+    });
+};

@@ -9,9 +9,12 @@ import {
 import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
-import { Transfer } from '../Transfer';
+import { Transfer } from '../BankTransfer';
 import { OTP } from '../OTP';
+import { InterBankTransfer } from '../InterBankTransfer';
+import { BankTransfer } from '../BankTransfer';
 import { DebtReminder } from '../DebtReminder';
+import { CreateAcct } from '../CreateAcct';
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
@@ -50,13 +53,13 @@ function App() {
           />
           <PrivateRoute
             exact
-            path="/bank-transfer"
-            render={() => <BankLayout Child={<Transfer />} />}
+            path="/interbank-transfer"
+            render={() => <BankLayout Child={<InterBankTransfer />} />}
           />
           <PrivateRoute
             exact
-            path="/interbank-transfer"
-            render={() => <BankLayout Child={<Transfer />} />}
+            path="/bank-transfer"
+            render={() => <BankLayout Child={<BankTransfer />} />}
           />
            <PrivateRoute
             exact
@@ -67,6 +70,12 @@ function App() {
             exact 
             path="/debt-reminder"
             render={() => <BankLayout Child={<DebtReminder />} />}
+          />
+
+          <PrivateRoute 
+            exact 
+            path="/create-acct"
+            render={() => <BankLayout Child={<CreateAcct />} />}
           />
         </Switch>
       </Router>

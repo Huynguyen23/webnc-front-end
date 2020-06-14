@@ -3,19 +3,30 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
 import OtpInput from 'react-otp-input';
 import Swal from 'sweetalert2';
+import {verify} from '../../Reducers/Actions/Bank';
 
 import './OTP.css';
+import { Redirect } from 'react-router-dom';
 
 const { Content } = Layout;
 
 const OTP = () => {
   const [OTP, setOTP] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const info = JSON.parse(localStorage.getItem('tokens'));
+  const onFinish = param => {
+    verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
+     if(res.status > 0){
+      setRedirect(!redirect);
+     }
+    })
+  };
   return (
     <Layout className="site-layout">
       <Content>
         <Row>
           <Col className="col-login" span={24} style={{ display: 'flex' }}>
-            <Form className="login-form" name="basic" >
+            <Form className="login-form" name="basic" onFinish={onFinish}>
               <div style={{ textAlign: 'center', marginBottom: 50 }}>
                 <img alt="" src="extalk_logo.png" style={{ width: '150px' }} />
 
@@ -39,7 +50,7 @@ const OTP = () => {
               />
              
               <Form.Item>
-          
+                
               </Form.Item>
               <Form.Item>
                 <Button
@@ -49,7 +60,17 @@ const OTP = () => {
                 
                   style={{ float: 'right', margin: 0 }}
                 >
+                  {redirect ? <Redirect to="/interbank-transfer"/>: null }
                   Xác Nhận
+                </Button>
+                <Button
+                className="custom-button"
+                  type="primary"
+                  htmlType="submit"
+                  style={{backgroundColor:'#DDDDDD',color:'#000000', float: 'right', marginRight: 20 }}
+                >
+          
+                  Gửi Lại
                 </Button>
               </Form.Item>
             </Form>

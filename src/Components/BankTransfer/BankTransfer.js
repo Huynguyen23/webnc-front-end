@@ -18,12 +18,12 @@ import {
   EditFilled,
   IdcardFilled
 } from '@ant-design/icons';
-import './Transfer.css';
+import './BankTransfer.css';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
-const Transfer = () => {
+const BankTransfer = () => {
   const [isShow, setIsShow] = useState(true);
   const [form] = Form.useForm();
   const layout = {
@@ -126,4 +126,4 @@ const Transfer = () => {
     </Content>
   );
 };
-export default Transfer;
+export default BankTransfer;
