@@ -11,6 +11,7 @@ import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
 import { Transfer } from '../BankTransfer';
 import { OTP } from '../OTP';
+import { ChangePass } from '../ChangePass';
 import { InterBankTransfer } from '../InterBankTransfer';
 import { BankTransfer } from '../BankTransfer';
 import { DebtReminder } from '../DebtReminder';
@@ -65,6 +66,12 @@ function App() {
             exact
             path="/otp"
             render={() => <OTP/>}
+          />
+
+          <PrivateRoute
+            exact
+            path="/change-password"
+            render={() => <ChangePass/>}
           />
           <PrivateRoute 
             exact 

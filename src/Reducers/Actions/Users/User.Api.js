@@ -50,3 +50,22 @@ export const getUserInfo = (body, callBack) => {
       callBack(false);
     });
 };
+
+export const addUser = (body) => {
+  console.log("addUser", body);
+  return fetch(API.ADD_USER, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+    .then(res => {
+      console.log("ADD_USER",res);
+      return res;
+    })
+    .catch(error => {
+      Swal.fire('Thông báo', error.message, 'error');
+    });
+};

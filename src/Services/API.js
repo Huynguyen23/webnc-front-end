@@ -14,6 +14,8 @@ const API = {
   // Transfer
   GET_OTP: `${URL}/api/otp`,
   VERIFY: `${URL}/api/otp/verify`,
+  // user
+  ADD_USER:`${URL}/api/user`,
 };
 
 export default API;
