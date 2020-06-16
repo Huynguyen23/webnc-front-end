@@ -16,6 +16,8 @@ import { InterBankTransfer } from '../InterBankTransfer';
 import { BankTransfer } from '../BankTransfer';
 import { DebtReminder } from '../DebtReminder';
 import { CreateAcct } from '../CreateAcct';
+import { PayMoney } from '../PayMoney';
+
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
@@ -83,6 +85,11 @@ function App() {
             exact 
             path="/create-acct"
             render={() => <BankLayout Child={<CreateAcct />} />}
+          />
+          <PrivateRoute 
+            exact 
+            path="/pay-money"
+            render={() => <BankLayout Child={<PayMoney />} />}
           />
         </Switch>
       </Router>

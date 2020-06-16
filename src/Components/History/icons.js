@@ -1,0 +1,9 @@
+import React from 'react';
+
+export const InnerBankIcon = () => (
+  <img 
+    alt="icons"
+    height={32}
+    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAByklEQVRYhe3WsWtUQRAG8N/lTIyeCgZFCxuLAyslomhhGluDoGAhiUFQsDBpbCKInbUgYiexCEkqhdhYCLEQRBBtLAT/AIkEsQlYGSx2hBju3S370Mb7YGF33uw3387u7D76+N/RqDF3By5Hfwk/SkgGCuYM4gYWsBptIWyDJSJyMSCteBkXpOwdidYI23L4ZC8s13EczzCEi/iCCTSjTeBzfBsK3/FcEd0whqeYCeKjmES7g28DZ7ErfGdi7lhJ4FEs4g5aEXAyBPRCG9uj3wqOxeDsiRbm8AEj2I0rOJWvvSNGgnMuYlSiif2Yj/GU7uekESJzMB/czc3GreQ/sbZpvI6NCsJDuIvnuIQ9GSLWIkalgFyMSiltSxfSddwqIdpWKGAKD/EE07hdyFOcgXUcx3Bp4LoCHuEw3uIYDv5rAatSBmZxAp9wusK3WWGvJYBUHW/wAPdxr8Lv/N8QsPXwvlS9DV2f/NIqWMELvJNuuWm8LiEqzcBNnJF+RK5KVTFbQlSagY84hwPSC7hUyFPrEMLXOsFzBOysQ57D0WsLXkkPTR2slAjYwEl8w/uaAoaDq+OrWlWj+3ANe2sG/43veCwtqI8+/sAv9EFExfzkkRsAAAAASUVORK5CYII="
+  />
+);

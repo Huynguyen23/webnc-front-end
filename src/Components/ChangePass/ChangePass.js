@@ -39,6 +39,7 @@ const ChangePass = () => {
                 >
                   ĐỔI MẬT KHẨU
                 </h3>
+                <p>Nhập địa chỉ email bạn đã cung cấp để tạo tài khoản<br/> và chúng tôi sẽ gửi cho bạn hướng dẫn <br/>để đặt lại mật khẩu của bạn.</p>
               </div>
               <Form.Item
                 
