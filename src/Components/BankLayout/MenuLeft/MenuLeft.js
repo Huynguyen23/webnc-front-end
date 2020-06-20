@@ -38,6 +38,9 @@ const MenuLeft = props => {
       case '/recharge':
       setKey('7');
       break;
+      case '/employee-management':
+        setKey('9');
+        break;
       case '/interbank-transfer':
         setKey('g1');
         break;
@@ -151,7 +154,7 @@ const MenuLeft = props => {
       {collapsed ? "" : <span style={{fontSize:15, color:'#006600', paddingLeft:0}}>QUẢN TRỊ VIÊN</span>}
       </Menu.Item>
       <Menu.Item key="9">
-        <Link to="/employee-manager">
+        <Link to="/employee-management">
         <EmployeeIcon />
         {collapsed ? "" : <span style={{marginLeft:10}}>Quản Lí Nhân Viên</span>}
         </Link>

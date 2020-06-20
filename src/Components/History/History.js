@@ -1,92 +1,94 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect } from 'react';
+import React  from 'react';
 import {
   Layout,
   Row,
   Col,
-  Button,
   Typography,
-  Form,
-  Select,
-  Result,
-  Input,
-  Card
+  Tabs,
+  Table
 } from 'antd';
 import {
   InteractionFilled,
   CopyFilled,
   IdcardFilled
 } from '@ant-design/icons';
-import './PayMoney.css';
-import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP} from '../../Reducers/Actions/Bank';
-import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
+import './History.css';
 const { Content } = Layout;
-const { Title,Text } = Typography;
-const { Option } = Select;
-const { TextArea } = Input;
-
-export const PayMoney = props => {
-  const [payInfo, setPayInfo] = useState({});
-  const [isShow, setIsShow] =useState(false);
-  const [form] = Form.useForm();
-  const layout = {
-    labelCol: { span: 24 },
-    wrapperCol: { span: 6 }
-  };
+const { Title } = Typography;
+const { TabPane } = Tabs;
+export const History = props => {
+ 
+  const columns = [
+    {
+      title: 'Người Gửi',
+      dataIndex: 'name',
+      sorter: {
+        compare: (a, b) => a.name - b.name,
+        multiple: 4,
+      },
+    },
+    {
+      title: 'Số Tài Khoản',
+      dataIndex: 'chinese',
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: 'Nội Dung',
+      dataIndex: 'content',
+      sorter: {
+        compare: (a, b) => a.math - b.math,
+        multiple: 2,
+      },
+    },
+    {
+      title: 'English Score',
+      dataIndex: 'english',
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
+    },
+  ];
   
-  const handleOk = () => {
+  const data = [
+    {
+      key: '1',
+      name: 'John Brown',
+      chinese: 98,
+      math: 60,
+      english: 70,
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      chinese: 98,
+      math: 66,
+      english: 89,
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      chinese: 98,
+      math: 90,
+      english: 70,
+    },
+    {
+      key: '4',
+      name: 'Jim Red',
+      chinese: 88,
+      math: 99,
+      english: 89,
+    },
+  ];
   
-  };
-  const onFinish = param => {
-    setIsShow(!isShow);
-    console.log(param);
-    setPayInfo(param);
-  };
-
-  const handleDelete = param => {
-    
-  };
-  
-  const result = () => {
-    
-    return (
-      <Card style={{width:'35%', marginLeft:260}}>
-        <Result
-          status="success"
-          title="THÔNG TIN NẠP TIỀN"
-          subTitle={payInfo.ten_goi_nho}
-          extra={[
-            <Button type="primary" key="accept">
-              Xác Nhận
-            </Button>,
-            <Button key="cancel">Hủy</Button>,
-          ]}
-        >
-          <div>
-            <Text
-              strong
-              style={{
-                fontSize: 16,
-              }}
-            >
-              <span>Số Tài Khoản:</span>{payInfo.stk_thanh_toan}
-            </Text>
-            <br/>
-            <Text 
-            strong
-            style={{
-              fontSize: 16,
-            }}
-            >
-                Số Tiền:{payInfo.so_tien_gui}
-            </Text>
-          </div>
-        </Result>
-      </Card>
-    );
-  };
-  
+  const onChange = (pagination, filters, sorter, extra)=> {
+    console.log('params', pagination, filters, sorter, extra);
+  }
+ 
   return (
     <Content
       style={{
@@ -95,32 +97,27 @@ export const PayMoney = props => {
         borderRadius: '10px'
       }}
     >
-      {isShow ? result() :
-      <div>
-        <Row>
-          <Col span={18}>
-            <Title level={3} style={{color: '#006633'}}>
-            <InteractionFilled style={{fontSize:30, marginRight: 10, color: '#009900'}}/>
-              NẠP TIỀN 
-            </Title>
-          </Col>
-        </Row>
-        <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
-          <Form.Item name="stk_nguoi_nhan" label="SỐ TÀI KHOẢN" required={{message:"Không được để trống"}}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="so_tien_gui" label="SỐ TIỀN GỬI">
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button style={{backgroundColor:"#006600", border:"#006600"}} type="primary" htmlType="submit" >
-              NẠP
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-      }  
-
+      <Row>
+        <Col span={18}>
+          <Title level={3} style={{color: '#006633'}}>
+          <InteractionFilled style={{fontSize:30, marginRight: 10, color: '#009900'}}/>
+            LỊCH SỬ GIAO DỊCH
+          </Title>
+        </Col>
+      </Row>
+      <div className="card-container">
+    <Tabs type="card">
+      <TabPane tab="GIAO DỊCH NHẬN TIỀN" key="1">
+      <Table columns={columns} dataSource={data} onChange={onChange} />
+      </TabPane>
+      <TabPane tab="GIAO DỊCH CHUYỂN KHOẢN" key="2">
+      <Table columns={columns} dataSource={data} onChange={onChange} />
+      </TabPane>
+      <TabPane tab="GIAO DỊCH THANH TOÁN NHẮC NỢ" key="3">
+      <Table columns={columns} dataSource={data} onChange={onChange} />
+      </TabPane>
+    </Tabs>
+  </div>
     </Content>
   );
 };

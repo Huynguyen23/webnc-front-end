@@ -16,12 +16,14 @@ import { InterBankTransfer } from '../InterBankTransfer';
 import { BankTransfer } from '../BankTransfer';
 import { DebtReminder } from '../DebtReminder';
 import { CreateAcct } from '../CreateAcct';
+import { History } from '../History';
 import { PayMoney } from '../PayMoney';
 
 import { PrivateRoute } from '../Routes/PrivateRoute';
 import { AuthContext } from '../Routes/Context';
 import './App.css';
 import { Dashboard } from '../Dashboard';
+import { EmployeeManagement } from '../EmployeeManagement';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -90,6 +92,16 @@ function App() {
             exact 
             path="/pay-money"
             render={() => <BankLayout Child={<PayMoney />} />}
+          />
+          <PrivateRoute 
+            exact 
+            path="/history"
+            render={() => <BankLayout Child={<History />} />}
+          />
+          <PrivateRoute 
+            exact 
+            path="/employee-management"
+            render={() => <BankLayout Child={<EmployeeManagement />} />}
           />
         </Switch>
       </Router>

@@ -30,7 +30,7 @@ const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
 export const DebtReminder = props => {
-  const {data, getRe} = props;
+  const {data} = props;
   const [isShow, setIsShow] = useState(true);
   const [form] = Form.useForm();
   const layout = {
