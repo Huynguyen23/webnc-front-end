@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import { Card, Table , Row, Col, Typography } from 'antd';
+import { Card, Table , Row, Col, Descriptions , Typography } from 'antd';
 import { BookFilled } from '@ant-design/icons';
 import { getInfo } from '../../Reducers/Actions/Home';
 import moment from 'moment';
@@ -56,11 +56,16 @@ const Dashboard = () => {
     </Row>
     <Row>
     <Col>
-      <Card title="TÀI KHOẢN THANH TOÁN" bordered={false} style={{fontWeight:'bold', fontSize:15}}>
+      <Descriptions title="TÀI KHOẢN THANH TOÁN" column={1}>
+        <Descriptions.Item label="Chủ Thẻ">{info.ten}</Descriptions.Item>
+        <Descriptions.Item label="Số Tài Khoản">{info.stkThanhToan}</Descriptions.Item>
+        <Descriptions.Item label="Số Dư">{Number(info.soDuHienTai).toLocaleString('vi',{style: 'currency', currency: 'VND'})}</Descriptions.Item>
+      </Descriptions>
+      {/* <Card title="TÀI KHOẢN THANH TOÁN" bordered={false} style={{fontSize:15}}>
         <p>Chủ Thẻ: {info.ten}</p>
         <p>Số Tài Khoản: {info.stkThanhToan}</p>
         <p>Số Dư: {Number(info.soDuHienTai).toLocaleString('vi',{style: 'currency', currency: 'VND'})}</p>
-      </Card> 
+      </Card>  */}
     </Col>
     </Row>
       <Table

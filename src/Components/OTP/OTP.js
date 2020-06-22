@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Layout, Row, Col, Form, Input, Button } from 'antd';
+import { Layout, Row, Col, Form, Button } from 'antd';
 import OtpInput from 'react-otp-input';
 import Swal from 'sweetalert2';
 import {verify} from '../../Reducers/Actions/Bank';

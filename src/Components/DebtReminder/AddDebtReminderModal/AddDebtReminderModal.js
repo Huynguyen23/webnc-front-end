@@ -91,31 +91,14 @@ const AddDebtReminderModal = props => {
       <Modal
         visible={show}
         title={
-          !values ? (
-            <span style={{fontWeight:'bolder', fontSize:20, color: '#FFFFFF'}}>
-              <AppstoreAddOutlined /> THÊM NGƯỜI NHẬN
-            </span>
-          ) : (
-            <span style={{fontWeight:'bolder', fontSize:20, color: '#FFFFFF'}}>
-              <EditFilled /> CẬP NHẬT THÔNG TIN
-            </span>
-          )
+         
+          <span style={{fontWeight:'bolder', fontSize:20, color: '#FFFFFF'}}>
+            <AppstoreAddOutlined /> THÊM NHẮC NỢ
+          </span>
+          
         }
         onCancel={handleCancel}
-        footer={[
-          values ? (
-            <Button
-              formTarget={form}
-              htmlType="submit"
-              key="btn1"
-              type="primary"
-              loading={loading}
-              onClick={onUpdate}
-              style={{ background: '#006600', borderColor: '#006600' }}
-            >
-              CẬP NHẬT
-            </Button>
-          ) : (
+        footer={
             <Button
               formTarget={form}
               htmlType="submit"
@@ -127,8 +110,8 @@ const AddDebtReminderModal = props => {
             >
               THÊM
             </Button>
-          )
-        ]}
+        }
+       
       >
         <Form
           form={form}
@@ -136,9 +119,6 @@ const AddDebtReminderModal = props => {
           name="control-hooks2"
           wrapperCol={{ span: 12 }}
         >
-          <Form.Item name="id" style={{ height: 0 }}>
-            <Input hidden />
-          </Form.Item>
           <Form.Item
             name="stk_nguoi_nhan"
             label="Số Tài Khoản"
@@ -156,33 +136,22 @@ const AddDebtReminderModal = props => {
             <Input />
           </Form.Item>
           <Form.Item
-          name="id_ngan_hang"
-          label="Ngân Hàng"
-          style={{fontWeight:'bold'}}
+            name="so_tien"
+            label="Số Tiền"
+            rules={[{ required: true }, { type: 'string' }]}
+            style={{fontWeight:'bold'}}
           >
-          <Select
-              showSearch
-              allowClear
-              placeholder="Ngân Hàng"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-              defaultValue='0'
-            >
-               {[
-                ...banklist?.map(i => (
-                  <Option key={i.id} value={i.id}>
-                    {i.ten}
-                  </Option>
-                )),
-                <Option key={null} value={null}>
-                  Khác
-                </Option>
-              ]}
-          </Select>
-          
+            <Input />
           </Form.Item>
+          <Form.Item
+            name="noi_dung"
+            label="Nội Dung"
+            rules={[{ required: true }, { type: 'string' }]}
+            style={{fontWeight:'bold'}}
+          >
+            <Input />
+          </Form.Item>
+
         </Form>
       </Modal>
   );

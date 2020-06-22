@@ -53,3 +53,23 @@ export const verify = (body) => {
       return false;
     });
 };
+export const inPay = (body) => {
+  console.log("inPay", body)
+  return fetch(API.PAY_MONEY, {
+    method: 'POST', 
+    body: JSON.stringify(body),
+    headers:  {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(res => {
+      console.log("inPay", res)
+      return res;
+    })
+    .catch(error => {
+      
+      Swal.fire('Thông báo', error.msg, 'error');
+      return false;
+    });
+};

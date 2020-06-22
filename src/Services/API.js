@@ -14,6 +14,7 @@ const API = {
   // Transfer
   GET_OTP: `${URL}/api/otp`,
   VERIFY: `${URL}/api/otp/verify`,
+  PAY_MONEY: `${URL}/api/money/send-money-user`,
   // user
   ADD_USER:`${URL}/api/user`,
 };

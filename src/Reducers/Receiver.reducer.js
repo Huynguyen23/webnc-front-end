@@ -22,7 +22,7 @@ export const getReceiverList = body => dispatch => {
       // return getData()
       .then(res => {
         // if (res === true) {
-          console.log("com", res);
+          console.log("recier", res);
         dispatch({ type: RECEIVER_LIST, payload: res });
         // }
       })

@@ -24,6 +24,7 @@ import { AuthContext } from '../Routes/Context';
 import './App.css';
 import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
+import { ReportManagement } from '../ReportManagement';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -102,6 +103,11 @@ function App() {
             exact 
             path="/employee-management"
             render={() => <BankLayout Child={<EmployeeManagement />} />}
+          />
+          <PrivateRoute 
+            exact 
+            path="/report"
+            render={() => <BankLayout Child={<ReportManagement />} />}
           />
         </Switch>
       </Router>

@@ -258,7 +258,7 @@ const MenuLeft = props => {
     //   </Menu.Item>
     // </Menu>
     
-    role === "0"? Menu0(): (role === "1" ? Menu1() : Menu2())
+    role === 0 ? Menu0(): (role === 1 ? Menu1() : Menu2())
     
   );
 };

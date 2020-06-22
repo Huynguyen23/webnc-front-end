@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Menu, Dropdown } from 'antd';
+import { Layout, Menu, Dropdown,Badge } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  BellFilled,
   CaretDownOutlined
 } from '@ant-design/icons';
 import './BankLayout.css';
@@ -23,7 +24,7 @@ const BankLayout = props => {
   };
   const menu = (
     <Menu >
-      <Menu.Item style={{fontWeight:'bold'}}>Hồ sơ</Menu.Item>
+      <Menu.Item style={{fontWeight:'bold'}}>Đổi mật khẩu</Menu.Item>
       <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
     </Menu>
   );
@@ -64,15 +65,27 @@ const BankLayout = props => {
               style: { float: 'left' }
             }
           )}
+          <Fragment style={{float:'right'}}>
+          {collapsed ?
+            <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold' }}>
+              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+            </Badge>
+            :
+            <Badge className="ant-badge1" count={5} style={{marginTop:24, fontWeight:'bold' }}>
+              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+            </Badge>
+          }
             <Dropdown overlay={menu}>
               <span
-                style={{float:'right', fontSize:16, fontWeight:'bold' }}
+                style={{fontSize:16, fontWeight:'bold' }}
               >
                 {info.ten || ' '}
                 <CaretDownOutlined/>
               </span>
             
             </Dropdown>
+           
+            </Fragment>
         </Header>
       <Layout className="site-layout">
       <Sider

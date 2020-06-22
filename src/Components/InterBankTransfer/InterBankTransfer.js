@@ -9,18 +9,18 @@ import {
   Form,
   Table,
   Select,
-  Collapse,
   Input
 } from 'antd';
 import {
   InteractionFilled,
   CopyFilled,
-  IdcardFilled
 } from '@ant-design/icons';
+import Swal from 'sweetalert2';
 import './InterBankTransfer.css';
 import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP} from '../../Reducers/Actions/Bank';
+import {getOTP, inPay} from '../../Reducers/Actions/Bank';
 import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
+import {OTPModal} from './OTPModal';
 const { Content } = Layout;
 const { Title } = Typography;
 const { Option } = Select;
@@ -29,7 +29,7 @@ const { TextArea } = Input;
 export const InterBankTransfer = props => {
   const {data, getReceiverList} = props;
   const [isShow, setIsShow] = useState(true);
-  const [toOTP, setToOTP] = useState(false);
+  const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
   const [form] = Form.useForm();
@@ -50,12 +50,13 @@ export const InterBankTransfer = props => {
   const onFinish = param => {
     
     console.log("param", param);
+    setValue(param);
     getOTP({stk_thanh_toan: info.stkThanhToan}); 
-    setToOTP(!toOTP);
+    setOTP(!OTP);
   };
 
-  const handleDelete = param => {
-    
+  const btnClearHandler = () => {
+    form.resetFields()
   };
   const onChange = () => {getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
   
@@ -114,19 +115,22 @@ export const InterBankTransfer = props => {
         </Col>
       </Row>
         <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
-        <Form.Item name="stk_nguoi_gui" label='TÀI KHOẢN THANH TOÁN NGUỒN' initialValue={info.stkThanhToan}>
+          <Form.Item name="stk_nguoi_gui" label='TÀI KHOẢN THANH TOÁN NGUỒN' initialValue={info.stkThanhToan}>
           <Input readOnly />
           </Form.Item>
-          <Form.Item name="stk_nguoi_nhan" label="TÀI KHOẢN NGƯỜI NHẬN" required={{message:"Không được để trống"}}>
+          <Form.Item name="ten_nguoi_gui" label="TÊN NGƯỜI GỬI" initialValue={info.ten}>
+            <Input readOnly/>
+          </Form.Item>
+          <Form.Item name="stk_nguoi_nhan" initialValue ='' label="TÀI KHOẢN NGƯỜI NHẬN" required={{message:"Không được để trống"}}>
             <Input onBlur={onChange}/>
           </Form.Item>
-          <Form.Item name="ten" label="TÊN NGƯỜI NHẬN">
+          <Form.Item name="ten" label="TÊN NGƯỜI NHẬN" initialValue =''> 
             <Input />
           </Form.Item>
-          <Form.Item name="so_tien_gui" label="SỐ TIỀN GỬI">
+          <Form.Item name="so_tien_gui" initialValue ='' label="SỐ TIỀN GỬI">
             <Input />
           </Form.Item>
-          <Form.Item name="noi_dung" label="NỘI DUNG CHUYỂN TIỀN">
+          <Form.Item name="noi_dung" initialValue ='' label="NỘI DUNG CHUYỂN TIỀN">
             <TextArea />
           </Form.Item>
           <Form.Item name="phi" label="PHÍ GIAO DỊCH" initialValue = "0">
@@ -138,10 +142,16 @@ export const InterBankTransfer = props => {
           <Form.Item>
             <Button style={{backgroundColor:"#006600", border:"#006600"}} type="primary" htmlType="submit" >
               THANH TOÁN
-              {toOTP ? <Redirect to="/otp" /> : null}
             </Button>
-
-            <Button style={{marginLeft: 20,backgroundColor:"#C0C0C0",color:'#000000',borderRadius:4, border:"#C0C0C0"}} type="primary" onClick={()=>form.resetFields()}>
+              {OTP && (
+                <OTPModal
+                  show={OTP}
+                  clear={btnClearHandler}
+                  handleCancel={() => setOTP(false)}
+                  value={value}
+                />
+              )}
+            <Button style={{marginLeft: 20,backgroundColor:"#C0C0C0",color:'#000000',borderRadius:4, border:"#C0C0C0"}} type="primary" onClick={btnClearHandler}>
               LÀM MỚI
             </Button>
           </Form.Item>

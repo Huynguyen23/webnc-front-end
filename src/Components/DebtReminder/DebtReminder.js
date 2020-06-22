@@ -22,6 +22,7 @@ import {
   DeleteFilled,
   IdcardFilled
 } from '@ant-design/icons';
+import {AddDebtReminderModal} from './AddDebtReminderModal';
 import './DebtReminder.css';
 
 const { Content } = Layout;
@@ -31,6 +32,7 @@ const { TabPane } = Tabs;
 
 export const DebtReminder = props => {
   const {data} = props;
+  const [isModal, setIsModal] = useState(false);
   const [isShow, setIsShow] = useState(true);
   const [form] = Form.useForm();
   const layout = {
@@ -116,10 +118,16 @@ export const DebtReminder = props => {
                 style={{ background: '#006600', borderColor: '#006600' }}
                 icon={<PlusSquareFilled />}
                 onClick={() => {
-                  
+                  setIsModal(true);
                 }}
               >
                 THÊM
+                {isModal && (
+                <AddDebtReminderModal
+                  show={isModal}
+                  handleCancel={() => setIsModal(false)}
+                />
+              )}
               </Button>
             </Col>
           </Row>
