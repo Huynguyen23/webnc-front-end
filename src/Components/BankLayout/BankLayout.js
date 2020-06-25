@@ -10,6 +10,7 @@ import {
 import './BankLayout.css';
 import { MenuLeft } from './MenuLeft';
 import { useAuth } from '../Routes/Context';
+import { Redirect, Link } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,9 +23,10 @@ const BankLayout = props => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
   };
+
   const menu = (
-    <Menu >
-      <Menu.Item style={{fontWeight:'bold'}}>Đổi mật khẩu</Menu.Item>
+    <Menu>
+      <Menu.Item style={{fontWeight:'bold'}}><Link to="/change-password">Đổi mật khẩu</Link></Menu.Item>
       <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
     </Menu>
   );
@@ -65,7 +67,7 @@ const BankLayout = props => {
               style: { float: 'left' }
             }
           )}
-          <Fragment style={{float:'right'}}>
+          <>
           {collapsed ?
             <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold' }}>
               <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
@@ -84,8 +86,7 @@ const BankLayout = props => {
               </span>
             
             </Dropdown>
-           
-            </Fragment>
+            </>
         </Header>
       <Layout className="site-layout">
       <Sider

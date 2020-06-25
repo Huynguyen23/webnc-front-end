@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 
 const { Content } = Layout;
 
-const ChangePass = () => {
+const ForgotPass = () => {
   const { setAuthTokens } = useAuth();
   const [redirect, setRedirect] = useState(false);
   const info = JSON.parse(localStorage.getItem('tokens'));
@@ -97,4 +97,4 @@ const ChangePass = () => {
   );
 };
 
-export default ChangePass;
+export default ForgotPass;

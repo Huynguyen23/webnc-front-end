@@ -69,3 +69,22 @@ export const addUser = (body) => {
       Swal.fire('Thông báo', error.message, 'error');
     });
 };
+
+export const changePass = body =>{
+  return fetch(API.CHANGE_PASS, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+    .then(res => {
+      console.log("CHANGE_PASS",res);
+      return res;
+    })
+    .catch(error => {
+      Swal.fire('Thông báo', error.message, 'error');
+    });
+  
+}

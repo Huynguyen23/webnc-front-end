@@ -3,15 +3,18 @@ import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
 import API from '../Services/API';
 
-const REMINDER_LIST = 'REMINDER_LIST';
+const RECEIVE_LIST = 'RECEIVE_LIST';
+const SEND_LIST = 'SEND_LIST';
 const ADD_REMINDER = 'ADD_REMINDER';
 const DELETE_REMINDER = 'DELETE_REMINDER';
+const DELETE_RECIEVER_REMINDER = 'DELETE_RECIEVER_REMINDER';
+const DELETE_SEND_REMINDER = 'DELETE_SEND_REMINDER';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
 // action
 
-export const getReminderList = body => dispatch => {
+export const getReceiveList = body => dispatch => {
   return (
-    fetch(API.REMINDER_LIST, {
+    fetch(API.RECEIVE_LIST, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -22,8 +25,8 @@ export const getReminderList = body => dispatch => {
       // return getData()
       .then(res => {
         // if (res === true) {
-          console.log("com", res);
-        dispatch({ type: REMINDER_LIST, payload: res });
+          console.log("RECEIVE_LIST", res);
+        dispatch({ type: RECEIVE_LIST, payload: res });
         // }
       })
       .catch(() => {
@@ -33,7 +36,31 @@ export const getReminderList = body => dispatch => {
   );
 };
 
-export const addREMINDER = body => dispatch => {
+export const getSendList = body => dispatch => {
+  return (
+    fetch(API.SEND_LIST, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    })
+      .then(response => response.json())
+      // return getData()
+      .then(res => {
+        // if (res === true) {
+          console.log("SEND_LIST", res);
+        dispatch({ type: SEND_LIST, payload: res });
+        // }
+      })
+      .catch(() => {
+        Swal.fire('Lỗi', 'Lỗi mạng', 'error');
+        return false;
+      })
+  );
+};
+
+export const addReminder = body => dispatch => {
   console.log("banke", body);
   return (
     fetch(API.ADD_REMINDER, {
@@ -76,7 +103,7 @@ export const updateReminder = body => dispatch => {
 
 export const deleteReminder = body => dispatch => {
   return fetch(API.DELETE_REMINDER, {
-    method: 'PUT',
+    method: 'POST',
     body:JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
@@ -84,20 +111,27 @@ export const deleteReminder = body => dispatch => {
   })
     .then(response => response.json())
     .then(res => {
-      if (res === true) {
-        dispatch({ type: DELETE_REMINDER, payload: body.stk_nguoi_nhan });
+      if (body.nguoi_xoa === 1) {
+        
+        dispatch({ type: DELETE_RECIEVER_REMINDER, payload: body.stk_nguoi_nhan });
+        return res;
+      } else {
+        console.log("stk_nguoi_nhan", res)
+        dispatch({ type: DELETE_SEND_REMINDER, payload: body.stk_nguoi_gui });
+        return res;
       }
     })
     .finally(() => {});
 };
 // reducer
-export const reminderList = (state = [], action) => {
+export const sendList = (state = [], action) => {
   switch (action.type) {
-    case REMINDER_LIST:
+    case SEND_LIST:
       return action.payload.list;
     case ADD_REMINDER:
       return [...state, action.payload];
-    case DELETE_REMINDER:
+    case DELETE_SEND_REMINDER:
+      console.log("stk_nguoi_nhan", action.payload)
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);
     case UPDATE_REMINDER: {
       const oldValue= state.filter(item => item.stk_nguoi_nhan === action.payload.stk_nguoi_nhan)[0];
@@ -107,4 +141,14 @@ export const reminderList = (state = [], action) => {
     default:
       return state;
   }
+};
+export const receiveList = (state = [], action) => {
+  switch (action.type) {
+    case RECEIVE_LIST:
+      return action.payload.list;
+    case DELETE_RECIEVER_REMINDER:
+      return state.filter(item => item.stk_nguoi_nhan !== action.payload);
+    default:
+      return state;
+    }
 };

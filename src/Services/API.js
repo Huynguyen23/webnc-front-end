@@ -17,6 +17,12 @@ const API = {
   PAY_MONEY: `${URL}/api/money/send-money-user`,
   // user
   ADD_USER:`${URL}/api/user`,
+  CHANGE_PASS:`${URL}/api/user/password`,
+  // reminder
+  ADD_REMINDER: `${URL}/api/debt-reminder`,
+  DELETE_REMINDER: `${URL}/api/debt-reminder/delete`,
+  SEND_LIST: `${URL}/api/debt-reminder/list-send`,
+  RECEIVE_LIST: `${URL}/api/debt-reminder/list-receive`,
 };
 
 export default API;
