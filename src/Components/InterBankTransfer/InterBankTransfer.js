@@ -18,8 +18,7 @@ import {
 import Swal from 'sweetalert2';
 import './InterBankTransfer.css';
 import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP, inPay} from '../../Reducers/Actions/Bank';
-import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
+import {getOTP} from '../../Reducers/Actions/Bank';
 import {OTPModal} from './OTPModal';
 const { Content } = Layout;
 const { Title } = Typography;

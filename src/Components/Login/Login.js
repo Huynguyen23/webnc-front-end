@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Swal from 'sweetalert2';
 import { login } from '../../Reducers/Actions';
 import { useAuth } from '../Routes/Context';
+import { Link } from 'react-router-dom';
 
 import './Login.css';
 
@@ -93,6 +94,7 @@ const onChange= value => {
                 ref={recaptchaRef}
               />
               </Form.Item>
+              <Link to="/forgot-password"><span>Quên mật khẩu ?</span></Link>
               <Form.Item>
                 <Button
                   className="custom-button"

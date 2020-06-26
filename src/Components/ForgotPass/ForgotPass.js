@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
-import { KeyOutlined } from '@ant-design/icons';
+import { SecurityScanFilled } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
 import { useAuth } from '../Routes/Context';
-import OtpInput from 'react-otp-input';
 import Swal from 'sweetalert2';
 import {changePass} from '../../Reducers/Actions/Users';
-
-import './ChangePass.css';
+import {OTPModal} from './OTPModal';
+import './ForgotPass.css';
 import { Redirect } from 'react-router-dom';
 
 const { Content } = Layout;
 
 const ForgotPass = () => {
   const { setAuthTokens } = useAuth();
+  const [OTP, setOTP] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const info = JSON.parse(localStorage.getItem('tokens'));
+  let value;
+  const [isClosed, setIsClosed] = useState(false);
   const onFinish = param => {
-    if(param.ma_pin_moi !== param.ma_pin_check){
-      Swal.fire("Lỗi", "Mã Pin Mới & Mã Xác Nhận Không Khớp", "error");
-    } else {
-      changePass({stk_thanh_toan: info.stkThanhToan,ma_pin:param.ma_pin, ma_pin_moi: param.ma_pin_moi}).then(res =>{
-        
+    value = param.stk;
+    setOTP(!OTP);
+    if (isClosed){
+      const newPin = Math.floor(Math.random() * 7);
+      changePass({stk_thanh_toan: value, ma_pin:param.ma_pin, ma_pin_moi: newPin}).then(res =>{
         if (res.status > 0){
-          console.log("pass", res)
-          Swal.fire("Thành Công", "Mã Pin Đã Được Thay Đổi", "success");
-          setAuthTokens(false);
-          localStorage.removeItem('tokens');
+          localStorage.setItem("new_pin", newPin);
           setRedirect(!redirect);
         } else {
           Swal.fire("Lỗi", "Mã Pin Không Đúng", "error");
@@ -41,7 +39,6 @@ const ForgotPass = () => {
             <Form className="login-form" name="basic" onFinish={onFinish}>
               <div style={{ textAlign: 'center', marginBottom: 50 }}>
                 <img alt="" src="sblogo.png" style={{ width: '150px' }} />
-
                 <h3
                   style={{
                     fontWeight: 'bold',
@@ -49,33 +46,15 @@ const ForgotPass = () => {
                     color: 'rgba(0, 0, 0, 0.8)'
                   }}
                 >
-                  THAY ĐỔI MÃ PIN
+                  QUÊN MẬT KHẨU
                 </h3>
-                <p>Nhập mã pin cũ và mã pin mới</p>
+                <p>Nhập vào số tài khoản <br/> chúng tôi sẽ làm mới mã pin của bạn</p>
               </div>
               <Form.Item
-                
-                name="ma_pin"
-                rules={[{ required: true, message: 'Nhập Mã Pin Cũ!' }]}
+                name="stk"
+                rules={[{ required: true, message: 'Nhập Số Tài Khoản Để Làm Mới Mã Pin' }]}
               >
-                
-                <Input.Password prefix={<KeyOutlined />}  placeholder="Mã Pin Cũ"/>
-              </Form.Item>
-              <Form.Item
-                
-                name="ma_pin_moi"
-                rules={[{ required: true, message: 'Nhập Mã Pin Mới!' }]}
-              >
-                
-                <Input.Password prefix={<KeyOutlined />}  placeholder="Mã Pin Mới"/>
-              </Form.Item>
-              <Form.Item
-                
-                name="ma_pin_check"
-                rules={[{ required: true, message: 'Nhập Lại Mã Pin Mới!' }]}
-              >
-                
-                <Input.Password prefix={<KeyOutlined />}  placeholder="Nhập Lại Mã Pin Mới"/>
+                <Input prefix={<SecurityScanFilled />}  placeholder="Số Tài Khoản"/>
               </Form.Item>
               <Form.Item>
                 <Button
@@ -84,10 +63,20 @@ const ForgotPass = () => {
                   htmlType="submit"
                   style={{ width:'100%'}}
                 >
-                  {redirect ? <Redirect to="/login"/>: null }
-                  ĐỔI MÃ PIN
+                  {redirect ?
+                    <Redirect to="/change-password"/>
+                    : null 
+                  }
+                  LÀM MỚI
                 </Button>
-              
+                {OTP && (
+                <OTPModal
+                  show={OTP}
+                  isClosed={setIsClosed}
+                  handleCancel={() => setOTP(false)}
+                  value={value}
+                />
+              )}
               </Form.Item>
             </Form>
           </Col>

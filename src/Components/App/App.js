@@ -25,6 +25,7 @@ import './App.css';
 import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
 import { ReportManagement } from '../ReportManagement';
+import { ForgotPass } from '../ForgotPass';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -108,6 +109,11 @@ function App() {
             exact 
             path="/report"
             render={() => <BankLayout Child={<ReportManagement />} />}
+          />
+           <Route 
+            exact 
+            path="/forgot-password"
+            render={() => <ForgotPass/>}
           />
         </Switch>
       </Router>

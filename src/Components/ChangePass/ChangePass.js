@@ -75,7 +75,7 @@ const ChangePass = () => {
                 rules={[{ required: true, message: 'Nhập Lại Mã Pin Mới!' }]}
               >
                 
-                <Input.Password prefix={<KeyOutlined />}  placeholder="Nhập Lại Mã Pin Mới"/>
+                <Input.Password prefix={<KeyOutlined />}  placeholder="Mã Xác Nhận"/>
               </Form.Item>
               <Form.Item>
                 <Button
