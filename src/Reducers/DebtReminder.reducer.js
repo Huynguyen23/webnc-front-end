@@ -6,7 +6,7 @@ import API from '../Services/API';
 const RECEIVE_LIST = 'RECEIVE_LIST';
 const SEND_LIST = 'SEND_LIST';
 const ADD_REMINDER = 'ADD_REMINDER';
-const DELETE_REMINDER = 'DELETE_REMINDER';
+const PAY_DEBT = 'PAY_DEBT';
 const DELETE_RECIEVER_REMINDER = 'DELETE_RECIEVER_REMINDER';
 const DELETE_SEND_REMINDER = 'DELETE_SEND_REMINDER';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
@@ -123,6 +123,25 @@ export const deleteReminder = body => dispatch => {
     })
     .finally(() => {});
 };
+
+export const payDebt = body => dispatch => {
+  return fetch(API.PAY_DEBT, {
+    method: 'POST',
+    body:JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  })
+    .then(response => response.json())
+    .then(res => {
+      if(res.status > 0){
+        dispatch({ type: PAY_DEBT, payload: body.id });
+        return res;
+      }
+    })
+    .finally(() => {});
+};
+
 // reducer
 export const sendList = (state = [], action) => {
   switch (action.type) {
@@ -146,6 +165,9 @@ export const receiveList = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_LIST:
       return action.payload.list;
+    case PAY_DEBT:  
+      state.filter(i=>i.id===action.payload).replace("trang_thai", 2);
+      return state;
     case DELETE_RECIEVER_REMINDER:
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);
     default:

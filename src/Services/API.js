@@ -23,6 +23,11 @@ const API = {
   DELETE_REMINDER: `${URL}/api/debt-reminder/delete`,
   SEND_LIST: `${URL}/api/debt-reminder/list-send`,
   RECEIVE_LIST: `${URL}/api/debt-reminder/list-receive`,
+  PAY_DEBT:`${URL}/api/debt-reminder/pay`,
+  // history
+  RECEIVE_HISTORY:`${URL}/api/history-money/receive`,
+  PAY_HISTORY:`${URL}/api/history-money/send`,
+  DEBT_HISTORY: `${URL}/api/history-money/pay-debt`,
 };
 
 export default API;

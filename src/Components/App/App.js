@@ -68,11 +68,11 @@ function App() {
             path="/bank-transfer"
             render={() => <BankLayout Child={<BankTransfer />} />}
           />
-           <PrivateRoute
+           {/* <PrivateRoute
             exact
             path="/otp"
             render={() => <OTP/>}
-          />
+          /> */}
 
           <PrivateRoute
             exact

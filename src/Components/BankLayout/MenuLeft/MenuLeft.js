@@ -105,6 +105,12 @@ const MenuLeft = props => {
           </Menu.Item>
         </Menu.ItemGroup>
       }
+       <Menu.Item key="8">
+        <Link to="/history">
+        <HistoryOutlined />
+          {collapsed ? "" : <span>Lịch Sử</span>}
+        </Link>
+      </Menu.Item>
       </Menu>
     );
   };

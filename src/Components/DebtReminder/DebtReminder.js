@@ -16,7 +16,7 @@ import {
 import {
   SearchOutlined,
   PlusSquareFilled,
-  EditFilled,
+  FireFilled,
   AppleOutlined, 
   AndroidOutlined,
   DeleteFilled,
@@ -24,6 +24,7 @@ import {
 } from '@ant-design/icons';
 import {AddDebtReminderModal} from './AddDebtReminderModal';
 import './DebtReminder.css';
+import {OTPModal} from './OTPModal';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import Highlighter from 'react-highlight-words';
@@ -34,8 +35,10 @@ const { TabPane } = Tabs;
 
 export const DebtReminder = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const {data, data1, addReminder, deleteReminder, getSendList, getReceiveList} = props;
+  const {data, data1, payDebt, addReminder, deleteReminder, getSendList, getReceiveList} = props;
   const [isModal, setIsModal] = useState(false);
+  const [isOk, setIsOk] = useState(false);
+  const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -204,15 +207,23 @@ export const DebtReminder = props => {
 
   const columns1 = [
     {
-      title: 'Chọn',
+      title: 'Thanh Toán',
       dataIndex: 'chose',
       align: 'center',
       render: (text, record) => (
-        <EditFilled
-          style={{ verticalAlign: 'center' }}
+        <FireFilled
+          style={{ verticalAlign: 'center', color:'#00CD00' }}
           onClick={() => {
             setValues(record);
-            setIsModal(true);
+            setOTP(!OTP);
+            if (isOk) {
+              payDebt({
+                id : record.id,
+                stk_nguoi_gui: record.stk_nguoi_nhan,
+                ten_nguoi_gui: record.ten,
+                noi_dung_xoa: "hoan tat"
+              });
+            }
           }}
         />
       )
@@ -289,6 +300,14 @@ export const DebtReminder = props => {
           handleCancel={() => setIsModal(!isModal)}
         />
       )}
+
+      {OTP && (
+        <OTPModal
+          show={OTP}
+          handleCancel={() => setOTP(false)}
+          setIsOk={setIsOk}
+        />
+      )}
       <Row>
         <Col span={18}>
           <Title level={3} style={{color: '#006633'}}>
@@ -308,7 +327,6 @@ export const DebtReminder = props => {
                 }}
               >
                 THÊM
-                
               </Button>
             </Col>
           </Row>

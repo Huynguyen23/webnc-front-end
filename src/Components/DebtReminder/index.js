@@ -5,7 +5,8 @@ import {
     getSendList,
     getReceiveList,
     addReminder,
-    deleteReminder
+    deleteReminder,
+    payDebt
 } from '../../Reducers/DebtReminder.reducer';
 
 const mapStateToProps = state => {
@@ -20,7 +21,8 @@ const mapDispatchToProps = dispatch => {
     getSendList: (params, cb) => dispatch(getSendList(params, cb)),
     getReceiveList: (params, cb) => dispatch(getReceiveList(params, cb)),
     deleteReminder:(params, cb) => dispatch(deleteReminder(params, cb)),
-    addReminder: (params, cb) => dispatch(addReminder(params, cb))
+    addReminder: (params, cb) => dispatch(addReminder(params, cb)),
+    payDebt: (params, cb) => dispatch(payDebt(params, cb)),
   };
 };
 export const DebtReminder = connect(
