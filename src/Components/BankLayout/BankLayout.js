@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Menu, Dropdown } from 'antd';
+import { Layout, Menu, Dropdown,Badge } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  BellFilled,
   CaretDownOutlined
 } from '@ant-design/icons';
 import './BankLayout.css';
 import { MenuLeft } from './MenuLeft';
 import { useAuth } from '../Routes/Context';
+import { Redirect, Link } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -21,9 +23,10 @@ const BankLayout = props => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
   };
+
   const menu = (
-    <Menu >
-      <Menu.Item style={{fontWeight:'bold'}}>Hồ sơ</Menu.Item>
+    <Menu>
+      <Menu.Item style={{fontWeight:'bold'}}><Link to="/change-password">Đổi mật khẩu</Link></Menu.Item>
       <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
     </Menu>
   );
@@ -64,15 +67,26 @@ const BankLayout = props => {
               style: { float: 'left' }
             }
           )}
+          <>
+          {collapsed ?
+            <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold' }}>
+              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+            </Badge>
+            :
+            <Badge className="ant-badge1" count={5} style={{marginTop:24, fontWeight:'bold' }}>
+              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+            </Badge>
+          }
             <Dropdown overlay={menu}>
               <span
-                style={{float:'right', fontSize:16, fontWeight:'bold' }}
+                style={{fontSize:16, fontWeight:'bold' }}
               >
                 {info.ten || ' '}
                 <CaretDownOutlined/>
               </span>
             
             </Dropdown>
+            </>
         </Header>
       <Layout className="site-layout">
       <Sider

@@ -30,7 +30,6 @@ export const ReceiverList = props => {
   const {data, getReceiverList, addReceiver, deleteReceiver, updateReceiver} = props;
   const [isShow, setIsShow] = useState(true);
   const [visible, setVisible] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({});
   const [form] = Form.useForm();
@@ -46,9 +45,6 @@ export const ReceiverList = props => {
     });
   }, [getReceiverList, info.stkThanhToan]);
 
-  const handleOk = () => {
-  
-  };
   const onFinish = param => {
     console.log("param", param);
     param.stk_nguoi_gui = info.stkThanhToan;
@@ -65,7 +61,7 @@ export const ReceiverList = props => {
     deleteReceiver(param).finally(() => {
       setLoading(false);
     });
-    console.log("handleDelete", param);
+    
   };
   const onChange = () => {};
   const callback = () => {
@@ -84,7 +80,7 @@ export const ReceiverList = props => {
     },
     {
       title: 'Ngân Hàng',
-      dataIndex: 'id_ngan_hang',
+      dataIndex: 'ten',
       align: 'center',
       editable: true
     },
@@ -96,6 +92,7 @@ export const ReceiverList = props => {
         <EditFilled
           style={{ verticalAlign: 'center' }}
           onClick={() => {
+            console.log("ngan hang", record);
             setValues(record);
             setVisible(true);
           }}
@@ -140,7 +137,6 @@ export const ReceiverList = props => {
             handleCancel={() => setVisible(false)}
             addReceiver= {addReceiver}
             updateReceiver={updateReceiver}
-            handleOk={() => handleOk()}
             values={values}
           />
         )}

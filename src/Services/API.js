@@ -14,8 +14,20 @@ const API = {
   // Transfer
   GET_OTP: `${URL}/api/otp`,
   VERIFY: `${URL}/api/otp/verify`,
+  PAY_MONEY: `${URL}/api/money/send-money-user`,
   // user
   ADD_USER:`${URL}/api/user`,
+  CHANGE_PASS:`${URL}/api/user/password`,
+  // reminder
+  ADD_REMINDER: `${URL}/api/debt-reminder`,
+  DELETE_REMINDER: `${URL}/api/debt-reminder/delete`,
+  SEND_LIST: `${URL}/api/debt-reminder/list-send`,
+  RECEIVE_LIST: `${URL}/api/debt-reminder/list-receive`,
+  PAY_DEBT:`${URL}/api/debt-reminder/pay`,
+  // history
+  RECEIVE_HISTORY:`${URL}/api/history-money/receive`,
+  PAY_HISTORY:`${URL}/api/history-money/send`,
+  DEBT_HISTORY: `${URL}/api/history-money/pay-debt`,
 };
 
 export default API;

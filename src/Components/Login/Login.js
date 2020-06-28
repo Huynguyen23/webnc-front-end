@@ -5,13 +5,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Swal from 'sweetalert2';
 import { login } from '../../Reducers/Actions';
 import { useAuth } from '../Routes/Context';
+import { Link } from 'react-router-dom';
 
 import './Login.css';
 
 const { Content } = Layout;
 
 const Login = () => {
+  const recaptchaRef = React.createRef();
   const [isLoading, setLoading] = useState(false);
+  const [expired, setExpired] = useState(false);
   const { setAuthTokens } = useAuth();
   const loginFinish = res => {
     if (res.accessToken) {
@@ -22,11 +25,18 @@ const Login = () => {
     }
   };
   const loginClick = val => {
-    setLoading(!isLoading);
-    login(val.username, val.password, loginFinish);
+    if (expired) {
+      setLoading(!isLoading);
+      login(val.username, val.password, loginFinish);
+    } else {
+      Swal.fire("Cảnh Báo", "Vui Lòng Chọn CAPTCHA", "warning");
+    }
   };
 const onChange= value => {
   console.log("Captcha value:", value);
+  if (value){
+    setExpired(true);
+  }
 }
   return (
     <Layout className="site-layout">
@@ -81,8 +91,10 @@ const onChange= value => {
               <ReCAPTCHA
                 sitekey="6LdINvkUAAAAAN9CvIIMrusWuZcIcYzEOtK7x6fs"
                 onChange={onChange}
+                ref={recaptchaRef}
               />
               </Form.Item>
+              <Link to="/forgot-password"><span>Quên mật khẩu ?</span></Link>
               <Form.Item>
                 <Button
                   className="custom-button"

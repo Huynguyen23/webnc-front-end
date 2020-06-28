@@ -10,7 +10,7 @@ import './AddReceiverModal.css';
 const { Option } = Select;
 const AddReceiverModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const { show, handleCancel, handleOk, values, addReceiver, updateReceiver } = props;
+  const { show, handleCancel, values, addReceiver, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
   const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
@@ -49,9 +49,7 @@ const AddReceiverModal = props => {
         updateReceiver(param).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            console.log('r', res);
             handleCancel();
-            handleOk();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');
           }
@@ -76,7 +74,6 @@ const AddReceiverModal = props => {
           if (res.status > 0) {
             console.log('r', res);
             handleCancel();
-            handleOk();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');
           }
@@ -150,7 +147,6 @@ const AddReceiverModal = props => {
           <Form.Item
             name="ten_goi_nho"
             label="Tên Gợi Nhớ"
-            rules={[{ required: true }, { type: 'string' }]}
             style={{fontWeight:'bold'}}
           >
             <Input />
@@ -158,7 +154,9 @@ const AddReceiverModal = props => {
           <Form.Item
           name="id_ngan_hang"
           label="Ngân Hàng"
+          rules={[{ required: true }]}
           style={{fontWeight:'bold'}}
+          initialValue = {0}
           >
           <Select
               showSearch
@@ -168,7 +166,7 @@ const AddReceiverModal = props => {
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
-              defaultValue='0'
+              disabled={values ? true : false}
             >
                {[
                 ...banklist?.map(i => (

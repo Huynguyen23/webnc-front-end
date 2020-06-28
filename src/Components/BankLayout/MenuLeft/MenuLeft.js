@@ -105,6 +105,12 @@ const MenuLeft = props => {
           </Menu.Item>
         </Menu.ItemGroup>
       }
+       <Menu.Item key="8">
+        <Link to="/history">
+        <HistoryOutlined />
+          {collapsed ? "" : <span>Lịch Sử</span>}
+        </Link>
+      </Menu.Item>
       </Menu>
     );
   };
@@ -258,7 +264,7 @@ const MenuLeft = props => {
     //   </Menu.Item>
     // </Menu>
     
-    role === "0"? Menu0(): (role === "1" ? Menu1() : Menu2())
+    role === 0 ? Menu0(): (role === 1 ? Menu1() : Menu2())
     
   );
 };

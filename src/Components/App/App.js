@@ -24,6 +24,8 @@ import { AuthContext } from '../Routes/Context';
 import './App.css';
 import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
+import { ReportManagement } from '../ReportManagement';
+import { ForgotPass } from '../ForgotPass';
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
@@ -66,11 +68,11 @@ function App() {
             path="/bank-transfer"
             render={() => <BankLayout Child={<BankTransfer />} />}
           />
-           <PrivateRoute
+           {/* <PrivateRoute
             exact
             path="/otp"
             render={() => <OTP/>}
-          />
+          /> */}
 
           <PrivateRoute
             exact
@@ -102,6 +104,16 @@ function App() {
             exact 
             path="/employee-management"
             render={() => <BankLayout Child={<EmployeeManagement />} />}
+          />
+          <PrivateRoute 
+            exact 
+            path="/report"
+            render={() => <BankLayout Child={<ReportManagement />} />}
+          />
+           <Route 
+            exact 
+            path="/forgot-password"
+            render={() => <ForgotPass/>}
           />
         </Switch>
       </Router>
