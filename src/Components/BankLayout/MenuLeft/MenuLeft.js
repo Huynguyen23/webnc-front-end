@@ -76,12 +76,12 @@ const MenuLeft = props => {
           <span>Danh Sách Người Nhận</span>
         </Link>
       </Menu.Item>
-      <Menu.Item key="3">
+      {/* <Menu.Item key="3">
         <Link to="/otp">
         <ContactsOutlined />
           <span>OTP</span>
         </Link>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="5">
         <Link to="/debt-reminder">
         <RemindIcon />
@@ -109,6 +109,12 @@ const MenuLeft = props => {
         <Link to="/history">
         <HistoryOutlined />
           {collapsed ? "" : <span>Lịch Sử</span>}
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="10">
+        <Link to="/report">
+        <ControlOutlined />
+        {collapsed ? "" : <span >Quản Lí Giao Dịch</span>}
         </Link>
       </Menu.Item>
       </Menu>

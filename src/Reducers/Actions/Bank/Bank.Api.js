@@ -17,6 +17,7 @@ export const getBankList = (callBack) => {
 };
 
 export const getOTP = (body, callBack) => {
+  console.log("body", body)
   return fetch(API.GET_OTP, {
     method: 'POST', 
     body: JSON.stringify(body),

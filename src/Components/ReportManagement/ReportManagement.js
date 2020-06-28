@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Form, Table, DatePicker, Col, Button ,Typography, Row, Layout, Select } from 'antd';
+import {Form, Table, DatePicker, Card, Col, Button ,Typography, Row, Layout, Select } from 'antd';
 import{IdcardFilled, BookFilled} from '@ant-design/icons';
 import moment from 'moment';
 import {addUser} from '../../Reducers/Actions/Users';
@@ -77,7 +77,8 @@ const ReportManagement = () => {
       </Col>
     </Row>
     <Row>
-      <Col span={6}></Col>
+      <Col span={6}>
+      </Col>
       <Col>
         <Form 
           style={{textAlign:'center'}}
@@ -85,6 +86,7 @@ const ReportManagement = () => {
           layout="inline"
           onFinish={onFinish}
         >
+
         <Form.Item name="start_date">
             <DatePicker placeholder='Từ Ngày' onChange={onChange} style={{float:'left'}}/>
         </Form.Item>
@@ -104,6 +106,16 @@ const ReportManagement = () => {
         </Form.Item>
       </Form>
     </Col>
+    </Row>
+    <Row>
+      <Col span={18}></Col>
+      <Col span={6}>
+    <div className="site-card-border-less-wrapper">
+        <Card title="Tổng Số Tiền Đã Giao Dịch" bordered={false} style={{ width: 300 }}>
+          <p>Card content</p>
+        </Card>
+      </div>
+      </Col>
     </Row>
     <Table
       columns={columns}

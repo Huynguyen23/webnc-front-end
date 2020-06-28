@@ -1,31 +1,36 @@
 import { Modal, Button, Form } from 'antd';
 import Swal from 'sweetalert2';
 import OTPInput, { ResendOTP } from '../../../lib';
-import useResendOTP from "../../../lib/hooks/resendOTP";
- import OtpInput from 'react-otp-input';
-import React, { useState } from 'react';
-import { getOTP, verify, inPay } from '../../../Reducers/Actions/Bank';
+import React, { useState, useEffect } from 'react';
+import { getOTP, verify } from '../../../Reducers/Actions/Bank';
 import './OTPModal.css';
 const OTPModal = props => {
-  const { show, handleCancel, isClosed, value } = props;
+  const { show,setIsChangePassClosed, handleCancel, isClosed, value } = props;
   const [loading, setLoading] = useState(false);
   const [OTP, setOTP] = useState("");
+
+  useEffect(()=>{
+    getOTP({stk_thanh_toan: value});
+  },[show, value]);
   const onFinish = param => {
     setLoading(true);
+    console.log("value", value)
     verify({stk_thanh_toan: value, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
-      inPay(value).then(res=> {
-        if(res.status > 0){
-          Swal.fire('Thông Báo', 'Đã Làm Mới Mã Pin Thành Công', "success");
-          isClosed(true);
+          Swal.fire('Thông Báo', 'Đã Làm Mới Mã Pin Thành Công', "success").then(()=>{
+            isClosed(true);
+            setIsChangePassClosed(true);
+            handleCancel();
+          });
+         
         } else {
           Swal.fire('Lỗi', 'Mã OTP Sai Rồi!!!', "error");
-          return;
+          setLoading(false);
+          setOTP("");
         }
-      });
-      handleCancel();
+      
      }
-    })
+    )
   };
   const [form] = Form.useForm();
   return (
@@ -40,7 +45,6 @@ const OTPModal = props => {
               htmlType="submit"
               key="btn1"
               type="primary"
-              loading={loading}
               onClick={handleCancel}
               style={{height:'50%', backgroundColor:"#C0C0C0",color:'#000000',borderRadius:4, border:"#C0C0C0"}}
             >

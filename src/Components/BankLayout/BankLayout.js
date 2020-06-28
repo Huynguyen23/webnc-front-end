@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Menu, Dropdown,Badge } from 'antd';
+import { Layout, Menu, Dropdown,Badge, notification, Row, Col } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -17,7 +17,7 @@ const { Header, Sider, Content } = Layout;
 const BankLayout = props => {
   const { Child } = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
-
+  const [type, setType] = useState();
   const { setAuthTokens } = useAuth();
   const logOut = () => {
     setAuthTokens(false);
@@ -28,6 +28,40 @@ const BankLayout = props => {
     <Menu>
       <Menu.Item style={{fontWeight:'bold'}}><Link to="/change-password">Đổi mật khẩu</Link></Menu.Item>
       <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
+    </Menu>
+  );
+  const MenuList =()=>{
+    const list = [];
+  
+    switch (type) {
+      case 0:
+        list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">{} đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
+      case 1:
+        list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">Ngân hàng đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
+      case 2:
+        list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">Bạn nhận được 1 nhắn nợ từ {}</Link></Menu.Item>);
+        break;
+      case 3:
+    list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">{} đã hủy nhắc nợ của bạn.</Link></Menu.Item>);
+        break;
+      case 4:
+    list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">{} hủy nhắc nợ đã gửi cho bạn trước đó.</Link></Menu.Item>);
+        break;
+      case 5:
+    list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">{} đã thanh toán nhắc nợ của bạn.</Link></Menu.Item>);
+        break;
+      default:
+        list.push(<Menu.Item style={{fontWeight:'bold'}}><Link to="/">Bạn Không có thông báo mới</Link></Menu.Item>);
+        break;
+    }
+    return list;
+  };
+
+  const menuNoti = (
+    <Menu>
+     {MenuList()}
     </Menu>
   );
 
@@ -41,6 +75,7 @@ const BankLayout = props => {
   return (
     <Layout className="body-layout">
       <Header style={{width:'100%'}}>
+      <Row >
         <div style={{ display: 'flex', backgroundColor:'#FFFFFF'}} onClick={toggle}>
           <img
             id="sm-logo"
@@ -58,6 +93,8 @@ const BankLayout = props => {
             }}
           />
         </div>
+   
+          <Col span={10}>
           {/* <div className="logo" /> */}
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -67,26 +104,27 @@ const BankLayout = props => {
               style: { float: 'left' }
             }
           )}
-          <>
-          {collapsed ?
-            <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold' }}>
-              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+          </Col>
+          <Col span={ collapsed ? 12: 10}>
+            <div style={{float:'right'}}>
+            <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
+              <Dropdown overlay={menuNoti}>
+                <BellFilled style={{marginTop:24,fontSize:20}}/>
+              </Dropdown>
             </Badge>
-            :
-            <Badge className="ant-badge1" count={5} style={{marginTop:24, fontWeight:'bold' }}>
-              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
-            </Badge>
-          }
+        
             <Dropdown overlay={menu}>
               <span
-                style={{fontSize:16, fontWeight:'bold' }}
+                style={{fontSize:16, fontWeight:'bold', marginLeft:20}}
               >
                 {info.ten || ' '}
                 <CaretDownOutlined/>
               </span>
             
             </Dropdown>
-            </>
+            </div>
+          </Col>
+          </Row>
         </Header>
       <Layout className="site-layout">
       <Sider

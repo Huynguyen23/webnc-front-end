@@ -18,6 +18,7 @@ const API = {
   // user
   ADD_USER:`${URL}/api/user`,
   CHANGE_PASS:`${URL}/api/user/password`,
+  FORGOT_PASS: `${URL}/api/user/forget-password `,
   // reminder
   ADD_REMINDER: `${URL}/api/debt-reminder`,
   DELETE_REMINDER: `${URL}/api/debt-reminder/delete`,

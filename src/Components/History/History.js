@@ -58,7 +58,7 @@ export const History = props => {
   const columns1 = [
     {
       title: 'Người Gửi',
-      dataIndex: 'ten',
+      dataIndex: 'ten_nguoi_gui',
       sorter: {
         compare: (a, b) => a.ten_nguoi_gui - b.ten_nguoi_gui,
         multiple: 6,
@@ -66,9 +66,9 @@ export const History = props => {
     },
     {
       title: 'Số Tài Khoản',
-      dataIndex: 'stk_nguoi_nhan',
+      dataIndex: 'stk_nguon',
       sorter: {
-        compare: (a, b) => a.stk_nguoi_nhan - b.stk_nguoi_nhan,
+        compare: (a, b) => a.stk_nguon - b.stk_nguon,
         multiple: 5,
       },
     },
@@ -83,7 +83,7 @@ export const History = props => {
     },
     {
       title: 'Số Tiền',
-      dataIndex: 'so_tien',
+      dataIndex: 'so_tien_nhan',
       sorter: {
         compare: (a, b) => a.so_tien_nhan - b.so_tien_nhan,
         multiple: 2,
@@ -124,7 +124,7 @@ export const History = props => {
     },
     {
       title: 'Số Tài Khoản',
-      dataIndex: 'stk_nguoi_nhan',
+      dataIndex: 'stk_dich',
       sorter: {
         compare: (a, b) => a.stk_nguoi_nhan - b.stk_nguoi_nhan,
         multiple: 5,
@@ -247,13 +247,13 @@ export const History = props => {
       <div className="card-container">
     <Tabs type="card">
       <TabPane tab="GIAO DỊCH NHẬN TIỀN" key="1">
-      <Table columns={columns1} dataSource={receiveHistoryList} onChange={onChange} />
+      <Table columns={columns1} dataSource={receiveHistoryList} rowKey={i=>i.id} onChange={onChange} />
       </TabPane>
       <TabPane tab="GIAO DỊCH CHUYỂN KHOẢN" key="2">
-      <Table columns={columns2} dataSource={payHistoryList} onChange={onChange} />
+      <Table columns={columns2} dataSource={payHistoryList} rowKey={i=>i.id} onChange={onChange} />
       </TabPane>
       <TabPane tab="GIAO DỊCH THANH TOÁN NHẮC NỢ" key="3">
-      <Table columns={columns3} dataSource={debtHistoryList} onChange={onChange} />
+      <Table columns={columns3} dataSource={debtHistoryList} rowKey={i=>i.id} onChange={onChange} />
       </TabPane>
     </Tabs>
   </div>

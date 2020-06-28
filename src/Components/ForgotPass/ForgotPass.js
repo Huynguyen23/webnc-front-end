@@ -1,42 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SecurityScanFilled } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
 import { useAuth } from '../Routes/Context';
 import Swal from 'sweetalert2';
-import {changePass} from '../../Reducers/Actions/Users';
 import {OTPModal} from './OTPModal';
+import {ChangePassModal} from './ChangePassModal';
 import './ForgotPass.css';
 import { Redirect } from 'react-router-dom';
+import { useForm } from 'antd/lib/form/util';
 
 const { Content } = Layout;
 
 const ForgotPass = () => {
-  const { setAuthTokens } = useAuth();
   const [OTP, setOTP] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  let value;
+  const [stkValue, setStkValue] = useState('');
   const [isClosed, setIsClosed] = useState(false);
-  const onFinish = param => {
-    value = param.stk;
-    setOTP(!OTP);
-    if (isClosed){
-      const newPin = Math.floor(Math.random() * 7);
-      changePass({stk_thanh_toan: value, ma_pin:param.ma_pin, ma_pin_moi: newPin}).then(res =>{
-        if (res.status > 0){
-          localStorage.setItem("new_pin", newPin);
-          setRedirect(!redirect);
-        } else {
-          Swal.fire("Lỗi", "Mã Pin Không Đúng", "error");
+  const [isChangePassClosed, setIsChangePassClosed] = useState(false);
+  const [form] = Form.useForm();
+
+ 
+  const onFinish = async param => {
+     setStkValue(param.stk);
+      setOTP(!OTP);
+      if (isClosed){
+        setIsChangePassClosed(!isChangePassClosed);
       }
-      })
-    }
   };
+
   return (
-    <Layout className="site-layout" >
+    <Layout className="site-layout">
       <Content>
         <Row>
           <Col className="col-login" span={24} style={{ display: 'flex' }}>
-            <Form className="login-form" name="basic" onFinish={onFinish}>
+            <Form form={form} className="login-form" name="basic" onFinish={onFinish}>
               <div style={{ textAlign: 'center', marginBottom: 50 }}>
                 <img alt="" src="sblogo.png" style={{ width: '150px' }} />
                 <h3
@@ -64,17 +61,26 @@ const ForgotPass = () => {
                   style={{ width:'100%'}}
                 >
                   {redirect ?
-                    <Redirect to="/change-password"/>
+                    <Redirect to="/login"/>
                     : null 
                   }
-                  LÀM MỚI
+                  NHẬN MÃ XÁC THỰC
                 </Button>
                 {OTP && (
-                <OTPModal
-                  show={OTP}
-                  isClosed={setIsClosed}
-                  handleCancel={() => setOTP(false)}
-                  value={value}
+                  <OTPModal
+                    show={OTP}
+                    isClosed={setIsClosed}
+                    handleCancel={() => setOTP(false)}
+                    value={stkValue}
+                    setIsChangePassClosed={setIsChangePassClosed}
+                  />
+                )}
+               {isChangePassClosed && (
+                <ChangePassModal
+                  show={isChangePassClosed}
+                  handleCancel={() => setIsChangePassClosed(false)}
+                  value={stkValue}
+                  setRedirect={setRedirect}
                 />
               )}
               </Form.Item>
