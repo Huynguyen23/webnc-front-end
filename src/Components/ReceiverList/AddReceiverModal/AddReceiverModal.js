@@ -4,6 +4,7 @@ import { Modal, Button, Form, Input, Select } from 'antd';
 import { AppstoreAddOutlined, EditFilled } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
+import { getUserInfo } from '../../../Reducers/Actions/Users';
 import { getBankList } from '../../../Reducers/Actions/Bank';
 import './AddReceiverModal.css';
 
@@ -12,6 +13,7 @@ const AddReceiverModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const { show, handleCancel, values, addReceiver, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
+  const [field, setField] =useState({});
   const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
   const layout = {
@@ -59,23 +61,31 @@ const AddReceiverModal = props => {
         console.log('Validate Failed:', info);
       });
   };
-
-  const onOk = () => {
+  const onBlur =()=>{
+    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, setField).then(data =>{
+      const temp ={...data};
+      temp.ten_goi_nho = temp.ten;
+      form.setFieldsValue(temp);
+    });
+    
+  };
+  const onOk  =  () => {
     form
       .validateFields()
       .then(v => {
-        console.log("v", v);
+        console.log("v", banklist);
         setLoading(true);
         const param = v;
+        param.ten = banklist.find(i=>i.id === param.id_ngan_hang).ten;
         param.stk_nguoi_gui =  info.stkThanhToan;
         form.resetFields();
         addReceiver(param).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            console.log('r', res);
+            Swal.fire('Thành Công', 'Đã Thêm Người Nhận Thành Công', 'success');
             handleCancel();
           } else {
-            Swal.fire('Lỗi', res.msg, 'error');
+            Swal.fire('Lỗi', 'Người Nhận Đã Có Trong Danh Sách', 'error');
           }
         });
       })
@@ -142,7 +152,7 @@ const AddReceiverModal = props => {
             rules={[{ required: true }, { type: 'string' }]}
             style={{fontWeight:'bold'}}
           >
-            <Input disabled={!!values} style={{color:'#666666'}}/>
+            <Input onBlur={onBlur} disabled={!!values} style={{color:'#666666'}}/>
           </Form.Item>
           <Form.Item
             name="ten_goi_nho"

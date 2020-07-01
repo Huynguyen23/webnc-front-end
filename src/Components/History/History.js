@@ -12,12 +12,10 @@ import {
   Button
 } from 'antd';
 import {
-  InteractionFilled,
-  CopyFilled,
-  IdcardFilled
+  InteractionFilled
 } from '@ant-design/icons';
 import './History.css';
-import moment from 'moment';
+// import moment from 'moment';
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -91,10 +89,10 @@ export const History = props => {
     },
     {
       title: 'Thời Gian',
-      dataIndex: 'tg_tao',
-      render:(text, record)=>{
-        return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
-      },
+      dataIndex: 'thoi_gian_gui',
+      // render:(text, record)=>{
+      //   return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
+      // },
       sorter: {
         compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
         multiple: 1,
@@ -150,9 +148,9 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian_gui',
-      render:(text, record)=>{
-        return moment(record.thoi_gian_gui, 'YYYY-MM-DD').calendar();
-      },
+      // render:(text, record)=>{
+      //   return moment(record.thoi_gian_gui, 'YYYY-MM-DD').calendar();
+      // },
       sorter: {
         compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
         multiple: 1,
@@ -203,10 +201,10 @@ export const History = props => {
     },
     {
       title: 'Thời Gian',
-      dataIndex: 'thoi_gian',
-      render:(text, record)=>{
-        return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
-      },
+      dataIndex: 'thoi_gian_gui',
+      // render:(text, record)=>{
+      //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
+      // },
       sorter: {
         compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
         multiple: 1,

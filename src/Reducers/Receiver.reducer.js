@@ -34,11 +34,13 @@ export const getReceiverList = body => dispatch => {
 };
 
 export const addReceiver = body => dispatch => {
-  console.log("banke", body);
+  console.log("addReceiver", body);
+  const param = {...body};
+  delete param.ten;
   return (
     fetch(API.ADD_RECEIVER, {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(param),
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       }
@@ -47,7 +49,8 @@ export const addReceiver = body => dispatch => {
       .then(res => {
         if (res.status > 0) {
           dispatch({ type: ADD_RECEIVER, payload: body });
-        }
+         
+        } 
         return res;
       })
   );
@@ -75,6 +78,8 @@ export const updateReceiver = body => dispatch => {
 };
 
 export const deleteReceiver = body => dispatch => {
+  console.log("deleteReceiver", body)
+
   return fetch(API.DELETE_RECEIVER, {
     method: 'PUT',
     body:JSON.stringify(body),
@@ -84,9 +89,10 @@ export const deleteReceiver = body => dispatch => {
   })
     .then(response => response.json())
     .then(res => {
-      if (res === true) {
+      if (res.status > 0) {
         dispatch({ type: DELETE_RECEIVER, payload: body.stk_nguoi_nhan });
       }
+      return res;
     })
     .finally(() => {});
 };
@@ -96,6 +102,7 @@ export const receiverList = (state = [], action) => {
     case RECEIVER_LIST:
       return action.payload.list;
     case ADD_RECEIVER:
+      console.log("val", action.payload);
       return [...state, action.payload];
     case DELETE_RECEIVER:
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);

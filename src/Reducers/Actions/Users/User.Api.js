@@ -36,8 +36,9 @@ export const getUserInfo = (body, callBack) => {
   })
   .then(response => response.json())
     .then(res => {
-      console.log("GET_USER_INFO",res);
+      
       if (res.data) {
+        console.log("GET_USER_INFO",res);
         callBack(res.data);
         return res.data;
       } else {
