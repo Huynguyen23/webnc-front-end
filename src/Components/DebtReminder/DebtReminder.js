@@ -43,6 +43,7 @@ export const DebtReminder = props => {
   const [values, setValues] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 24 },
@@ -129,6 +130,7 @@ export const DebtReminder = props => {
     getSendList({stk_nguoi_gui:info.stkThanhToan}).finally(()=>{
       setLoading(false);
     });
+    
     Swal.fire("Thành Công", "Đã Thêm Nhắc Nợ", "success");
   };
 
@@ -195,7 +197,7 @@ export const DebtReminder = props => {
       data.length >= 1 ? (
         <Popconfirm
           title="Bạn thật sự muốn xóa?"
-          onConfirm={() => {const param = {id:record.id,nguoi_xoa:1,noi_dung_xoa: record.noi_dung}; handleDelete(param)}}
+          onConfirm={() => {const param = {id:record.id,nguoi_xoa:0,noi_dung_xoa: record.noi_dung}; handleDelete(param)}}
           okText="Xóa"
           cancelText="Hủy"
         >
@@ -274,7 +276,7 @@ export const DebtReminder = props => {
       data1.length >= 1 ? (
         <Popconfirm
           title="Bạn thật sự muốn xóa?"
-          onConfirm={() => {const param = {id:record.id,nguoi_xoa:0,noi_dung_xoa: record.noi_dung}; handleDelete(param)}}
+          onConfirm={() => {const param = {id:record.id,nguoi_xoa:1,noi_dung_xoa: record.noi_dung}; handleDelete(param)}}
           okText="Xóa"
           cancelText="Hủy"
         >
