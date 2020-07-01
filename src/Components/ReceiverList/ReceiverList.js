@@ -21,6 +21,7 @@ import {
 } from '@ant-design/icons';
 import { AddReceiverModal } from './AddReceiverModal';
 import './ReceiverList.css';
+import Swal from 'sweetalert2';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -58,8 +59,15 @@ export const ReceiverList = props => {
       stk_nguoi_gui: info.stkThanhToan,
       stk_nguoi_nhan: record.stk_nguoi_nhan
     }
-    deleteReceiver(param).finally(() => {
+    deleteReceiver(param).then( res=>{
+        if(res.status > 0){
+          Swal.fire('Thành Công', 'Đã Xóa Thành Công', 'success');
+        } else {
+          Swal.fire('Lỗi', 'Đã Xảy Ra Lỗi Không Mong Muốn', 'error');
+        }
+    }).finally(() => {
       setLoading(false);
+      
     });
     
   };

@@ -41,7 +41,6 @@
   padding: 0;
   color: #FFFFFF;
   line-height: 64px;
-  display: flex;
 }
 
 .ant-dropdown-trigger {
@@ -59,11 +58,11 @@
   min-height: 0;
   background: #f0f2f5;
 }
-.ant-badge {
-  margin-left: 65em;
+/* .ant-badge {
+  margin-left: 75em;
  
 }
 .ant-badge1 {
-  margin-left: 58em;
+  margin-left: 68em;
  
-}
+} */

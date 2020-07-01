@@ -11,7 +11,7 @@ const DEBT_HISTORY = 'DEBT_HISTORY';
 
 export const getReceiveHistoryList = body => dispatch => {
   return (
-    fetch(API.RECEIVE_LIST, {
+    fetch(API.RECEIVE_HISTORY, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -84,7 +84,7 @@ export const getDebtHistoryList = body => dispatch => {
 export const receiveHistoryList = (state = [], action) => {
   switch (action.type) {
     case RECEIVE_HISTORY:
-      return action.payload.list;
+      return action.payload.data;
     default:
       return state;
     }

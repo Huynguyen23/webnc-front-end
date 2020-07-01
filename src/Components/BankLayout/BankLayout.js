@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Menu, Dropdown,Badge } from 'antd';
+import { Layout, Menu, Dropdown,Badge, notification, Row, Col } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -9,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import './BankLayout.css';
 import { MenuLeft } from './MenuLeft';
-import { useAuth } from '../Routes/Context';
+import { useAuth,useSocket } from '../Routes/Context';
 import { Redirect, Link } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -17,17 +18,121 @@ const { Header, Sider, Content } = Layout;
 const BankLayout = props => {
   const { Child } = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
-
+  const [type, setType] = useState();
+  const [response, setResponse] = useState();
+  const [list, setList] =useState([]);
+  const [count, setCount] = useState(0);
+  const socket = useSocket();
   const { setAuthTokens } = useAuth();
   const logOut = () => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
   };
 
+  const onClick =(item)=>{
+    console.log(item);
+    
+    const newList = list.filter(i=> i.key !== item.key);
+    setList(newList);
+    return <Redirect to="/history"/>
+  }
+  useEffect(() => {
+    if (socket) {
+      socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
+      // socket.on("notification", data => {
+      //   console.log(data);
+      // });
+      socket.on('debt', data =>{ // co nguoi nhac no minh
+        console.log('debt: ', data);
+        setResponse(data);
+        setCount(count+1);
+        setType(5);
+      });
+
+      socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
+        console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
+        setCount(count+1);
+        setResponse(data);
+        setType(4);
+      });
+
+      socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
+        console.log('nguoi ta huy nhac no cua minh: ',data);
+        setCount(count+1);
+        setResponse(data);
+        setType(2);
+      });
+
+      socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
+        console.log('co nguoi thanh toan no cho ban: ', data);
+        setCount(count+1);
+        setResponse(data);
+        setType(3);
+      });
+
+      socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
+        console.log('co nguoi chuyen tien: ', data);
+        setCount(count+1);
+        setResponse(data);
+        setType(0);
+      });
+
+      socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
+        console.log('ngan hang da nap tien cho ban: ', data);
+        setCount(count+1);
+        setResponse(data);
+        setType(1);
+      });
+      socket.on('notification', data=>{ // thông báo khi ko online
+        console.log('notification: ', data);
+        setCount(count+1);
+      });
+    }
+    
+  },[socket]);
   const menu = (
     <Menu>
       <Menu.Item style={{fontWeight:'bold'}}><Link to="/change-password">Đổi mật khẩu</Link></Menu.Item>
       <Menu.Item style={{fontWeight:'bold'}} onClick={logOut}>Đăng xuất</Menu.Item>
+    </Menu>
+  );
+  useEffect(()=>{
+    let tempList = list;
+  
+    switch (type) {
+      case 0:
+        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
+      case 1:
+        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Ngân hàng đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
+      case 2:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
+        break;
+      case 3:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.stk_nguoi_gui} đã hủy nhắc nợ của bạn.</Link></Menu.Item>);
+        break;
+      case 4:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_xoa} hủy nhắc nợ đã gửi cho bạn trước đó.</Link></Menu.Item>);
+        break;
+      case 5:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_xoa} đã thanh toán nhắc nợ của bạn.</Link></Menu.Item>);
+        break;
+      default:
+        tempList.push(<Menu.Item key="0" style={{fontWeight:'bold'}} onClick={onClick}><Link to="/" >Bạn Không có thông báo mới</Link></Menu.Item>);
+        break;
+    }
+
+    if (tempList.length > 0){
+      console.log("tempList", tempList);
+      tempList = tempList.filter(i=> i.key !== "0");
+    }
+    setList(tempList);
+  }, [type]);
+
+  const menuNoti = (
+    <Menu>
+     {list}
     </Menu>
   );
 
@@ -41,6 +146,7 @@ const BankLayout = props => {
   return (
     <Layout className="body-layout">
       <Header style={{width:'100%'}}>
+      <Row >
         <div style={{ display: 'flex', backgroundColor:'#FFFFFF'}} onClick={toggle}>
           <img
             id="sm-logo"
@@ -58,6 +164,8 @@ const BankLayout = props => {
             }}
           />
         </div>
+   
+          <Col span={10}>
           {/* <div className="logo" /> */}
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -67,26 +175,27 @@ const BankLayout = props => {
               style: { float: 'left' }
             }
           )}
-          <>
-          {collapsed ?
-            <Badge className="ant-badge" count={5} style={{marginTop:24, fontWeight:'bold' }}>
-              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
+          </Col>
+          <Col span={ collapsed ? 12: 10}>
+            <div style={{float:'right'}}>
+            <Badge className="ant-badge" count={count} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
+              <Dropdown overlay={menuNoti}>
+                <BellFilled style={{marginTop:24,fontSize:20}}/>
+              </Dropdown>
             </Badge>
-            :
-            <Badge className="ant-badge1" count={5} style={{marginTop:24, fontWeight:'bold' }}>
-              <BellFilled style={{marginTop:24,fontSize:20, float:'right'}}/>
-            </Badge>
-          }
+        
             <Dropdown overlay={menu}>
               <span
-                style={{fontSize:16, fontWeight:'bold' }}
+                style={{fontSize:16, fontWeight:'bold', marginLeft:20}}
               >
                 {info.ten || ' '}
                 <CaretDownOutlined/>
               </span>
             
             </Dropdown>
-            </>
+            </div>
+          </Col>
+          </Row>
         </Header>
       <Layout className="site-layout">
       <Sider

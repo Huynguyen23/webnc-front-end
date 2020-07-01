@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,8 +9,8 @@ import {
 import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
-import { Transfer } from '../BankTransfer';
-import { OTP } from '../OTP';
+import socketIOClient from "socket.io-client";
+import { notification } from 'antd';
 import { ChangePass } from '../ChangePass';
 import { InterBankTransfer } from '../InterBankTransfer';
 import { BankTransfer } from '../BankTransfer';
@@ -20,15 +20,17 @@ import { History } from '../History';
 import { PayMoney } from '../PayMoney';
 
 import { PrivateRoute } from '../Routes/PrivateRoute';
-import { AuthContext } from '../Routes/Context';
+import { AuthContext, SocketContext } from '../Routes/Context';
 import './App.css';
 import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
 import { ReportManagement } from '../ReportManagement';
 import { ForgotPass } from '../ForgotPass';
+const ENDPOINT = "http://localhost:3000";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
+  const [socket, setSocket] = useState(null);
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
@@ -41,8 +43,49 @@ function App() {
     setAuthTokens(data);
   };
 
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    setSocket(socket);
+    if(authTokens){
+      if (socket) {
+        socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
+        // socket.on("notification", data => {
+        //   console.log(data);
+        // });
+        // socket.on('debt', data =>{ // co nguoi nhac no minh
+        //   console.log('debt: ', data);
+        // });
+
+        // socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
+        //   console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
+        // });
+
+        // socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
+        //   console.log('nguoi ta huy nhac no cua minh: ',data);
+        // });
+
+        // socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
+        //   console.log('co nguoi thanh toan no cho ban: ', data);
+        // });
+
+        // socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
+        //   console.log('co nguoi chuyen tien: ', data);
+        // });
+
+        // socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
+        //   console.log('ngan hang da nap tien cho ban: ', data);
+        // });
+        // socket.on('notification', data=>{ // thông báo khi ko online
+        //   console.log('notification: ', data);
+        // });
+      }
+    }
+    return () => socket.disconnect();
+  }, [authTokens]);
+
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+      <SocketContext.Provider value={socket}>
       <Router>
         <Switch>
           <Route exact path="/login">
@@ -117,6 +160,7 @@ function App() {
           />
         </Switch>
       </Router>
+      </SocketContext.Provider>
     </AuthContext.Provider>
   );
 }
