@@ -20,11 +20,13 @@ import {
   AppleOutlined, 
   AndroidOutlined,
   DeleteFilled,
+  CheckOutlined,
   IdcardFilled
 } from '@ant-design/icons';
 import {AddDebtReminderModal} from './AddDebtReminderModal';
 import './DebtReminder.css';
 import {OTPModal} from './OTPModal';
+import {getOTP} from '../../Reducers/Actions/Bank';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import Highlighter from 'react-highlight-words';
@@ -213,28 +215,38 @@ export const DebtReminder = props => {
       dataIndex: 'chose',
       align: 'center',
       render: (text, record) => (
+        record.trang_thai !== 2 ?
         <FireFilled
           style={{ verticalAlign: 'center', color:'#00CD00' }}
           onClick={() => {
             setValues(record);
+            getOTP({stk_thanh_toan: info.stkThanhToan}); 
             setOTP(!OTP);
-            if (isOk) {
-              payDebt({
-                id : record.id,
-                stk_nguoi_gui: record.stk_nguoi_nhan,
-                ten_nguoi_gui: record.ten,
-                noi_dung_xoa: "hoan tat"
-              });
-            }
+            // if (isOk) {
+            //   console.log("isOk")
+            //   payDebt({
+            //     id : record.id,
+            //     stk_nguoi_gui: record.stk_nguoi_nhan,
+            //     ten_nguoi_gui: record.ten,
+            //     noi_dung_xoa: "hoan tat"
+            //   }).then(res=>{
+            //     if(res.status > 0){
+            //       Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success");
+            //     } else {
+            //       Swal.fire('Lỗi', 'Lỗi Không Thể Thanh Toán Nợ', "error");
+            //     }
+            //   });
+            // }
           }}
-        />
+        /> 
+        : <CheckOutlined />
       )
     },
     {
       title: 'Số Tài Khoản',
-      dataIndex: 'stk_nguoi_nhan',
+      dataIndex: 'stk_nguoi_gui',
       editable: true,
-      ...getColumnSearchProps('stk_nguoi_nhan'),
+      ...getColumnSearchProps('stk_nguoi_gui'),
     },
     {
       title: 'Tên Người Nhắc Nợ',
@@ -296,7 +308,6 @@ export const DebtReminder = props => {
       {isModal && (
         <AddDebtReminderModal
           show={isModal}
-          values={values}
           search={search}
           addReminder={addReminder}
           handleCancel={() => setIsModal(!isModal)}
@@ -306,8 +317,9 @@ export const DebtReminder = props => {
       {OTP && (
         <OTPModal
           show={OTP}
+          values={values}
+          payDebt={payDebt}
           handleCancel={() => setOTP(false)}
-          setIsOk={setIsOk}
         />
       )}
       <Row>
@@ -369,7 +381,7 @@ export const DebtReminder = props => {
             dataSource={data1}
           />
         </TabPane>
-      </Tabs>,
+      </Tabs>
      
     </Content>
   );

@@ -83,7 +83,7 @@ const AddDebtReminderModal = props => {
             rules={[{ required: true }, { type: 'string' }]}
             style={{fontWeight:'bold'}}
           >
-            <Input onBlur={onBlur} disabled={!!values} style={{color:'#666666'}}/>
+            <Input onBlur={onBlur} style={{color:'#666666'}}/>
           </Form.Item>
           <Form.Item
             name="ten"
