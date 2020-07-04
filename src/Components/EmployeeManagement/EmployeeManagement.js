@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Table ,Layout, Input, Collapse, Row, Button, Form, Col, DatePicker, Modal, Typography } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import moment from 'moment';
 import {AddEmployeeModal} from './AddEmployeeModal';
 import { WindowsFilled, DeleteFilled, PlusSquareFilled, SearchOutlined, ClearOutlined, EditFilled } from '@ant-design/icons';
 import './EmployeeManagement.css';
+import Swal from 'sweetalert2';
 
 const { Title } = Typography;
 const { Content } = Layout;
 const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
 
-const EmployeeManagement = () => {
-  const [data, setData] = useState({});
+export const EmployeeManagement = props => {
+  const {employeeList, getEmployeeList, addEmployee} = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [isShow, setIsShow] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [isDelShow, setIsDelShow] = useState(false);
   const [values, setValues] = useState(false);
   const [form] = Form.useForm();
   const isSmallScreen = useMediaQuery({ query: '(max-width: 700px)' });
@@ -27,12 +28,38 @@ const EmployeeManagement = () => {
     wrapperCol: { span: !isSmallScreen ? 14 : 24 }
   };
 
+  useEffect(()=>{
+    setLoading(true);
+    getEmployeeList().then(res=>{
+      setLoading(false);
+    });
+  },[getEmployeeList]);
+
   const onChange =()=>{
 
   };
 
   const handleOk =()=>{
 
+  };
+  const handleDelete =()=>{
+    Swal.fire({
+      title: 'Bạn chắc chứ?',
+      text: "Nhân viên này sẽ bị xóa khỏi hệ thống!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'OK, hãy xóa nó!'
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire(
+          'Đã Xóa!',
+          'Nhân viên đã được xóa.',
+          'success'
+        )
+      }
+    })
   };
 
   const onFinish = param => {
@@ -50,7 +77,7 @@ const EmployeeManagement = () => {
   const columns = [
     {
       title: 'Mã Nhân Viên',
-      dataIndex: 'taikhoan'
+      dataIndex: 'tai_khoan'
     },
     {
       title: 'Tên Nhân Viên',
@@ -59,6 +86,10 @@ const EmployeeManagement = () => {
     {
       title: 'Ngày Sinh',
       dataIndex: 'ngay_sinh',
+      render: (text, record) => {
+        console.log("record", record)
+        return moment(record.ngay_sinh).format("YYYY-MM-DD");
+      }
     },
     {
       title: 'Địa Chỉ',
@@ -72,8 +103,9 @@ const EmployeeManagement = () => {
     {
       title: 'Ngày Tạo',
       dataIndex: 'ngay_tao',
-      render: (value, row, index) => {
-        return moment(value).format('DD/MM/YYYY');
+      render: (text, record) => {
+        console.log("record", record)
+        return moment(record.ngay_tao).format("YYYY-MM-DD");
       }
     },
     {
@@ -92,18 +124,13 @@ const EmployeeManagement = () => {
     {
       title: 'Xóa',
       dataIndex: 'delete',
+      align:'center',
       render: (text, record) =>
-        data.length >= 1 ? (
-          <Modal
-          title="Thông Báo"
-          status="warning"
-          visible={isDelShow}
-          onOk={handleOk}
-          onCancel={()=>setIsDelShow(false)}
-        >
-          <p>Nhân viên sẽ bị xóa. Bạn chắc chứ ?</p>
-          <DeleteFilled />
-        </Modal>
+      employeeList.length >= 1 ? (
+          <DeleteFilled
+            style={{color:'#FF0000'}}
+            onClick={handleDelete}
+         />
         ) : null
     }
   ];
@@ -119,6 +146,7 @@ const EmployeeManagement = () => {
         {visible && (
           <AddEmployeeModal
             show={visible}
+            addEmployee={addEmployee}
             handleCancel={() => setVisible(false)}
             values={values}
             onReset={onReset}
@@ -209,6 +237,7 @@ const EmployeeManagement = () => {
         </Row>
         <Table
           columns={columns}
+          dataSource={employeeList}
           onChange={onChange}
           loading={loading}
           rowKey={i => i.id}
@@ -217,4 +246,3 @@ const EmployeeManagement = () => {
       </Content>
   );
 };
-export default EmployeeManagement;

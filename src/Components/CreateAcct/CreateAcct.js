@@ -1,13 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect, Fragment } from 'react';
-import {Form, Input, DatePicker, Col, Button ,Typography, Select, Cascader, InputNumber,Row, Layout } from 'antd';
+import React from 'react';
+import {Form, Input, DatePicker, Col, Button ,Typography,Row, Layout } from 'antd';
 import{IdcardFilled, ClearOutlined, PlusSquareFilled} from '@ant-design/icons';
 import moment from 'moment';
 import {addUser} from '../../Reducers/Actions/Users';
 import Swal from 'sweetalert2';
 import './CreateAcct.css';
 const FormItem = Form.Item;
-const Option = Select.Option;
 const { Content } = Layout;
 const { Title } = Typography;
 const CreateAcct = () => {
@@ -28,10 +27,8 @@ const CreateAcct = () => {
     param.ngay_sinh = moment(param.ngay_sinh).format("YYYY-MM-DD");
     addUser(param).then(res=>{
       if(res.status < 0){
-        console.log("aaa1", res);
         Swal.fire('Lỗi', res.msg, 'error');
       } else {
-        console.log("aaa2", res);
         Swal.fire('Chúc Mừng', res.msg, 'success');
       }
       

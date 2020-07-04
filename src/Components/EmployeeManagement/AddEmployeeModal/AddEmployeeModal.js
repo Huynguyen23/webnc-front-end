@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-props-no-spreading */
-import { Modal, Button, Form, Input } from 'antd';
+import { Modal, Button, Form, Input, DatePicker } from 'antd';
 import { AppstoreAddOutlined, EditFilled } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { getBankList } from '../../../Reducers/Actions/Bank';
 import './AddEmployeeModal.css';
 
 const AddEmployeeModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const { show, handleCancel, handleOk, values, addReceiver, updateReceiver } = props;
+  const { show, handleCancel, values, addEmployee, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
   //const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
@@ -50,7 +51,6 @@ const AddEmployeeModal = props => {
           if (res.status > 0) {
             console.log('r', res);
             handleCancel();
-            handleOk();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');
           }
@@ -68,14 +68,13 @@ const AddEmployeeModal = props => {
         console.log("v", v);
         setLoading(true);
         const param = v;
-        param.stk_nguoi_gui =  info.stkThanhToan;
+        param.ngay_sinh = moment(param.ngay_sinh).format("YYYY-MM-DD");
         form.resetFields();
-        addReceiver(param).then(res => {
+        addEmployee(v).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            console.log('r', res);
+            Swal.fire('Đã Tạo Thành Công' , 'Tài Khoản:' + res.tai_khoan+'<br/>Mật Khẩu:'+ res.mat_khau, 'success');
             handleCancel();
-            handleOk();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');
           }
@@ -85,14 +84,28 @@ const AddEmployeeModal = props => {
         console.log('Validate Failed:', info);
       });
   };
-
+const layoutUpdate =(
+      <>
+        <Form.Item name="id" style={{ height: 0 }}>
+          <Input hidden />
+        </Form.Item>
+        <Form.Item
+          name="tai_khoan"
+          label="Mã Nhân Viên"
+          rules={[{ required: true }, { type: 'string' }]}
+          style={{fontWeight:'bold'}}
+        >
+          <Input disabled={!!values} style={{color:'#666666'}}/>
+        </Form.Item>
+      </>
+);
   return (
       <Modal
         visible={show}
         title={
           !values ? (
             <span style={{fontWeight:'bolder', fontSize:20, color: '#FFFFFF'}}>
-              <AppstoreAddOutlined /> THÊM NGƯỜI NHẬN
+              <AppstoreAddOutlined /> THÊM NHÂN VIÊN
             </span>
           ) : (
             <span style={{fontWeight:'bolder', fontSize:20, color: '#FFFFFF'}}>
@@ -135,26 +148,42 @@ const AddEmployeeModal = props => {
           name="control-hooks2"
           wrapperCol={{ span: 12 }}
         >
-          <Form.Item name="id" style={{ height: 0 }}>
-            <Input hidden />
-          </Form.Item>
+          {!!values ?  layoutUpdate : null}
           <Form.Item
-            name="stk_nguoi_nhan"
-            label="Số Tài Khoản"
-            rules={[{ required: true }, { type: 'string' }]}
-            style={{fontWeight:'bold'}}
-          >
-            <Input disabled={!!values} style={{color:'#666666'}}/>
-          </Form.Item>
-          <Form.Item
-            name="ten_goi_nho"
-            label="Tên Gợi Nhớ"
+            name="ten"
+            hasFeedback
+            label="Tên Nhân Viên"
             rules={[{ required: true }, { type: 'string' }]}
             style={{fontWeight:'bold'}}
           >
             <Input />
           </Form.Item>
-         
+          <Form.Item
+            name="dia_chi"
+            label="Địa Chỉ"
+            hasFeedback
+            rules={[{ required: true }, { type: 'string' }]}
+            style={{fontWeight:'bold'}}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="ngay_sinh"
+            hasFeedback
+            label="Ngày Sinh"
+            rules={[{ required: true, message: 'Vui Lòng Chọn Ngày Sinh'}]}
+          >
+            <DatePicker style={{ width: '100%' }} format="YYYY-MM-DD" placeholder="Chọn Ngày"/>
+          </Form.Item>
+          <Form.Item
+            name="cmnd"
+            label="Số CMND"
+            hasFeedback
+            rules={[{ required: true }, { type: 'string' }]}
+            style={{fontWeight:'bold'}}
+          >
+            <Input />
+          </Form.Item>
         </Form>
       </Modal>
   );

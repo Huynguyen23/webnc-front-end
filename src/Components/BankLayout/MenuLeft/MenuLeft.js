@@ -111,6 +111,12 @@ const MenuLeft = props => {
           {collapsed ? "" : <span>Lịch Sử</span>}
         </Link>
       </Menu.Item>
+      <Menu.Item key="9">
+        <Link to="/employee-management">
+        <EmployeeIcon />
+        {collapsed ? "" : <span style={{marginLeft:10}}>Quản Lí Nhân Viên</span>}
+        </Link>
+      </Menu.Item>
       <Menu.Item key="10">
         <Link to="/report">
         <ControlOutlined />

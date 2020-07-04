@@ -29,6 +29,10 @@ const API = {
   RECEIVE_HISTORY:`${URL}/api/history-money/receive`,
   PAY_HISTORY:`${URL}/api/history-money/send`,
   DEBT_HISTORY: `${URL}/api/history-money/pay-debt`,
+  // employee
+  EMPLOYEE_LIST: `${URL}/api/account/employee`,
+  ADD_EMPLOYEE: `${URL}/api/account/employee`, 
+  DELETE_EMPLOYEE: `${URL}/api/account/delete-employee`,
 };
 
 export default API;
