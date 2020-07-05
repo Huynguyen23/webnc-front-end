@@ -75,6 +75,7 @@ export const updateReminder = body => dispatch => {
 };
 
 export const deleteEmployee = body => dispatch => {
+  console.log("body", body)
   return fetch(API.DELETE_EMPLOYEE, {
     method: 'PUT',
     body:JSON.stringify(body),
@@ -84,10 +85,10 @@ export const deleteEmployee = body => dispatch => {
   })
     .then(response => response.json())
     .then(res => {
-      if (body.nguoi_xoa === 1) {
-        dispatch({ type: DELETE_EMPLOYEE, payload: body.id });
-        return res;
+      if (res.status > 0) {
+        dispatch({ type: DELETE_EMPLOYEE, payload: body });
       }
+      return res;
     })
     .finally(() => {});
 };
@@ -100,6 +101,7 @@ export const employeeList = (state = [], action) => {
     case ADD_EMPLOYEE:
       return [...state, action.payload];
     case DELETE_EMPLOYEE:
+      console.log("body", action.payload)
       return state.filter(item => item.id !== action.payload);
     default:
       return state;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Table ,Layout, Input, Collapse, Row, Button, Form, Col, DatePicker, Modal, Typography } from 'antd';
+import { Table ,Layout, Input, Collapse, Row, Button, Form, Col, DatePicker, Typography } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import moment from 'moment';
 import {AddEmployeeModal} from './AddEmployeeModal';
@@ -13,7 +13,7 @@ const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
 
 export const EmployeeManagement = props => {
-  const {employeeList, getEmployeeList, addEmployee} = props;
+  const {employeeList, getEmployeeList, addEmployee, deleteEmployee} = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [isShow, setIsShow] = useState(false);
 
@@ -42,7 +42,7 @@ export const EmployeeManagement = props => {
   const handleOk =()=>{
 
   };
-  const handleDelete =()=>{
+  const handleDelete = param =>{
     Swal.fire({
       title: 'Bạn chắc chứ?',
       text: "Nhân viên này sẽ bị xóa khỏi hệ thống!",
@@ -53,11 +53,22 @@ export const EmployeeManagement = props => {
       confirmButtonText: 'OK, hãy xóa nó!'
     }).then((result) => {
       if (result.value) {
-        Swal.fire(
-          'Đã Xóa!',
-          'Nhân viên đã được xóa.',
-          'success'
-        )
+        deleteEmployee({id: param}).then(res=>{
+          if(res.status > 0){
+            Swal.fire(
+              'Đã Xóa!',
+              'Nhân viên đã được xóa.',
+              'success'
+            )
+          }else{
+            Swal.fire(
+              'Lỗi',
+              'Xảy ra lỗi không mong muốn',
+              'error'
+            )
+          }
+        })
+       
       }
     })
   };
@@ -109,6 +120,10 @@ export const EmployeeManagement = props => {
       }
     },
     {
+      title: 'Cấp Bậc',
+      dataIndex: 'cap_bac'
+    },
+    {
       title: 'Cập Nhật',
       dataIndex: 'update',
       align: 'center',
@@ -127,11 +142,11 @@ export const EmployeeManagement = props => {
       align:'center',
       render: (text, record) =>
       employeeList.length >= 1 ? (
-          <DeleteFilled
-            style={{color:'#FF0000'}}
-            onClick={handleDelete}
-         />
-        ) : null
+        <DeleteFilled
+          style={{color:'#FF0000'}}
+          onClick={()=>handleDelete(record.id)}
+        />
+      ) : null
     }
   ];
   

@@ -5,14 +5,12 @@ import { AppstoreAddOutlined, EditFilled } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { getBankList } from '../../../Reducers/Actions/Bank';
 import './AddEmployeeModal.css';
 
 const AddEmployeeModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const { show, handleCancel, values, addEmployee, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
-  //const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 24 },
@@ -31,8 +29,7 @@ const AddEmployeeModal = props => {
 
   useEffect(() => {
     onFill(values);
-    //getBankList(setBankList);
-  },[getBankList]);
+  },[]);
 
   const onUpdate = () => {
     form
@@ -65,7 +62,6 @@ const AddEmployeeModal = props => {
     form
       .validateFields()
       .then(v => {
-        console.log("v", v);
         setLoading(true);
         const param = v;
         param.ngay_sinh = moment(param.ngay_sinh).format("YYYY-MM-DD");

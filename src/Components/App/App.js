@@ -45,6 +45,7 @@ function App() {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
+    console.log("tokens", localStorage.getItem('tokens'))
     setSocket(socket);
     if(authTokens){
       if (socket) {
