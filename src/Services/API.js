@@ -5,6 +5,7 @@ const API = {
   // login
   GET_USER_ACCOUNT: `${URL}/api/saving-account/list`,
   GET_USER_INFO:`${URL}/api/user/info`,
+  GET_NEW_TOKEN:`${URL}/api/auth/refresh`,
   //receiver
   RECEIVER_LIST: `${URL}/api/recipient-list/list`,
   ADD_RECEIVER: `${URL}/api/recipient-list`,

@@ -11,6 +11,7 @@ import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
 import socketIOClient from "socket.io-client";
 import { notification } from 'antd';
+import decode from 'jwt-decode';
 import { ChangePass } from '../ChangePass';
 import { InterBankTransfer } from '../InterBankTransfer';
 import { BankTransfer } from '../BankTransfer';
@@ -26,11 +27,13 @@ import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
 import { ReportManagement } from '../ReportManagement';
 import { ForgotPass } from '../ForgotPass';
+import {changeAccessToken} from '../../Reducers/Actions/Users'
 const ENDPOINT = "http://localhost:3000";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
   const [socket, setSocket] = useState(null);
+
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
       setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
@@ -42,10 +45,33 @@ function App() {
     localStorage.setItem('tokens', JSON.stringify(data));
     setAuthTokens(data);
   };
-
+  useEffect(() => {
+    const tokens = JSON.parse(localStorage.getItem('tokens'));
+    const { exp } = decode(tokens.accessToken);
+    
+    if (exp < new Date().getTime() / 1000) {
+      console.log("time1");
+      changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+        tokens.accessToken = res.accessToken;
+        setTokens(tokens);
+      });
+    } else {
+      const time = Number.parseInt(exp*60000 - new Date().getTime());
+      console.log("time", exp, exp*60000, new Date().getTime(), time);
+      setTimeout(() => {
+        console.log("time2", decode(tokens.accessToken));
+        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+          tokens.accessToken = res.accessToken;
+          setTokens(tokens);
+        }).finally(()=>{
+          console.log("JSON.parse11", JSON.parse(localStorage.getItem('tokens')))
+        });
+        
+      }, time);
+    }
+  }, []);
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    console.log("tokens", localStorage.getItem('tokens'))
     setSocket(socket);
     if(authTokens){
       if (socket) {
