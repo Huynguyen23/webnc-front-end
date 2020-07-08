@@ -92,7 +92,6 @@ export const changePass = body =>{
 }
 
 export const resetPass = body =>{
-  console.log("body",body)
   return fetch(API.FORGOT_PASS, {
     method: 'PUT',
     body: JSON.stringify(body),
@@ -107,6 +106,25 @@ export const resetPass = body =>{
     })
     .catch(error => {
       Swal.fire('Thông báo', error.message, 'error');
+    });
+}
+
+export const changeAccessToken = body =>{
+  console.log("body",body)
+  return fetch(API.GET_NEW_TOKEN, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(res => {
+      console.log("res", res);
+      return res;
+    })
+    .catch(error => {
+      
     });
   
 }

@@ -61,7 +61,7 @@ export const getSendList = body => dispatch => {
 };
 
 export const addReminder = body => dispatch => {
-  console.log("banke", body);
+  console.log("add", body)
   return (
     fetch(API.ADD_REMINDER, {
       method: 'POST',
@@ -81,7 +81,6 @@ export const addReminder = body => dispatch => {
 };
 
 export const updateReminder = body => dispatch => {
-  console.log("updateREMINDER", body);
   return (
     fetch(API.UPDATE_REMINDER, {
       method: 'PUT',
@@ -136,8 +135,8 @@ export const payDebt = body => dispatch => {
     .then(res => {
       if(res.status > 0){
         dispatch({ type: PAY_DEBT, payload: body.id });
-        return res;
       }
+      return res;
     })
     .finally(() => {});
 };
@@ -150,7 +149,6 @@ export const sendList = (state = [], action) => {
     case ADD_REMINDER:
       return [...state, action.payload];
     case DELETE_SEND_REMINDER:
-      console.log("stk_nguoi_nhan", action.payload)
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);
     case UPDATE_REMINDER: {
       const oldValue= state.filter(item => item.stk_nguoi_nhan === action.payload.stk_nguoi_nhan)[0];
@@ -166,7 +164,8 @@ export const receiveList = (state = [], action) => {
     case RECEIVE_LIST:
       return action.payload.list;
     case PAY_DEBT:  
-      state.filter(i=>i.id===action.payload).replace("trang_thai", 2);
+      const newState = state.find(i=>i.id===action.payload);
+      newState.trang_thai = 2;
       return state;
     case DELETE_RECIEVER_REMINDER:
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);

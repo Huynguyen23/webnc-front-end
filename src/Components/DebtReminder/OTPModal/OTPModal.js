@@ -4,10 +4,10 @@ import OTPInput, { ResendOTP } from '../../../lib';
 import useResendOTP from "../../../lib/hooks/resendOTP";
  import OtpInput from 'react-otp-input';
 import React, { useState } from 'react';
-import { getOTP, verify, inPay } from '../../../Reducers/Actions/Bank';
+import { getOTP, verify } from '../../../Reducers/Actions/Bank';
 import './OTPModal.css';
 const OTPModal = props => {
-  const { show, handleCancel, setIsOk } = props;
+  const { show, handleCancel, payDebt, values } = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [loading, setLoading] = useState(false);
   const [OTP, setOTP] = useState("");
@@ -15,16 +15,24 @@ const OTPModal = props => {
     setLoading(true);
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
-      inPay(info.stkThanhToan).then(res=> {
-        if(res.status > 0){
-          Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success");
-          setIsOk(true);
-        } else {
-          Swal.fire('Lỗi', 'Mã OTP Sai Rồi!!!', "error");
-          return;
-        }
-      });
-      handleCancel();
+        payDebt({
+          id : values.id,
+          stk_nguoi_gui: values.stk_nguoi_nhan,
+          ten_nguoi_gui: values.ten,
+          noi_dung_xoa: "hoan tat"
+        }).then(res=>{
+          if(res.status > 0){
+            Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success");
+          } else {
+            Swal.fire('Lỗi', 'Bạn Không Đủ Tiền', "error");
+          }
+          handleCancel();
+        });
+        //handleCancel();
+     } else {
+      Swal.fire('Lỗi', 'Mã OTP Sai Rồi!!!', "error");
+      setLoading(false);
+      setOTP("");
      }
     })
   };
@@ -41,7 +49,6 @@ const OTPModal = props => {
               htmlType="submit"
               key="btn1"
               type="primary"
-              loading={loading}
               onClick={handleCancel}
               style={{height:'50%', backgroundColor:"#C0C0C0",color:'#000000',borderRadius:4, border:"#C0C0C0"}}
             >
