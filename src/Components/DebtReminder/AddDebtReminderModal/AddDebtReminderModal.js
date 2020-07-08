@@ -90,7 +90,7 @@ const AddDebtReminderModal = props => {
             label="Tên Gợi Nhớ"
             rules={[{ required: true }, { type: 'string' }]}
           >
-            <Input />
+            <Input disabled/>
           </Form.Item>
           <Form.Item
             name="so_tien"

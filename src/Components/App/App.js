@@ -48,23 +48,19 @@ function App() {
   useEffect(() => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
     const { exp } = decode(tokens.accessToken);
-    
     if (exp < new Date().getTime() / 1000) {
-      console.log("time1");
       changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
         tokens.accessToken = res.accessToken;
         setTokens(tokens);
       });
     } else {
-      const time = Number.parseInt(exp*60000 - new Date().getTime());
-      console.log("time", exp, exp*60000, new Date().getTime(), time);
+      
+      // const time = Number.parseInt(exp*60000 - new Date().getTime());
+      const time = Number.parseInt(exp - new Date().getTime() / 1000)*1000;
       setTimeout(() => {
-        console.log("time2", decode(tokens.accessToken));
         changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
           tokens.accessToken = res.accessToken;
           setTokens(tokens);
-        }).finally(()=>{
-          console.log("JSON.parse11", JSON.parse(localStorage.getItem('tokens')))
         });
         
       }, time);

@@ -61,6 +61,7 @@ export const getSendList = body => dispatch => {
 };
 
 export const addReminder = body => dispatch => {
+  console.log("add", body)
   return (
     fetch(API.ADD_REMINDER, {
       method: 'POST',
