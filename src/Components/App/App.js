@@ -28,6 +28,7 @@ import { EmployeeManagement } from '../EmployeeManagement';
 import { ReportManagement } from '../ReportManagement';
 import { ForgotPass } from '../ForgotPass';
 import {changeAccessToken} from '../../Reducers/Actions/Users'
+import Swal from 'sweetalert2';
 const ENDPOINT = "http://localhost:3000";
 
 function App() {
@@ -50,8 +51,12 @@ function App() {
     const { exp } = decode(tokens.accessToken);
     if (exp < new Date().getTime() / 1000) {
       changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+        if (res){
         tokens.accessToken = res.accessToken;
         setTokens(tokens);
+        }else {
+          Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+        }
       });
     } else {
       
