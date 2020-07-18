@@ -34,6 +34,8 @@ const API = {
   EMPLOYEE_LIST: `${URL}/api/account/employee`,
   ADD_EMPLOYEE: `${URL}/api/account/employee`, 
   DELETE_EMPLOYEE: `${URL}/api/account/delete-employee`,
+  // report
+  REPORT_LIST: `${URL}/api/history-admin/all`,
 };
 
 export default API;
