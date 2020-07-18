@@ -58,8 +58,8 @@ export const History = props => {
       title: 'Người Gửi',
       dataIndex: 'ten_nguoi_gui',
       sorter: {
-        compare: (a, b) => a.ten_nguoi_gui - b.ten_nguoi_gui,
-        multiple: 6,
+        compare: (a, b) => a.ten_nguoi_gui.length - b.ten_nguoi_gui.length,
+        multiple: 5,
       },
     },
     {
@@ -67,7 +67,7 @@ export const History = props => {
       dataIndex: 'stk_nguon',
       sorter: {
         compare: (a, b) => a.stk_nguon - b.stk_nguon,
-        multiple: 5,
+        multiple: 4,
       },
     },
    
@@ -75,13 +75,19 @@ export const History = props => {
       title: 'Nội Dung',
       dataIndex: 'noi_dung',
       sorter: {
-        compare: (a, b) => a.noi_dung - b.noi_dung,
+        compare: (a, b) => a.noi_dung.length - b.noi_dung.length,
         multiple: 3,
       },
     },
     {
       title: 'Số Tiền',
       dataIndex: 'so_tien_nhan',
+      render:(text)=>{
+        return new Intl.NumberFormat('vi-CN', {
+          style: 'currency',
+          currency: 'VND',
+        }).format(text);
+      },
       sorter: {
         compare: (a, b) => a.so_tien_nhan - b.so_tien_nhan,
         multiple: 2,
@@ -94,7 +100,7 @@ export const History = props => {
       //   return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
+        compare: (a, b) => a.thoi_gian_gui.length - b.thoi_gian_gui.length,
         multiple: 1,
       },
     },
@@ -116,16 +122,16 @@ export const History = props => {
       title: 'Người Nhận',
       dataIndex: 'ten_nguoi_nhan',
       sorter: {
-        compare: (a, b) => a.ten_nguoi_nhan - b.ten_nguoi_nhan,
-        multiple: 6,
+        compare: (a, b) => a.ten_nguoi_nhan.length - b.ten_nguoi_nhan.length,
+        multiple: 5,
       },
     },
     {
       title: 'Số Tài Khoản',
       dataIndex: 'stk_dich',
       sorter: {
-        compare: (a, b) => a.stk_nguoi_nhan - b.stk_nguoi_nhan,
-        multiple: 5,
+        compare: (a, b) => a.stk_nguoi_nhan.length - b.stk_nguoi_nhan.length,
+        multiple: 4,
       },
     },
    
@@ -133,13 +139,19 @@ export const History = props => {
       title: 'Nội Dung',
       dataIndex: 'noi_dung',
       sorter: {
-        compare: (a, b) => a.noi_dung - b.noi_dung,
+        compare: (a, b) => a.noi_dung.length - b.noi_dung.length,
         multiple: 3,
       },
     },
     {
       title: 'Số Tiền',
       dataIndex: 'so_tien_nhan',
+      render:(text)=>{
+        return new Intl.NumberFormat('vi-CN', {
+          style: 'currency',
+          currency: 'VND',
+        }).format(text);
+      },
       sorter: {
         compare: (a, b) => a.so_tien_nhan - b.so_tien_nhan,
         multiple: 2,
@@ -152,7 +164,7 @@ export const History = props => {
       //   return moment(record.thoi_gian_gui, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
+        compare: (a, b) => a.thoi_gian_gui.length - b.thoi_gian_gui.length,
         multiple: 1,
       },
     },
@@ -170,16 +182,16 @@ export const History = props => {
       title: 'Người Nhận',
       dataIndex: 'ten_nguoi_nhan',
       sorter: {
-        compare: (a, b) => a.ten_nguoi_nhan - b.ten_nguoi_nhan,
-        multiple: 6,
+        compare: (a, b) => a.ten_nguoi_nhan?.length - b.ten_nguoi_nhan?.length,
+        multiple: 5,
       },
     },
     {
       title: 'Số Tài Khoản',
       dataIndex: 'stk_dich',
       sorter: {
-        compare: (a, b) => a.stk_nguoi_nhan - b.stk_nguoi_nhan,
-        multiple: 5,
+        compare: (a, b) => a.stk_dich?.length - b.stk_dich?.length,
+        multiple: 4,
       },
     },
    
@@ -187,13 +199,21 @@ export const History = props => {
       title: 'Nội Dung',
       dataIndex: 'noi_dung',
       sorter: {
-        compare: (a, b) => a.noi_dung - b.noi_dung,
+        compare: (a, b) => a.noi_dung.length - b.noi_dung.length,
         multiple: 3,
       },
     },
     {
       title: 'Số Tiền',
       dataIndex: 'so_tien',
+      render:(text)=>{
+        return new Intl.NumberFormat('vi-CN', {
+          style: 'currency',
+          currency: 'VND',
+        }).format(text);
+      },
+        //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
+        // },
       sorter: {
         compare: (a, b) => a.so_tien - b.so_tien,
         multiple: 2,
@@ -201,12 +221,12 @@ export const History = props => {
     },
     {
       title: 'Thời Gian',
-      dataIndex: 'thoi_gian_gui',
+      dataIndex: 'thoi_gian',
       // render:(text, record)=>{
       //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui - b.thoi_gian_gui,
+        compare: (a, b) => a.thoi_gian.length - b.thoi_gian.length,
         multiple: 1,
       },
     },
