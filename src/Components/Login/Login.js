@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { LockOutlined, NumberOutlined } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
 import ReCAPTCHA from "react-google-recaptcha";
 import Swal from 'sweetalert2';
@@ -63,9 +63,10 @@ const onChange= value => {
               >
                 <Input
                   name="username"
-                  placeholder="User Name"
+                  placeholder="Số tài khoản"
                   prefix={
-                    <MailOutlined
+                    
+                    <NumberOutlined
                       type="lock"
                       style={{ color: 'rgba(0,0,0,.25)' }}
                     />
@@ -78,7 +79,7 @@ const onChange= value => {
               >
                 <Input.Password
                   name="password"
-                  placeholder="Password"
+                  placeholder="Mã pin"
                   prefix={
                     <LockOutlined
                       type="lock"

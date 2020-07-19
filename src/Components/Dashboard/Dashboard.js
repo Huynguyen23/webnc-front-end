@@ -7,6 +7,7 @@ import './Dashboard.css';
 
 const { Title } = Typography;
 const Dashboard = () => {
+  const role = JSON.parse(localStorage.getItem('tokens')).role;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [dataAcct, setDataAcct] = useState([]);
   
@@ -58,8 +59,14 @@ const Dashboard = () => {
     <Col>
       <Descriptions title="TÀI KHOẢN THANH TOÁN" column={1}>
         <Descriptions.Item label="Chủ Thẻ">{info.ten}</Descriptions.Item>
-        <Descriptions.Item label="Số Tài Khoản">{info.stkThanhToan}</Descriptions.Item>
-        <Descriptions.Item label="Số Dư">{Number(info.soDuHienTai).toLocaleString('vi',{style: 'currency', currency: 'VND'})}</Descriptions.Item>
+        {role === 1 ? <Descriptions.Item label="Cấp Bậc:">Quản Trị Viên</Descriptions.Item> 
+          : role === 2 ?  <Descriptions.Item label="Cấp Bậc: ">Nhân Viên</Descriptions.Item> : 
+          <>
+            <Descriptions.Item label="Số Tài Khoản">{info.stkThanhToan}</Descriptions.Item>
+            <Descriptions.Item label="Số Dư">{Number(info.soDuHienTai).toLocaleString('vi',{style: 'currency', currency: 'VND'})}</Descriptions.Item>
+          </>
+          }
+        
       </Descriptions>
       {/* <Card title="TÀI KHOẢN THANH TOÁN" bordered={false} style={{fontSize:15}}>
         <p>Chủ Thẻ: {info.ten}</p>
