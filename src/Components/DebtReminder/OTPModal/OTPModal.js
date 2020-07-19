@@ -1,9 +1,8 @@
 import { Modal, Button, Form } from 'antd';
 import Swal from 'sweetalert2';
 import OTPInput, { ResendOTP } from '../../../lib';
-import useResendOTP from "../../../lib/hooks/resendOTP";
- import OtpInput from 'react-otp-input';
 import React, { useState } from 'react';
+import { useAuth } from '../../Routes/Context';
 import { getOTP, verify } from '../../../Reducers/Actions/Bank';
 import './OTPModal.css';
 const OTPModal = props => {
@@ -11,6 +10,13 @@ const OTPModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [loading, setLoading] = useState(false);
   const [OTP, setOTP] = useState("");
+  const { setAuthTokens } = useAuth();
+
+  const setTokens = data => {
+    localStorage.setItem('tokens', JSON.stringify(data));
+    setAuthTokens(data);
+  };
+
   const onFinish = param => {
     setLoading(true);
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
@@ -22,13 +28,15 @@ const OTPModal = props => {
           noi_dung_xoa: "hoan tat"
         }).then(res=>{
           if(res.status > 0){
-            Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success");
+            Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success").then(res=>{
+              info.soDuHienTai -= values.so_tien;
+              setTokens(info);
+            });
           } else {
             Swal.fire('Lỗi', 'Bạn Không Đủ Tiền', "error");
           }
           handleCancel();
         });
-        //handleCancel();
      } else {
       Swal.fire('Lỗi', 'Mã OTP Sai Rồi!!!', "error");
       setLoading(false);
@@ -76,16 +84,8 @@ const OTPModal = props => {
           OTPLength={6}
           otpType="number"
           disabled={false}
-          secure
         />
         <ResendOTP onResendClick={() => getOTP({stk_thanh_toan: info.stkThanhToan})}/>
-        {/* <OtpInput
-          onChange={otp => setOTP(otp)}
-          numInputs={6}
-          value ={OTP}
-          inputStyle="inputStyle"
-          separator={<span>-</span>}
-        /> */}
       </Modal>
   );
 };

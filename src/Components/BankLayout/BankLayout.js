@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Layout, Menu, Dropdown,Badge, notification, Row, Col } from 'antd';
 import {
@@ -18,12 +18,17 @@ const { Header, Sider, Content } = Layout;
 const BankLayout = props => {
   const { Child } = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const [type, setType] = useState();
+  const [type, setType] = useState(0);
   const [response, setResponse] = useState();
   const [list, setList] =useState([]);
   const [count, setCount] = useState(0);
   const socket = useSocket();
   const { setAuthTokens } = useAuth();
+
+  const setTokens = data => {
+    localStorage.setItem('tokens', JSON.stringify(data));
+    setAuthTokens(data);
+  };
   const logOut = () => {
     setAuthTokens(false);
     localStorage.removeItem('tokens');
@@ -43,45 +48,51 @@ const BankLayout = props => {
       //   console.log(data);
       // });
       socket.on('debt', data =>{ // co nguoi nhac no minh
-        console.log('debt: ', data);
+        console.log('debt: co nguoi nhac no minh', data);
         setResponse(data);
         setCount(count+1);
-        setType(5);
+        setType(1);
       });
 
       socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
         console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
         setCount(count+1);
         setResponse(data);
-        setType(4);
+        setType(2);
       });
 
       socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
         console.log('nguoi ta huy nhac no cua minh: ',data);
         setCount(count+1);
         setResponse(data);
-        setType(2);
+        setType(3);
       });
 
       socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
         console.log('co nguoi thanh toan no cho ban: ', data);
+        info.soDuHienTai += data.so_tien;
+        setTokens(info);
         setCount(count+1);
         setResponse(data);
-        setType(3);
+        setType(4);
       });
 
       socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
         console.log('co nguoi chuyen tien: ', data);
+        info.soDuHienTai += data.so_tien;
+        setTokens(info);
         setCount(count+1);
         setResponse(data);
-        setType(0);
+        setType(5);
       });
 
       socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
         console.log('ngan hang da nap tien cho ban: ', data);
+        info.soDuHienTai += data.so_tien;
+        setTokens(info);
         setCount(count+1);
         setResponse(data);
-        setType(1);
+        setType(6);
       });
       socket.on('notification', data=>{ // thông báo khi ko online
         console.log('notification: ', data);
@@ -100,30 +111,33 @@ const BankLayout = props => {
     let tempList = list;
   
     switch (type) {
-      case 0:
-        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
-        break;
+      // case 0:
+      //   tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history"></Link></Menu.Item>);
+      //   break;
       case 1:
-        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Ngân hàng đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
         break;
       case 2:
-        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.ten_nguoi_xoa} hủy nhắc nợ đã gửi cho bạn trước đó. {response.stk_nguoi_gui} đã hủy nhắc nợ của bạn. Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
         break;
       case 3:
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.stk_nguoi_gui} đã hủy nhắc nợ của bạn.</Link></Menu.Item>);
         break;
       case 4:
-        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_xoa} hủy nhắc nợ đã gửi cho bạn trước đó.</Link></Menu.Item>);
-        break;
-      case 5:
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_xoa} đã thanh toán nhắc nợ của bạn.</Link></Menu.Item>);
         break;
+      case 5:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
+      case 6:
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}>Ngân hàng đã chuyển tiền cho bạn.<Link to="/">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        break;
       default:
-        tempList.push(<Menu.Item key="0" style={{fontWeight:'bold'}} onClick={onClick}><Link to="/" >Bạn Không có thông báo mới</Link></Menu.Item>);
+        tempList.push(<Menu.Item key={0} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/" >Bạn không có thông báo mới</Link></Menu.Item>);
         break;
     }
 
-    if (tempList.length > 0){
+    if (tempList.length > 1){
       console.log("tempList", tempList);
       tempList = tempList.filter(i=> i.key !== "0");
     }

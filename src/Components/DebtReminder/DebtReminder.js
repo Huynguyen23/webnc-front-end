@@ -16,7 +16,7 @@ import {
 import {
   SearchOutlined,
   PlusSquareFilled,
-  FireFilled,
+  TransactionOutlined,
   AppleOutlined, 
   AndroidOutlined,
   DeleteFilled,
@@ -28,6 +28,7 @@ import './DebtReminder.css';
 import {OTPModal} from './OTPModal';
 import {getOTP} from '../../Reducers/Actions/Bank';
 import moment from 'moment';
+import { useSocket } from '../Routes/Context';
 import Swal from 'sweetalert2';
 import Highlighter from 'react-highlight-words';
 
@@ -40,6 +41,7 @@ export const DebtReminder = props => {
   const {data, data1, payDebt, addReminder, deleteReminder, getSendList, getReceiveList} = props;
   const [isModal, setIsModal] = useState(false);
   const [isOk, setIsOk] = useState(false);
+  const socket = useSocket();
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(false);
@@ -51,6 +53,40 @@ export const DebtReminder = props => {
     labelCol: { span: 24 },
     wrapperCol: { span: 6 }
   };
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
+      // socket.on("notification", data => {
+      //   console.log(data);
+      // });
+      socket.on('debt', data =>{ // co nguoi nhac no minh
+        console.log('debt: ', data);
+        onReset();
+      });
+
+      socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
+        console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
+        onReset();
+      });
+
+      socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
+        console.log('nguoi ta huy nhac no cua minh: ',data);
+        onReset();
+      });
+
+      socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
+        console.log('co nguoi thanh toan no cho ban: ', data);
+        onReset();
+      });
+
+      socket.on('notification', data=>{ // thông báo khi ko online
+        console.log('notification: ', data);
+      });
+    }
+    
+  },[socket]);
+
   useEffect(()=>{
     setLoading(true);
     getSendList({stk_nguoi_gui:info.stkThanhToan}).finally(()=>{
@@ -58,7 +94,7 @@ export const DebtReminder = props => {
     });
     getReceiveList({stk_nguoi_nhan:info.stkThanhToan}).finally(()=>{
       setLoading(false);
-    });;
+    });
   },[getSendList, getReceiveList, info.stkThanhToan]);
 //////////////////////////////////////////
 
@@ -124,6 +160,11 @@ export const DebtReminder = props => {
   });
 
   /////////////////////////////////////
+
+  const onReset = () => {
+    getSendList({stk_nguoi_gui:info.stkThanhToan});
+    getReceiveList({stk_nguoi_nhan:info.stkThanhToan});
+  }
   const onTabClick = (key, e)=>{
 
   };
@@ -144,7 +185,9 @@ export const DebtReminder = props => {
         getSendList({stk_nguoi_gui:info.stkThanhToan}).finally(()=>{
           setLoading(false);
         });
-        Swal.fire("Thành Công", "Đã Xóa Nhắc Nợ", "success");
+        Swal.fire("Thành Công", "Đã Xóa Nhắc Nợ", "success").then(res=>{
+          onReset();
+        });
       } else {
         Swal.fire("Lỗi", "Xảy Ra Lỗi Không Mong Muốn", "error");
       }
@@ -181,7 +224,7 @@ export const DebtReminder = props => {
       title: 'Tạo Lúc',
       dataIndex: 'tg_tao',
       render: (text, record) =>{
-        return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
+        return moment(record.tg_tao, 'YYYY-MM-DD HH:mm:ss').fromNow();
       }
     },
     {
@@ -208,6 +251,23 @@ export const DebtReminder = props => {
       ) : null
     }
   ];
+  moment.updateLocale('en', {
+    relativeTime: {
+      past: '%s trước',
+      s: 'một vài giây',
+      ss: '%d giây',
+      m: '1 phút',
+      mm: '%d phút',
+      h: '1 giờ',
+      hh: '%d giờ',
+      d: '1 ngày',
+      dd: '%d ngày',
+      M: '1 tháng',
+      MM: '%d tháng',
+      y: '1 năm',
+      yy: '%d năm'
+    }
+  });
 
   const columns1 = [
     {
@@ -216,7 +276,7 @@ export const DebtReminder = props => {
       align: 'center',
       render: (text, record) => (
         record.trang_thai !== 2 ?
-        <FireFilled
+        <TransactionOutlined
           style={{ verticalAlign: 'center', color:'#00CD00' }}
           onClick={() => {
             setValues(record);
@@ -270,7 +330,7 @@ export const DebtReminder = props => {
       title: 'Đã Nhắc Lúc',
       dataIndex: 'tg_tao',
       render: (text, record) =>{
-        return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
+        return moment(record.tg_tao, 'YYYY-MM-DD HH:mm:ss').fromNow();
       }
     },
     {
@@ -288,7 +348,7 @@ export const DebtReminder = props => {
       data1.length >= 1 ? (
         <Popconfirm
           title="Bạn thật sự muốn xóa?"
-          onConfirm={() => {const param = {id:record.id,nguoi_xoa:1,noi_dung_xoa: record.noi_dung}; handleDelete(param)}}
+          onConfirm={() => {const param = {id:record.id,nguoi_xoa:1,noi_dung_xoa: record.noi_dung}; handleDelete(param);}}
           okText="Xóa"
           cancelText="Hủy"
         >
@@ -326,7 +386,7 @@ export const DebtReminder = props => {
         <Col span={18}>
           <Title level={3} style={{color: '#006633'}}>
           <IdcardFilled  style={{fontSize:30, marginRight: 10, color: '#009900'}}/>
-            DANH SÁCH NỢ CHƯA THANH TOÁN
+            DANH SÁCH NHẮC NỢ
           </Title>
         </Col>
         <Col span={6}>

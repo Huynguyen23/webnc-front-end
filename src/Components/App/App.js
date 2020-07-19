@@ -48,27 +48,29 @@ function App() {
   };
   useEffect(() => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
-    const { exp } = decode(tokens.accessToken);
-    if (exp < new Date().getTime() / 1000) {
-      changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-        if (res){
-        tokens.accessToken = res.accessToken;
-        setTokens(tokens);
-        }else {
-          Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-        }
-      });
-    } else {
-      
-      // const time = Number.parseInt(exp*60000 - new Date().getTime());
-      const time = Number.parseInt(exp - new Date().getTime() / 1000)*1000;
-      setTimeout(() => {
+    if(tokens!== null){
+      const { exp } = decode(tokens.accessToken);
+      if (exp < new Date().getTime() / 1000) {
         changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+          if (res){
           tokens.accessToken = res.accessToken;
           setTokens(tokens);
+          }else {
+            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+          }
         });
+      } else {
         
-      }, time);
+        // const time = Number.parseInt(exp*60000 - new Date().getTime());
+        const time = Number.parseInt(exp - new Date().getTime() / 1000)*1000;
+        setTimeout(() => {
+          changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+            tokens.accessToken = res.accessToken;
+            setTokens(tokens);
+          });
+          
+        }, time);
+      }
     }
   }, []);
   useEffect(() => {
@@ -77,35 +79,6 @@ function App() {
     if(authTokens){
       if (socket) {
         socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
-        // socket.on("notification", data => {
-        //   console.log(data);
-        // });
-        // socket.on('debt', data =>{ // co nguoi nhac no minh
-        //   console.log('debt: ', data);
-        // });
-
-        // socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
-        //   console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
-        // });
-
-        // socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
-        //   console.log('nguoi ta huy nhac no cua minh: ',data);
-        // });
-
-        // socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
-        //   console.log('co nguoi thanh toan no cho ban: ', data);
-        // });
-
-        // socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
-        //   console.log('co nguoi chuyen tien: ', data);
-        // });
-
-        // socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
-        //   console.log('ngan hang da nap tien cho ban: ', data);
-        // });
-        // socket.on('notification', data=>{ // thông báo khi ko online
-        //   console.log('notification: ', data);
-        // });
       }
     }
     return () => socket.disconnect();
