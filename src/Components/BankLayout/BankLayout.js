@@ -36,7 +36,7 @@ const BankLayout = props => {
 
   const onClick =(item)=>{
     console.log(item);
-    
+    setCount(count-1);
     const newList = list.filter(i=> i.key !== item.key);
     setList(newList);
     return <Redirect to="/history"/>
@@ -70,7 +70,7 @@ const BankLayout = props => {
 
       socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
         console.log('co nguoi thanh toan no cho ban: ', data);
-        info.soDuHienTai += data.so_tien;
+        info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         setTokens(info);
         setCount(count+1);
         setResponse(data);
@@ -79,7 +79,7 @@ const BankLayout = props => {
 
       socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
         console.log('co nguoi chuyen tien: ', data);
-        info.soDuHienTai += data.so_tien;
+        info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         setTokens(info);
         setCount(count+1);
         setResponse(data);
@@ -88,7 +88,7 @@ const BankLayout = props => {
 
       socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
         console.log('ngan hang da nap tien cho ban: ', data);
-        info.soDuHienTai += data.so_tien;
+        info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         setTokens(info);
         setCount(count+1);
         setResponse(data);
@@ -118,7 +118,7 @@ const BankLayout = props => {
         tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
         break;
       case 2:
-        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.ten_nguoi_xoa} hủy nhắc nợ đã gửi cho bạn trước đó. {response.stk_nguoi_gui} đã hủy nhắc nợ của bạn. Bạn nhận được 1 nhắn nợ từ {response.ten_nguoi_xoa}</Link></Menu.Item>);
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.ten_nguoi_xoa} hủy nhắc nợ đã gửi cho bạn trước đó.</Link></Menu.Item>);
         break;
       case 3:
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/history">{response.stk_nguoi_gui} đã hủy nhắc nợ của bạn.</Link></Menu.Item>);
@@ -127,7 +127,7 @@ const BankLayout = props => {
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_xoa} đã thanh toán nhắc nợ của bạn.</Link></Menu.Item>);
         break;
       case 5:
-        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
+        tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}><Link to="/">{response.ten_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
         break;
       case 6:
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}>Ngân hàng đã chuyển tiền cho bạn.<Link to="/">{response.stk_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
@@ -140,6 +140,7 @@ const BankLayout = props => {
     if (tempList.length > 1){
       console.log("tempList", tempList);
       tempList = tempList.filter(i=> i.key !== "0");
+      setCount(count -1 );
     }
     setList(tempList);
   }, [type]);

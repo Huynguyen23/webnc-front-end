@@ -10,12 +10,10 @@ const ChangePassModal = props => {
 
   const onFinish = param => {
     setLoading(true);
-    console.log("value", value)
     if(param.newPin === param.confirmPin){
       resetPass({stk_thanh_toan: value, ma_pin_moi: param.newPin}).then(res =>{
-      console.log("res", res);
       if (res.status > 0){
-        Swal.fire("Thành Công", "Mã Pin Mới Của Bạn là:"+param.newPin, "success").then(()=>{
+        Swal.fire("Thành Công", "Bạn đã đổi mật khẩu thành công", "success").then(()=>{
           setRedirect(true);
         });
         

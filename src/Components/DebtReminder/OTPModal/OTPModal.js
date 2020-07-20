@@ -29,7 +29,7 @@ const OTPModal = props => {
         }).then(res=>{
           if(res.status > 0){
             Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success").then(res=>{
-              info.soDuHienTai -= values.so_tien;
+              info.soDuHienTai = parseInt(info.soDuHienTai) - parseInt(values.so_tien);
               setTokens(info);
             });
           } else {

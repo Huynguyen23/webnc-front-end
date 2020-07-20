@@ -9,7 +9,7 @@ import './AddEmployeeModal.css';
 
 const AddEmployeeModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const { show, handleCancel, values, addEmployee, updateReceiver } = props;
+  const { show, handleCancel, values, addEmployee, updateEmployee } = props;
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const layout = {
@@ -19,11 +19,17 @@ const AddEmployeeModal = props => {
 
   const onFill = param => {
     console.log("param", param)
+    
     form.setFieldsValue({
       id: param.id,
-      stk_nguoi_nhan: param.stk_nguoi_nhan,
-      ten_goi_nho:param.ten_goi_nho,
-      id_ngan_hang: param.id_ngan_hang
+      cap_bac: param.cap_bac,
+      cmnd: param.cmnd,
+      dia_chi: param.dia_chi,
+      he_so_luong: param.he_so_luong,
+      ngay_sinh: moment(param.ngay_sinh),
+      ngay_tao: moment(param.ngay_tao),
+      tai_khoan: param.tai_khoan,
+      ten: param.ten
     });
   };
 
@@ -36,17 +42,13 @@ const AddEmployeeModal = props => {
       .validateFields()
       .then(v => {
         setLoading(true);
-        form.resetFields();
-        const param = {
-          stk_nguoi_gui: info.stkThanhToan,
-          stk_nguoi_nhan: v.stk_nguoi_nhan,
-          ten:v.ten_goi_nho
-        };
-        
-        updateReceiver(param).then(res => {
+        const param = v;
+        param.ngay_sinh = moment(param.ngay_sinh).format("YYYY-MM-DD");
+        updateEmployee(param).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            console.log('r', res);
+            form.resetFields();
+            Swal.fire('Thành công', 'Cập nhật thông tin thành công', 'success');
             handleCancel();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');

@@ -3,7 +3,7 @@ import { Table ,Layout, Input, Collapse, Row, Button, Form, Col, DatePicker, Typ
 import { useMediaQuery } from 'react-responsive';
 import moment from 'moment';
 import {AddEmployeeModal} from './AddEmployeeModal';
-import { WindowsFilled, DeleteFilled, PlusSquareFilled, SearchOutlined, ClearOutlined, EditFilled } from '@ant-design/icons';
+import { WindowsFilled, DeleteFilled, PlusSquareFilled, SearchOutlined, ClearOutlined,TrophyOutlined, EditFilled, RiseOutlined } from '@ant-design/icons';
 import './EmployeeManagement.css';
 import Swal from 'sweetalert2';
 
@@ -13,7 +13,7 @@ const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
 
 export const EmployeeManagement = props => {
-  const {employeeList, getEmployeeList, addEmployee, deleteEmployee} = props;
+  const {employeeList, getEmployeeList, addEmployee, updateEmployee, promoteEmployee, deleteEmployee} = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [isShow, setIsShow] = useState(false);
 
@@ -38,7 +38,9 @@ export const EmployeeManagement = props => {
   const onChange =()=>{
 
   };
-
+  const onRefresh =()=>{
+    getEmployeeList();
+  };
   const handleOk =()=>{
 
   };
@@ -53,13 +55,14 @@ export const EmployeeManagement = props => {
       confirmButtonText: 'OK, hãy xóa nó!'
     }).then((result) => {
       if (result.value) {
-        deleteEmployee({id: param}).then(res=>{
+        deleteEmployee({tai_khoan: param}).then(res=>{
           if(res.status > 0){
             Swal.fire(
               'Đã Xóa!',
               'Nhân viên đã được xóa.',
               'success'
-            )
+            );
+            onRefresh();
           }else{
             Swal.fire(
               'Lỗi',
@@ -79,6 +82,9 @@ export const EmployeeManagement = props => {
   const onReset = () => {
     form.resetFields();
     setLoading(true);
+    getEmployeeList().then(res=>{
+      setLoading(false);
+    });
   };
 
   const callback = () => {
@@ -86,6 +92,21 @@ export const EmployeeManagement = props => {
   };
 
   const columns = [
+    {
+      title: 'Thăng Cấp',
+      dataIndex: 'rank',
+      align:'center',
+      render: (text, record) => (
+        record.cap_bac > 2 ? <RiseOutlined
+          onClick={() => {
+            console.log("record", record)
+            promoteEmployee({tai_khoan:record.tai_khoan, so_bac:1});
+          }}
+        />
+        :
+        <TrophyOutlined />
+      )
+    },
     {
       title: 'Mã Nhân Viên',
       dataIndex: 'tai_khoan'
@@ -98,7 +119,6 @@ export const EmployeeManagement = props => {
       title: 'Ngày Sinh',
       dataIndex: 'ngay_sinh',
       render: (text, record) => {
-        console.log("record", record)
         return moment(record.ngay_sinh).format("YYYY-MM-DD");
       }
     },
@@ -115,7 +135,6 @@ export const EmployeeManagement = props => {
       title: 'Ngày Tạo',
       dataIndex: 'ngay_tao',
       render: (text, record) => {
-        console.log("record", record)
         return moment(record.ngay_tao).format("YYYY-MM-DD");
       }
     },
@@ -144,7 +163,7 @@ export const EmployeeManagement = props => {
       employeeList.length >= 1 ? (
         <DeleteFilled
           style={{color:'#FF0000'}}
-          onClick={()=>handleDelete(record.id)}
+          onClick={()=>handleDelete(record.tai_khoan)}
         />
       ) : null
     }
@@ -162,6 +181,7 @@ export const EmployeeManagement = props => {
           <AddEmployeeModal
             show={visible}
             addEmployee={addEmployee}
+            updateEmployee={updateEmployee}
             handleCancel={() => setVisible(false)}
             values={values}
             onReset={onReset}

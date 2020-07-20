@@ -14,10 +14,9 @@ const OTPModal = props => {
   },[show, value]);
   const onFinish = param => {
     setLoading(true);
-    console.log("value", value)
     verify({stk_thanh_toan: value, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
-          Swal.fire('Thông Báo', 'Đã Làm Mới Mã Pin Thành Công', "success").then(()=>{
+          Swal.fire('Thông Báo', 'Xác thực email thành công', "success").then(()=>{
             isClosed(true);
             setIsChangePassClosed(true);
             handleCancel();
@@ -72,16 +71,8 @@ const OTPModal = props => {
           OTPLength={6}
           otpType="number"
           disabled={false}
-          secure
         />
         <ResendOTP onResendClick={() => getOTP({stk_thanh_toan: value})}/>
-        {/* <OtpInput
-          onChange={otp => setOTP(otp)}
-          numInputs={6}
-          value ={OTP}
-          inputStyle="inputStyle"
-          separator={<span>-</span>}
-        /> */}
       </Modal>
   );
 };

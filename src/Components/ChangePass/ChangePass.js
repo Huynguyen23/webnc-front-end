@@ -22,7 +22,6 @@ const ChangePass = () => {
       changePass({stk_thanh_toan: info.stkThanhToan,ma_pin:param.ma_pin, ma_pin_moi: param.ma_pin_moi}).then(res =>{
         
         if (res.status > 0){
-          console.log("pass", res)
           Swal.fire("Thành Công", "Mã Pin Đã Được Thay Đổi", "success");
           setAuthTokens(false);
           localStorage.removeItem('tokens');
