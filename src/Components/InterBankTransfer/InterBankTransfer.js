@@ -48,7 +48,6 @@ export const InterBankTransfer = props => {
   };
   const onFinish = param => {
     
-    console.log("param", param);
     setValue(param);
     getOTP({stk_thanh_toan: info.stkThanhToan}); 
     setOTP(!OTP);

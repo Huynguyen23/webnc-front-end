@@ -7,7 +7,8 @@ import moment from 'moment';
 const EMPLOYEE_LIST = 'EMPLOYEE_LIST';
 const ADD_EMPLOYEE = 'ADD_EMPLOYEE';
 const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
-const UPDATE_REMINDER = 'UPDATE_REMINDER';
+const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
+const PROMOTE_EMPLOYEE = 'PROMOTE_EMPLOYEE';
 // action
 
 export const getEmployeeList = body => dispatch => {
@@ -42,7 +43,6 @@ export const addEmployee = body => dispatch => {
     })
       .then(response => response.json())
       .then(res => {
-        console.log("res", res);
         if (res.status > 0) {
           const param = {...body};
           param.tai_khoan = res.tai_khoan;
@@ -54,9 +54,9 @@ export const addEmployee = body => dispatch => {
   );
 };
 
-export const updateReminder = body => dispatch => {
+export const updateEmployee = body => dispatch => {
   return (
-    fetch(API.UPDATE_REMINDER, {
+    fetch(API.UPDATE_EMPLOYEE, {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
@@ -67,7 +67,25 @@ export const updateReminder = body => dispatch => {
       .then(res => {
         console.log(res);
         if (res.status > 0) {
-          dispatch({ type: UPDATE_REMINDER, payload: body });
+          dispatch({ type: UPDATE_EMPLOYEE, payload: body });
+        }
+        return res;
+      })
+  );
+};
+export const promoteEmployee = body => dispatch => {
+  return (
+    fetch(API.PROMOTE_EMPLOYEE, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.status > 0) {
+          dispatch({ type: PROMOTE_EMPLOYEE, payload: body });
         }
         return res;
       })
@@ -75,7 +93,6 @@ export const updateReminder = body => dispatch => {
 };
 
 export const deleteEmployee = body => dispatch => {
-  console.log("body", body)
   return fetch(API.DELETE_EMPLOYEE, {
     method: 'PUT',
     body:JSON.stringify(body),
@@ -100,6 +117,17 @@ export const employeeList = (state = [], action) => {
       return action.payload.list;
     case ADD_EMPLOYEE:
       return [...state, action.payload];
+    case UPDATE_EMPLOYEE:
+      const newEmployee = state.find(i=>i.tai_khoan === action.payload.tai_khoan);
+      newEmployee.ten = action.payload.ten;
+      newEmployee.ngay_sinh = action.payload.ngay_sinh;
+      newEmployee.dia_chi = action.payload.dia_chi;
+      newEmployee.cmnd = action.payload.cmnd;
+      return state;
+    case PROMOTE_EMPLOYEE:
+      const promoteEmployee = state.find(i=>i.tai_khoan === action.payload.tai_khoan);
+      promoteEmployee.cap_bac = action.payload.so_bac;
+      return state;
     case DELETE_EMPLOYEE:
       console.log("body", action.payload)
       return state.filter(item => item.id !== action.payload);

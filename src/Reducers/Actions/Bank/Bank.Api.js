@@ -17,7 +17,6 @@ export const getBankList = (callBack) => {
 };
 
 export const getOTP = (body, callBack) => {
-  console.log("body", body)
   return fetch(API.GET_OTP, {
     method: 'POST', 
     body: JSON.stringify(body),
@@ -55,7 +54,6 @@ export const verify = (body) => {
     });
 };
 export const inPay = (body) => {
-  console.log("inPay", body)
   return fetch(API.PAY_MONEY, {
     method: 'POST', 
     body: JSON.stringify(body),
