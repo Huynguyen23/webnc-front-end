@@ -36,6 +36,7 @@ const API = {
   UPDATE_EMPLOYEE: `${URL}/api/account/info`, 
   DELETE_EMPLOYEE: `${URL}/api/account/delete-employee`,
   PROMOTE_EMPLOYEE: `${URL}/api/account/rank`, 
+  SEND_MONEY: `${URL}/api/money/send-money-employee`,
   // report
   REPORT_LIST: `${URL}/api/history-admin/all`,
 };

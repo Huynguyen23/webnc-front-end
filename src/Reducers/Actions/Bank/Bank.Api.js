@@ -72,3 +72,23 @@ export const inPay = (body) => {
       return false;
     });
 };
+
+export const sendMoney = (body) => {
+  return fetch(API.SEND_MONEY, {
+    method: 'POST', 
+    body: JSON.stringify(body),
+    headers:  {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(res => {
+      console.log("sendMoney", res)
+      return res;
+    })
+    .catch(error => {
+      
+      Swal.fire('Thông báo', error.msg, 'error');
+      return false;
+    });
+};

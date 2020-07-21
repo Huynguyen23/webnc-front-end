@@ -19,7 +19,7 @@ import {
 } from '@ant-design/icons';
 import './PayMoney.css';
 import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP} from '../../Reducers/Actions/Bank';
+import {getOTP, sendMoney} from '../../Reducers/Actions/Bank';
 import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
 const { Content } = Layout;
 const { Title,Text } = Typography;
@@ -36,7 +36,9 @@ export const PayMoney = props => {
   };
   
   const handleOk = () => {
-  
+    sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui}).then(res=>{
+      console.log("")
+    })
   };
   const onFinish = param => {
     setIsShow(!isShow);
@@ -57,7 +59,7 @@ export const PayMoney = props => {
           title="THÔNG TIN NẠP TIỀN"
           subTitle={payInfo.ten_goi_nho}
           extra={[
-            <Button type="primary" key="accept">
+            <Button type="primary" key="accept" onClick={handleOk}>
               Xác Nhận
             </Button>,
             <Button key="cancel">Hủy</Button>,
@@ -70,7 +72,7 @@ export const PayMoney = props => {
                 fontSize: 16,
               }}
             >
-              <span>Số Tài Khoản:</span>{payInfo.stk_thanh_toan}
+              <span>Số Tài Khoản:</span>{payInfo.stk_nguoi_nhan}
             </Text>
             <br/>
             <Text 
