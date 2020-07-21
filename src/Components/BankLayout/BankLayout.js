@@ -219,49 +219,8 @@ const BankLayout = props => {
         collapsible
         collapsed={collapsed || isSmallScreen}
       >
-        {/* <div style={{ display: 'flex' }} onClick={toggle}>
-          <img
-            id="sm-logo"
-            className="logo1"
-            src="/extalk_logo.png"
-            alt="logo extalk"
-            style={{
-              objectFit: 'cover',
-              objectPosition: '0 0',
-              width: collapsed ? 58 : 140,
-              height: 60,
-              transition: 'width 0.2s'
-            }}
-          />
-        </div> */}
-
         <MenuLeft collapsed={collapsed}/>
       </Sider>
-       {/* <Header
-          className="site-layout-background"
-          style={{ padding: 0, textAlign: 'right', position: 'fixed', zIndex: 1, width: '100%' }}
-        >
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: 'trigger',
-              onClick: toggle,
-              style: { float: 'left' }
-            }
-          )}
-
-           <LoginOutlined style={{  float:'right', }} onClick={logOut} />
-          <Dropdown overlay={menu}>
-            <span
-              style={{  marginRight: '40px', fontSize:16, fontWeight:'bold' }}
-            >
-              {info.ten || ' '}
-              <CaretDownOutlined/>
-            </span>
-          
-          </Dropdown>
-        </Header> */}
-        
         <Content
           className="site-layout-background"
           style={{

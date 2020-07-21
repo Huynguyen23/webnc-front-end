@@ -37,7 +37,14 @@ function App() {
 
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
-      setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
+      // const token = JSON.parse(localStorage.getItem('tokens'));
+      // const { exp } = decode(token.accessToken);
+      // if (exp < new Date().getTime() / 1000) {
+      //   setAuthTokens(false);
+      //   localStorage.removeItem('tokens');
+      // }else {
+        setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
+      // }
     } catch {
       console.log("error");
     }
@@ -51,14 +58,16 @@ function App() {
     if(tokens!== null){
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-          if (res){
-          tokens.accessToken = res.accessToken;
-          setTokens(tokens);
-          }else {
-            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-          }
-        });
+        // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+        //   if (res){
+        //   tokens.accessToken = res.accessToken;
+        //   setTokens(tokens);
+        //   }else {
+        //     Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+        //   }
+        // });
+        setAuthTokens(false);
+        localStorage.removeItem('tokens');
       } else {
         
         // const time = Number.parseInt(exp*60000 - new Date().getTime());
@@ -78,7 +87,10 @@ function App() {
     setSocket(socket);
     if(authTokens){
       if (socket) {
-        socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
+        const tokens = JSON.parse(localStorage.getItem('tokens'));
+        if(tokens.stkThanhToan!== null){
+          socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
+        }
       }
     }
     return () => socket.disconnect();
@@ -112,12 +124,6 @@ function App() {
             path="/bank-transfer"
             render={() => <BankLayout Child={<BankTransfer />} />}
           />
-           {/* <PrivateRoute
-            exact
-            path="/otp"
-            render={() => <OTP/>}
-          /> */}
-
           <PrivateRoute
             exact
             path="/change-password"
