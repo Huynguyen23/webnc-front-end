@@ -132,6 +132,12 @@ const MenuLeft = props => {
       <Menu.Item>
        {collapsed ? "" : <span style={{fontSize:15, color:'#006600', paddingLeft:0}}>GIAO DỊCH VIÊN</span>}
       </Menu.Item>
+      <Menu.Item key="1">
+        <Link to="/">
+          <HomeOutlined />
+          <span>Danh Sách Tài Khoản</span>
+        </Link>
+      </Menu.Item>
       <Menu.Item key="6">
         <Link to="/create-acct">
         <CreateAcctIcon />
@@ -164,6 +170,12 @@ const MenuLeft = props => {
       >
       <Menu.Item>
       {collapsed ? "" : <span style={{fontSize:15, color:'#006600', paddingLeft:0}}>QUẢN TRỊ VIÊN</span>}
+      </Menu.Item>
+      <Menu.Item key="1">
+        <Link to="/">
+          <HomeOutlined />
+          <span>Danh Sách Tài Khoản</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key="9">
         <Link to="/employee-management">

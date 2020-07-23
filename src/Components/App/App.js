@@ -58,16 +58,16 @@ function App() {
     if(tokens!== null){
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-        // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-        //   if (res){
-        //   tokens.accessToken = res.accessToken;
-        //   setTokens(tokens);
-        //   }else {
-        //     Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-        //   }
-        // });
-        setAuthTokens(false);
-        localStorage.removeItem('tokens');
+        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+          if (res){
+          tokens.accessToken = res.accessToken;
+          setTokens(tokens);
+          }else {
+            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+          }
+        });
+        // setAuthTokens(false);
+        // localStorage.removeItem('tokens');
       } else {
         
         // const time = Number.parseInt(exp*60000 - new Date().getTime());
@@ -88,7 +88,7 @@ function App() {
     if(authTokens){
       if (socket) {
         const tokens = JSON.parse(localStorage.getItem('tokens'));
-        if(tokens.stkThanhToan!== null){
+        if(tokens !== null){
           socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
         }
       }

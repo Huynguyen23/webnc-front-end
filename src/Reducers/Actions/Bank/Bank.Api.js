@@ -74,6 +74,7 @@ export const inPay = (body) => {
 };
 
 export const sendMoney = (body) => {
+  console.log("body", body);
   return fetch(API.SEND_MONEY, {
     method: 'POST', 
     body: JSON.stringify(body),

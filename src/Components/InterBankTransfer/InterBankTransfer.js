@@ -90,7 +90,7 @@ export const InterBankTransfer = props => {
     },
     {
       title: 'Ngân Hàng',
-      dataIndex: 'id_ngan_hang',
+      dataIndex: 'ten',
       align: 'center',
       editable: true
     }

@@ -37,7 +37,7 @@ export const PayMoney = props => {
   
   const handleOk = () => {
     sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui}).then(res=>{
-      console.log("")
+      console.log("res", res)
     })
   };
   const onFinish = param => {
@@ -62,7 +62,7 @@ export const PayMoney = props => {
             <Button type="primary" key="accept" onClick={handleOk}>
               Xác Nhận
             </Button>,
-            <Button key="cancel">Hủy</Button>,
+            <Button key="cancel" onClick={()=> setIsShow(false)}>Hủy</Button>,
           ]}
         >
           <div>

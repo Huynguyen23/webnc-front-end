@@ -16,7 +16,7 @@ export const EmployeeManagement = props => {
   const {employeeList, getEmployeeList, addEmployee, updateEmployee, promoteEmployee, deleteEmployee} = props;
   const info = JSON.parse(localStorage.getItem('tokens'));
   const [isShow, setIsShow] = useState(false);
-
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [values, setValues] = useState(false);
@@ -32,18 +32,25 @@ export const EmployeeManagement = props => {
     setLoading(true);
     getEmployeeList().then(res=>{
       setLoading(false);
+      if(res.status > 0){
+        setData(res.list);
+      }
+      console.log("aaaa", res);
     });
+    
   },[getEmployeeList]);
 
   const onChange =()=>{
 
   };
   const onRefresh =()=>{
-    getEmployeeList();
+    setLoading(true);
+    getEmployeeList().then(res=>{
+      setLoading(false);
+      setData(res.list);
+    });
   };
-  const handleOk =()=>{
 
-  };
   const handleDelete = param =>{
     Swal.fire({
       title: 'Bạn chắc chứ?',
@@ -77,6 +84,33 @@ export const EmployeeManagement = props => {
   };
 
   const onFinish = param => {
+    let temp = employeeList.slice();
+    console.log("temp0", temp)
+    if(param.tai_khoan) {
+      temp = temp.filter(i=>i.tai_khoan.includes(param.tai_khoan));
+      console.log("temp1", temp)
+    }
+    if (param.ten) {
+      temp = temp.filter(i=>i.tai_khoan.includes(param.ten));
+      console.log("temp2", temp)
+    }
+    if (param.ngay_sinh && param.ngay_sinh[0]) {
+      temp = temp.filter(i=>moment(i.ngay_sinh) >= moment(param.ngay_sinh[0]));
+      console.log("temp3", temp)
+    }
+    if (param.ngay_sinh && param.ngay_sinh[1]) {
+      temp = temp.filter(i=>moment(i.ngay_sinh) <= moment(param.ngay_sinh[1]));
+      console.log("temp4", temp)
+    }
+    if (param.ngay_tao && param.ngay_tao[0]) {
+      temp = temp.filter(i=>moment(i.ngay_tao) >= moment(param.ngay_tao[0]));
+      console.log("temp5", temp)
+    }
+    if (param.ngay_tao && param.ngay_tao[1]) {
+      temp = temp.filter(i=>moment(i.ngay_tao) <= moment(param.ngay_tao[1]));
+      console.log("temp6", temp)
+    }
+    setData(temp);
   };
 
   const onReset = () => {
@@ -84,6 +118,7 @@ export const EmployeeManagement = props => {
     setLoading(true);
     getEmployeeList().then(res=>{
       setLoading(false);
+      setData(res.list);
     });
   };
 
@@ -99,7 +134,6 @@ export const EmployeeManagement = props => {
       render: (text, record) => (
         record.cap_bac > 2 ? <RiseOutlined
           onClick={() => {
-            console.log("record", record)
             promoteEmployee({tai_khoan:record.tai_khoan, so_bac:1});
           }}
         />
@@ -184,7 +218,7 @@ export const EmployeeManagement = props => {
             updateEmployee={updateEmployee}
             handleCancel={() => setVisible(false)}
             values={values}
-            onReset={onReset}
+            onReset={onRefresh}
           />
         )}
         <Row>
@@ -221,7 +255,7 @@ export const EmployeeManagement = props => {
               name="control-hooks"
               onFinish={onFinish}
             >
-              <Form.Item name="taikhoan" label="Mã Nhân Viên">
+              <Form.Item name="tai_khoan" label="Mã Nhân Viên">
                 <Input size="large"/>
               </Form.Item>
               <Form.Item name="ten" label="Tên Nhân Viên">
@@ -272,7 +306,7 @@ export const EmployeeManagement = props => {
         </Row>
         <Table
           columns={columns}
-          dataSource={employeeList}
+          dataSource={data}
           onChange={onChange}
           loading={loading}
           rowKey={i => i.id}
