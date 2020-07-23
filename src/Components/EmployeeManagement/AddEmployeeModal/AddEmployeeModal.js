@@ -9,7 +9,7 @@ import './AddEmployeeModal.css';
 
 const AddEmployeeModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
-  const { show, handleCancel, values, addEmployee, updateEmployee } = props;
+  const { show, handleCancel, values, addEmployee, onReset, updateEmployee } = props;
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const layout = {
@@ -71,7 +71,9 @@ const AddEmployeeModal = props => {
         addEmployee(v).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            Swal.fire('Đã Tạo Thành Công' , 'Tài Khoản:' + res.tai_khoan+'<br/>Mật Khẩu:'+ res.mat_khau, 'success');
+            Swal.fire('Đã Tạo Thành Công' , 'Tài Khoản:' + res.tai_khoan+'<br/>Mật Khẩu:'+ res.mat_khau, 'success').then(()=>{
+            onReset();
+          });
             handleCancel();
           } else {
             Swal.fire('Lỗi', res.msg, 'error');

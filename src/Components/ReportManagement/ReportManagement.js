@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import {Form, Table, DatePicker, Card, Col, Button ,Typography, Row, Layout, Select, Statistic } from 'antd';
-import{IdcardFilled, BookFilled, ArrowUpOutlined, ArrowDownOutlined} from '@ant-design/icons';
+import {Form, Table, DatePicker, Col, Button ,Typography, Row, Layout, Select } from 'antd';
+import{IdcardFilled, BookFilled} from '@ant-design/icons';
 import moment from 'moment';
 import {getReportList, getBankList} from '../../Reducers/Actions/Report';
 import Swal from 'sweetalert2';
 import './ReportManagement.css';
 const { Content } = Layout;
 const { Title } = Typography;
-const { Option } = Select;
 
 const ReportManagement = () => {
   const [loading, setLoading] = useState(false);
@@ -21,30 +20,27 @@ const ReportManagement = () => {
   useEffect(()=>{
     setLoading(true);
     getReportList().then(res=>{
-     
-      console.log("res", res);
       setReportList(res.list);
       setData(res.list);
       setLoading(false);
-
-
     });
     getBankList().then(res=>{
       setBankList(res.list);
     })
-  }, [setReportList, setBankList]);
+  }, []);
 
   useEffect(()=>{
     let t = 0;
     data.forEach(element => {
-      t += Number(element.so_tien);
+      t += Number(element.so_tien); 
     });
     setTotal(t);
-    let temp = [...data];
+    let temp = data.slice();
     temp = temp.map(i => ({...i, ten_ngan_hang: bankList.find(t=>t.id === i.id_ngan_hang_doi_tac).ten}))
-    setData(temp);
+    console.log("temp", temp)
+    //setData(temp);
     setReportList(temp);
-  }, [bankList, setData]);
+  }, [bankList]);
   const onChange = () => {
     
   };

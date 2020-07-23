@@ -23,6 +23,7 @@ export const getEmployeeList = body => dispatch => {
           console.log("RECEIVE_LIST", res);
         dispatch({ type: EMPLOYEE_LIST, payload: res });
         // }
+        return res;
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');

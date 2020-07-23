@@ -28,12 +28,10 @@ const AddDebtReminderModal = props => {
         const param = v;
         param.stk_nguoi_gui =  info.stkThanhToan;
         delete param.ten;
-        console.log("param", param);
         form.resetFields();
         addReminder(param).then(res => {
           setLoading(false);
           if (res.status > 0) {
-            console.log('r', res);
             search();
             handleCancel();
           } else {

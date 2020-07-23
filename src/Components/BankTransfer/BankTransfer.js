@@ -18,7 +18,7 @@ import {
 import Swal from 'sweetalert2';
 import './BankTransfer.css';
 import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP} from '../../Reducers/Actions/Bank';
+import {getOTP, getBankList} from '../../Reducers/Actions/Bank';
 import {OTPModal} from './OTPModal';
 const { Content } = Layout;
 const { Title } = Typography;
@@ -31,6 +31,7 @@ export const BankTransfer = props => {
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
+  const [bankList, setBankList] = useState([]);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 24 },
@@ -42,6 +43,7 @@ export const BankTransfer = props => {
     getReceiverList({stk_nguoi_gui:info.stkThanhToan}).finally(() => {
       setLoading(false);
     });
+    getBankList(setBankList);
   }, [getReceiverList, info.stkThanhToan]);
   const handleOk = () => {
   
@@ -91,7 +93,7 @@ export const BankTransfer = props => {
     },
     {
       title: 'Ngân Hàng',
-      dataIndex: 'id_ngan_hang',
+      dataIndex: 'ten',
       align: 'center',
       editable: true
     }
@@ -127,9 +129,25 @@ export const BankTransfer = props => {
             <Input />
           </Form.Item>
           <Form.Item name="ten_ngan_hang" label="NGÂN HÀNG" initialValue =''> 
-            <Select>
-              <Option value="0" >Người Gửi Thanh Toán</Option>
-              <Option value="1">Người Chuyển Thanh Toán</Option>
+            <Select
+             showSearch
+             allowClear
+             placeholder="Ngân Hàng"
+             optionFilterProp="children"
+             filterOption={(input, option) =>
+               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+             }
+            >
+              {[
+                ...bankList?.map(i => (
+                  <Option key={i.id} value={i.id}>
+                    {i.ten}
+                  </Option>
+                )),
+                <Option key={null} value={null}>
+                  Khác
+                </Option>
+              ]}
             </Select>
           </Form.Item>
           <Form.Item name="so_tien_gui" initialValue ='' label="SỐ TIỀN GỬI">
