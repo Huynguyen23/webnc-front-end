@@ -22,7 +22,6 @@ const AddReceiverModal = props => {
   };
 
   const onFill = param => {
-    console.log("param", param)
     form.setFieldsValue({
       id: param.id,
       stk_nguoi_nhan: param.stk_nguoi_nhan,
