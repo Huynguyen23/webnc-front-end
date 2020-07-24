@@ -13,20 +13,16 @@ import {
   Card
 } from 'antd';
 import {
-  InteractionFilled,
-  CopyFilled,
-  IdcardFilled
+  InteractionFilled
 } from '@ant-design/icons';
 import './PayMoney.css';
-import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP, sendMoney} from '../../Reducers/Actions/Bank';
-import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
+import {sendMoney} from '../../Reducers/Actions/Bank';
+import Swal from 'sweetalert2';
 const { Content } = Layout;
 const { Title,Text } = Typography;
-const { Option } = Select;
-const { TextArea } = Input;
 
 export const PayMoney = props => {
+  const info = JSON.parse(localStorage.getItem('tokens'));
   const [payInfo, setPayInfo] = useState({});
   const [isShow, setIsShow] =useState(false);
   const [form] = Form.useForm();
@@ -36,18 +32,17 @@ export const PayMoney = props => {
   };
   
   const handleOk = () => {
-    sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui}).then(res=>{
-      console.log("res", res)
+    sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui, tai_khoan: info.taiKhoan}).then(res=>{
+      if (res.status > 0){
+        Swal.fire("Thành Công", "Đã nạp tiền thành công", "success");
+        setIsShow(!isShow);
+      }
     })
   };
   const onFinish = param => {
     setIsShow(!isShow);
     console.log(param);
     setPayInfo(param);
-  };
-
-  const handleDelete = param => {
-    
   };
   
   const result = () => {
@@ -108,10 +103,10 @@ export const PayMoney = props => {
           </Col>
         </Row>
         <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
-          <Form.Item name="stk_nguoi_nhan" label="SỐ TÀI KHOẢN" required={{message:"Không được để trống"}}>
+          <Form.Item name="stk_nguoi_nhan" hasFeedback label="SỐ TÀI KHOẢN"  rules={[{ required: true, message:"Không được để trống"}]}>
             <Input />
           </Form.Item>
-          <Form.Item name="so_tien_gui" label="SỐ TIỀN GỬI">
+          <Form.Item name="so_tien_gui" hasFeedback label="SỐ TIỀN GỬI" rules={[{ required: true, message:"Vui lòng nhập số tiền gửi"}]}>
             <Input />
           </Form.Item>
           <Form.Item>
