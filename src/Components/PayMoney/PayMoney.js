@@ -32,7 +32,7 @@ export const PayMoney = props => {
   };
   
   const handleOk = () => {
-    sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui, tai_khoan: info.taiKhoan}).then(res=>{
+    sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui, tai_khoan: info.stkThanhToan}).then(res=>{
       if (res.status > 0){
         Swal.fire("Thành Công", "Đã nạp tiền thành công", "success");
         setIsShow(!isShow);

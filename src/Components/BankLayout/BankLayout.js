@@ -76,7 +76,8 @@ const BankLayout = props => {
 
       socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
         console.log('co nguoi thanh toan no cho ban: ', data);
-        info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
+        info.soDuHienTai = info.soDuHienTai || 0;
+        info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien);
         audio.play();
         setTokens(info);
         setCount(count+1);
@@ -86,6 +87,7 @@ const BankLayout = props => {
 
       socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
         console.log('co nguoi chuyen tien: ', data);
+        info.soDuHienTai = info.soDuHienTai || 0;
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         audio.play();
         setTokens(info);
