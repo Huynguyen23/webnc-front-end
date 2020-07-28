@@ -12,22 +12,20 @@ const DELETE_SEND_REMINDER = 'DELETE_SEND_REMINDER';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
 // action
 
+const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
 export const getReceiveList = body => dispatch => {
   return (
     fetch(API.RECEIVE_LIST, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("RECEIVE_LIST", res);
         dispatch({ type: RECEIVE_LIST, payload: res });
-        // }
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');
@@ -42,16 +40,13 @@ export const getSendList = body => dispatch => {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("SEND_LIST", res);
         dispatch({ type: SEND_LIST, payload: res });
-        // }
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');
@@ -61,13 +56,13 @@ export const getSendList = body => dispatch => {
 };
 
 export const addReminder = body => dispatch => {
-  console.log("add", body)
   return (
     fetch(API.ADD_REMINDER, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
@@ -86,12 +81,12 @@ export const updateReminder = body => dispatch => {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         if (res.status > 0) {
           dispatch({ type: UPDATE_REMINDER, payload: body });
         }
@@ -105,17 +100,16 @@ export const deleteReminder = body => dispatch => {
     method: 'POST',
     body:JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
+      'x-access-token': `${accessToken}`
     }
   })
     .then(response => response.json())
     .then(res => {
       if (body.nguoi_xoa === 1) {
-        
         dispatch({ type: DELETE_RECIEVER_REMINDER, payload: body.stk_nguoi_nhan });
         return res;
       } else {
-        console.log("stk_nguoi_nhan", res)
         dispatch({ type: DELETE_SEND_REMINDER, payload: body.stk_nguoi_gui });
         return res;
       }
@@ -128,7 +122,8 @@ export const payDebt = body => dispatch => {
     method: 'POST',
     body:JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
+      'x-access-token': `${accessToken}`
     }
   })
     .then(response => response.json())

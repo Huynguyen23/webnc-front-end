@@ -25,12 +25,14 @@ const { Title } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
+
 export const BankTransfer = props => {
   const {data, getReceiverList} = props;
   const [isShow, setIsShow] = useState(true);
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
+  const [isDisable, setIsDisable] = useState(true);
   const [bankList, setBankList] = useState([]);
   const [form] = Form.useForm();
   const layout = {
@@ -49,8 +51,6 @@ export const BankTransfer = props => {
   
   };
   const onFinish = param => {
-    
-    console.log("param", param);
     setValue(param);
     getOTP({stk_thanh_toan: info.stkThanhToan}); 
     setOTP(!OTP);
@@ -59,7 +59,9 @@ export const BankTransfer = props => {
   const btnClearHandler = () => {
     form.resetFields()
   };
-  const onChange = () => {getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
+  const onChange = () => {
+    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'), id_ngan_hang:form.getFieldValue('id_ngan_hang')}, form.setFieldsValue)
+  };
   
   const callback = () => {
     setIsShow(!isShow);
@@ -119,47 +121,42 @@ export const BankTransfer = props => {
           <Form.Item name="stk_nguoi_gui" label='TÀI KHOẢN THANH TOÁN NGUỒN' initialValue={info.stkThanhToan}>
           <Input readOnly />
           </Form.Item>
-          <Form.Item name="ten_nguoi_gui" label="TÊN NGƯỜI GỬI" initialValue={info.ten}>
-            <Input readOnly/>
-          </Form.Item>
-          <Form.Item name="stk_nguoi_nhan" initialValue ='' label="TÀI KHOẢN NGƯỜI NHẬN" required={{message:"Không được để trống"}}>
-            <Input onBlur={onChange}/>
-          </Form.Item>
-          <Form.Item name="ten" label="TÊN NGƯỜI NHẬN" initialValue =''> 
-            <Input />
-          </Form.Item>
-          <Form.Item name="ten_ngan_hang" label="NGÂN HÀNG" initialValue =''> 
+          <Form.Item name="id_ngan_hang" label="NGÂN HÀNG" initialValue =''> 
             <Select
              showSearch
-             allowClear
              placeholder="Ngân Hàng"
              optionFilterProp="children"
+             onChange={()=>setIsDisable(false)}
              filterOption={(input, option) =>
-               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+               option.children.toLowerCase().indexOf(input.toLowerCase()) > 0
              }
             >
               {[
-                ...bankList?.map(i => (
+                ...bankList?.map(i => i.id !== 0 && (
                   <Option key={i.id} value={i.id}>
                     {i.ten}
                   </Option>
-                )),
-                <Option key={null} value={null}>
-                  Khác
-                </Option>
+                ))
               ]}
             </Select>
           </Form.Item>
-          <Form.Item name="so_tien_gui" initialValue ='' label="SỐ TIỀN GỬI">
-            <Input />
+          <Form.Item name="stk_nguoi_nhan" initialValue ='' label="TÀI KHOẢN NGƯỜI NHẬN" required={{message:"Không được để trống"}}>
+            <Input disabled= {isDisable} onBlur={onChange}/>
+          </Form.Item>
+          <Form.Item name="ten_nguoi_nhan" label="TÊN NGƯỜI NHẬN" initialValue =''> 
+            <Input disabled= {isDisable} />
+          </Form.Item>
+         
+          <Form.Item name="so_tien" initialValue ='' label="SỐ TIỀN GỬI">
+            <Input disabled= {isDisable}/>
           </Form.Item>
           <Form.Item name="noi_dung" initialValue ='' label="NỘI DUNG CHUYỂN TIỀN">
-            <TextArea />
+            <TextArea disabled= {isDisable}/>
           </Form.Item>
-          <Form.Item name="phi" label="PHÍ GIAO DỊCH" initialValue = "0">
+          <Form.Item name="type" label="PHÍ GIAO DỊCH" initialValue = {1}>
           <Select>
-            <Option value="0" >Người Gửi Thanh Toán</Option>
-            <Option value="1">Người Chuyển Thanh Toán</Option>
+            <Option value={1}>Người Chuyển Thanh Toán</Option>
+            <Option value={2} >Người Gửi Thanh Toán</Option>
           </Select>
           </Form.Item>
           <Form.Item>
@@ -181,7 +178,7 @@ export const BankTransfer = props => {
         </Form>   
         <Table
         columns={columns}
-        dataSource={data}
+        dataSource={data.filter(i=>i.id_ngan_hang !== 0)}
         loading={loading}
         rowKey='stk_nguoi_nhan'
         title={()=> "DANH SÁCH NGƯỜI NHẬN"}

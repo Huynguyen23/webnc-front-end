@@ -131,7 +131,7 @@ export const InterBankTransfer = props => {
           <Form.Item name="noi_dung" initialValue ='' label="NỘI DUNG CHUYỂN TIỀN">
             <TextArea />
           </Form.Item>
-          <Form.Item name="phi" label="PHÍ GIAO DỊCH" initialValue = "0">
+          <Form.Item name="type" label="PHÍ GIAO DỊCH" initialValue = "0">
           <Select>
             <Option value="0" >Người Gửi Thanh Toán</Option>
             <Option value="1">Người Chuyển Thanh Toán</Option>
@@ -156,7 +156,7 @@ export const InterBankTransfer = props => {
         </Form>   
         <Table
         columns={columns}
-        dataSource={data}
+        dataSource={data.filter(i=>i.id_ngan_hang === 0)}
         loading={loading}
         rowKey='stk_nguoi_nhan'
         title={()=> "DANH SÁCH NGƯỜI NHẬN"}

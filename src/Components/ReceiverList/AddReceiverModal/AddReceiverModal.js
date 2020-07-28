@@ -61,7 +61,7 @@ const AddReceiverModal = props => {
       });
   };
   const onBlur =()=>{
-    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, setField).then(data =>{
+    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'),id_ngan_hang:form.getFieldValue('id_ngan_hang')}, setField).then(data =>{
       const temp ={...data};
       temp.ten_goi_nho = temp.ten;
       form.setFieldsValue(temp);

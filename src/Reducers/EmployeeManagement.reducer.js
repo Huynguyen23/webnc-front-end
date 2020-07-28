@@ -11,18 +11,15 @@ const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
 const PROMOTE_EMPLOYEE = 'PROMOTE_EMPLOYEE';
 // action
 
+const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
 export const getEmployeeList = body => dispatch => {
   return (
     fetch(API.EMPLOYEE_LIST, {
       method: 'GET'
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("RECEIVE_LIST", res);
         dispatch({ type: EMPLOYEE_LIST, payload: res });
-        // }
         return res;
       })
       .catch(() => {
@@ -33,13 +30,13 @@ export const getEmployeeList = body => dispatch => {
 };
 
 export const addEmployee = body => dispatch => {
-  console.log("body", body);
   return (
     fetch(API.ADD_EMPLOYEE, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
@@ -61,12 +58,12 @@ export const updateEmployee = body => dispatch => {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
         if (res.status > 0) {
           dispatch({ type: UPDATE_EMPLOYEE, payload: body });
         }
@@ -80,7 +77,8 @@ export const promoteEmployee = body => dispatch => {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
@@ -98,7 +96,8 @@ export const deleteEmployee = body => dispatch => {
     method: 'PUT',
     body:JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
+      'x-access-token': `${accessToken}`
     }
   })
     .then(response => response.json())
@@ -130,7 +129,6 @@ export const employeeList = (state = [], action) => {
       promoteEmployee.cap_bac = action.payload.so_bac;
       return state;
     case DELETE_EMPLOYEE:
-      console.log("body", action.payload)
       return state.filter(item => item.id !== action.payload);
     default:
       return state;

@@ -23,7 +23,6 @@ const CreateAcct = () => {
     },
   };
   const onFinish = (param) => {
-    console.log("param", moment(param.ngay_sinh).format("YYYY-MM-DD"));
     param.ngay_sinh = moment(param.ngay_sinh).format("YYYY-MM-DD");
     addUser(param).then(res=>{
       if(res.status < 0){

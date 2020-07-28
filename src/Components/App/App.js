@@ -37,14 +37,14 @@ function App() {
 
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
-      // const token = JSON.parse(localStorage.getItem('tokens'));
-      // const { exp } = decode(token.accessToken);
-      // if (exp < new Date().getTime() / 1000) {
-      //   setAuthTokens(false);
-      //   localStorage.removeItem('tokens');
-      // }else {
+      const token = JSON.parse(localStorage.getItem('tokens'));
+      const { exp } = decode(token.accessToken);
+      if (exp < new Date().getTime() / 1000) {
+        console.log("r", exp < new Date().getTime() / 1000)
+        setAuthTokens(false);
+      }else {
         setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
-      // }
+      }
     } catch {
       console.log("error");
     }
@@ -55,27 +55,31 @@ function App() {
   };
   useEffect(() => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
+    
     if(tokens!== null){
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-          if (res){
-          tokens.accessToken = res.accessToken;
-          setTokens(tokens);
-          }else {
-            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-          }
-        });
-        // setAuthTokens(false);
+
+        console.log("expfgdfghgghfhgfh", exp);
+        // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+        //   if (res){
+        //   tokens.accessToken = res.accessToken;
+        //   setTokens(tokens);
+        //   }else {
+        //     Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+        //   }
+        // });
+        setAuthTokens(false);
         // localStorage.removeItem('tokens');
       } else {
-        
+        console.log("time");
         // const time = Number.parseInt(exp*60000 - new Date().getTime());
-        const time = Number.parseInt(exp - new Date().getTime() / 1000)*1000;
+        const time = Number.parseInt(exp  - new Date().getTime() / 1000)*800;
         setTimeout(() => {
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
             setTokens(tokens);
+            console.log("time", time);
           });
           
         }, time);

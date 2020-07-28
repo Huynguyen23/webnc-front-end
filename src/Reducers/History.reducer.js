@@ -8,23 +8,20 @@ const PAY_HISTORY = 'PAY_HISTORY';
 const DEBT_HISTORY = 'DEBT_HISTORY';
 
 // action
-
+const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
 export const getReceiveHistoryList = body => dispatch => {
   return (
     fetch(API.RECEIVE_HISTORY, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("getReceiveHistoryList", res);
         dispatch({ type: RECEIVE_HISTORY, payload: res });
-        // }
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');
@@ -39,16 +36,13 @@ export const getPayHistoryList = body => dispatch => {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("getPayHistoryList", res);
         dispatch({ type: PAY_HISTORY, payload: res });
-        // }
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');
@@ -63,16 +57,13 @@ export const getDebtHistoryList = body => dispatch => {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
       }
     })
       .then(response => response.json())
-      // return getData()
       .then(res => {
-        // if (res === true) {
-          console.log("getDebtHistoryList", res);
         dispatch({ type: DEBT_HISTORY, payload: res });
-        // }
       })
       .catch(() => {
         Swal.fire('Lỗi', 'Lỗi mạng', 'error');
