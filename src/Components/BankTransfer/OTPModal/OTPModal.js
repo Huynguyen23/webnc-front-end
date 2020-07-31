@@ -1,10 +1,8 @@
 import { Modal, Button, Form } from 'antd';
 import Swal from 'sweetalert2';
 import OTPInput, { ResendOTP } from '../../../lib';
-import useResendOTP from "../../../lib/hooks/resendOTP";
- import OtpInput from 'react-otp-input';
-import React, { useState, useEffect } from 'react';
-import { getOTP, verify, inPay } from '../../../Reducers/Actions/Bank';
+import React, { useState } from 'react';
+import { getOTP, verify, outerPay } from '../../../Reducers/Actions/Bank';
 import './OTPModal.css';
 const OTPModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
@@ -12,12 +10,15 @@ const OTPModal = props => {
   const [loading, setLoading] = useState(false);
   const [OTP, setOTP] = useState("");
   const onFinish = param => {
+    console.log("val", value);
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
-      inPay(value).then(res=> {
+      outerPay(value).then(res=> {
         if(res.status > 0){
           Swal.fire('Thông Báo', 'Đã chuyển tiền thành công', "success");
           clear();
+        } else {
+          Swal.fire('Lỗi', 'Không thể chuyển tiền lúc này', "error");
         }
       });
       handleCancel();
@@ -65,7 +66,6 @@ const OTPModal = props => {
           OTPLength={6}
           otpType="number"
           disabled={false}
-          secure
         />
         <ResendOTP onResendClick={() => getOTP({stk_thanh_toan: info.stkThanhToan})}/>
         {/* <OtpInput

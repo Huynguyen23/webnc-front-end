@@ -51,6 +51,7 @@ const onChange= value => {
                   style={{
                     fontWeight: 'bold',
                     marginBottom: 10,
+                    borderRadius:4,
                     color: 'rgba(0, 0, 0, 0.8)'
                   }}
                 >

@@ -1,18 +1,22 @@
 import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
+import {message} from 'antd';
 import API from '../../../Services/API';
+import URL from '../../../Services/URL';
 
+const {accessToken} = JSON.parse(localStorage.getItem('tokens'))|| "";
+const BANK_INFO_URL = ["user/info", "money-partner-group2/info", "money-partner-group15/info"]
 export const login = (username, password, callBack) => {
   return fetch(API.LOGIN, {
     method: 'POST',
     body:`stk_thanh_toan=${username}&ma_pin=${password}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'x-access-token': `${accessToken}`
     }
   })
     .then(response => response.json())
     .then(res => {
-      console.log("res",res);
       if (res.accessToken) {
         callBack(res);
       } else {
@@ -26,22 +30,29 @@ export const login = (username, password, callBack) => {
 };
 
 export const getUserInfo = (body, callBack) => {
-  console.log("getUserInfo", body);
-  return fetch(API.GET_USER_INFO, {
+  const url = BANK_INFO_URL[body.id_ngan_hang || 0]
+  return fetch(`${URL}/api/`+ url, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': `${accessToken}`
     }
   })
   .then(response => response.json())
     .then(res => {
-      
       if (res.data) {
-        console.log("GET_USER_INFO",res);
-        callBack(res.data);
+        if(body.id_ngan_hang){
+          res.data = {
+            ten_nguoi_nhan: res.data.ten
+          }
+          callBack(res.data);
+        } else {
+          callBack(res.data);
+        }
         return res.data;
       } else {
+        message.error('Không tìm thấy thông tin');
         callBack([]);
         return false;
       }
@@ -53,17 +64,16 @@ export const getUserInfo = (body, callBack) => {
 };
 
 export const addUser = (body) => {
-  console.log("addUser", body);
   return fetch(API.ADD_USER, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': `${accessToken}`
     }
   })
   .then(response => response.json())
     .then(res => {
-      console.log("ADD_USER",res);
       return res;
     })
     .catch(error => {
@@ -72,17 +82,16 @@ export const addUser = (body) => {
 };
 
 export const changePass = body =>{
-  console.log("body",body)
   return fetch(API.CHANGE_PASS, {
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': `${accessToken}`
     }
   })
   .then(response => response.json())
     .then(res => {
-      console.log("CHANGE_PASS",res);
       return res;
     })
     .catch(error => {
@@ -96,12 +105,12 @@ export const resetPass = body =>{
     method: 'PUT',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': `${accessToken}`
     }
   })
   .then(response => response.json())
     .then(res => {
-      console.log("FORGOT_PASS",res);
       return res;
     })
     .catch(error => {
@@ -110,17 +119,16 @@ export const resetPass = body =>{
 }
 
 export const changeAccessToken = body =>{
-  console.log("body",body)
   return fetch(API.GET_NEW_TOKEN, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-access-token': `${accessToken}`
     }
   })
     .then(response => response.json())
     .then(res => {
-      console.log("res", res);
       return res;
     })
     .catch(error => {

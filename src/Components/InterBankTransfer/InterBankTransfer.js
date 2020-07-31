@@ -27,7 +27,6 @@ const { TextArea } = Input;
 
 export const InterBankTransfer = props => {
   const {data, getReceiverList} = props;
-  const [isShow, setIsShow] = useState(true);
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
@@ -43,13 +42,10 @@ export const InterBankTransfer = props => {
       setLoading(false);
     });
   }, [getReceiverList, info.stkThanhToan]);
-  const handleOk = () => {
-  
-  };
+
   const onFinish = param => {
-    
     setValue(param);
-    getOTP({stk_thanh_toan: info.stkThanhToan}); 
+    getOTP({stk_thanh_toan: info.stkThanhToan, type: 1}); 
     setOTP(!OTP);
   };
 
@@ -58,9 +54,6 @@ export const InterBankTransfer = props => {
   };
   const onChange = () => {getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
   
-  const callback = () => {
-    setIsShow(!isShow);
-  };
   const columns = [
     {
       title: 'Chọn',
@@ -131,7 +124,7 @@ export const InterBankTransfer = props => {
           <Form.Item name="noi_dung" initialValue ='' label="NỘI DUNG CHUYỂN TIỀN">
             <TextArea />
           </Form.Item>
-          <Form.Item name="phi" label="PHÍ GIAO DỊCH" initialValue = "0">
+          <Form.Item name="type" label="PHÍ GIAO DỊCH" initialValue = "0">
           <Select>
             <Option value="0" >Người Gửi Thanh Toán</Option>
             <Option value="1">Người Chuyển Thanh Toán</Option>
@@ -156,7 +149,7 @@ export const InterBankTransfer = props => {
         </Form>   
         <Table
         columns={columns}
-        dataSource={data}
+        dataSource={data.filter(i=>i.id_ngan_hang === 0)}
         loading={loading}
         rowKey='stk_nguoi_nhan'
         title={()=> "DANH SÁCH NGƯỜI NHẬN"}
