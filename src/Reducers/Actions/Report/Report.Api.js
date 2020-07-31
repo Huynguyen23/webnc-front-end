@@ -2,10 +2,15 @@ import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
 import API from '../../../Services/API';
 
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getReportList = () => {
   return (
     fetch(API.REPORT_LIST, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
+      }
     })
       .then(response => response.json())
 
@@ -21,7 +26,11 @@ export const getReportList = () => {
 export const getBankList = () => {
   return (
     fetch(API.GET_BANK_LIST, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
+      }
     })
       .then(response => response.json())
 
