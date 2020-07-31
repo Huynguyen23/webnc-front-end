@@ -15,7 +15,6 @@ const ReportManagement = () => {
   const [total, setTotal] = useState(0);
   const [bankList, setBankList] = useState([]); 
   const [reportList, setReportList] = useState([]);
-  const [form] = Form.useForm();
   
   useEffect(()=>{
     setLoading(true);
@@ -37,8 +36,6 @@ const ReportManagement = () => {
     setTotal(t);
     let temp = data.slice();
     temp = temp.map(i => ({...i, ten_ngan_hang: bankList.find(t=>t.id === i.id_ngan_hang_doi_tac).ten}))
-    console.log("temp", temp)
-    //setData(temp);
     setReportList(temp);
   }, [bankList]);
   const onChange = () => {

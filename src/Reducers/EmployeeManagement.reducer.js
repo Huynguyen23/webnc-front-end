@@ -15,7 +15,11 @@ const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getEmployeeList = body => dispatch => {
   return (
     fetch(API.EMPLOYEE_LIST, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'x-access-token': `${accessToken}`
+      }
     })
       .then(response => response.json())
       .then(res => {

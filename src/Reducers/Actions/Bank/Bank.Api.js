@@ -7,7 +7,11 @@ const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 const BANK_URL =["", "money-partner-group2/add-money", "money-partner-group15/add-money" ]
 export const getBankList = (callBack) => {
   return fetch(API.GET_BANK_LIST, {
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'x-access-token': `${accessToken}`
+    }
   })
     .then(response => response.json())
     .then(res => {
@@ -49,7 +53,6 @@ export const verify = (body) => {
   })
     .then(response => response.json())
     .then(res => {
-      console.log("otp", res)
       return res;
     })
     .catch(error => {
@@ -99,7 +102,6 @@ export const outerPay = (body) => {
 };
 
 export const sendMoney = (body) => {
-  console.log("body", body);
   return fetch(API.SEND_MONEY, {
     method: 'POST', 
     body: JSON.stringify(body),
@@ -110,7 +112,6 @@ export const sendMoney = (body) => {
   })
     .then(response => response.json())
     .then(res => {
-      console.log("sendMoney", res)
       return res;
     })
     .catch(error => {
