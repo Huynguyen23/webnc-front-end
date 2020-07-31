@@ -4,7 +4,7 @@ import {message} from 'antd';
 import API from '../../../Services/API';
 import URL from '../../../Services/URL';
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens'))|| "";
 const BANK_INFO_URL = ["user/info", "money-partner-group2/info", "money-partner-group15/info"]
 export const login = (username, password, callBack) => {
   return fetch(API.LOGIN, {

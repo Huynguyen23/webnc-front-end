@@ -28,7 +28,6 @@ const { TextArea } = Input;
 
 export const BankTransfer = props => {
   const {data, getReceiverList} = props;
-  const [isShow, setIsShow] = useState(true);
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
@@ -47,12 +46,9 @@ export const BankTransfer = props => {
     });
     getBankList(setBankList);
   }, [getReceiverList, info.stkThanhToan]);
-  const handleOk = () => {
-  
-  };
   const onFinish = param => {
     setValue(param);
-    getOTP({stk_thanh_toan: info.stkThanhToan}); 
+    getOTP({stk_thanh_toan: info.stkThanhToan, type: 1}); 
     setOTP(!OTP);
   };
 
@@ -61,10 +57,6 @@ export const BankTransfer = props => {
   };
   const onChange = () => {
     getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'), id_ngan_hang:form.getFieldValue('id_ngan_hang')}, form.setFieldsValue)
-  };
-  
-  const callback = () => {
-    setIsShow(!isShow);
   };
   const columns = [
     {

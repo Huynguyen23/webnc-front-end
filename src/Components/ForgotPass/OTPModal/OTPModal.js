@@ -10,7 +10,7 @@ const OTPModal = props => {
   const [OTP, setOTP] = useState("");
 
   useEffect(()=>{
-    getOTP({stk_thanh_toan: value});
+    getOTP({stk_thanh_toan: value, type: 0});
   },[show, value]);
   const onFinish = param => {
     setLoading(true);

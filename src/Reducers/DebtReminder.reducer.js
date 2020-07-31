@@ -12,7 +12,7 @@ const DELETE_SEND_REMINDER = 'DELETE_SEND_REMINDER';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || ""
 export const getReceiveList = body => dispatch => {
   return (
     fetch(API.RECEIVE_LIST, {

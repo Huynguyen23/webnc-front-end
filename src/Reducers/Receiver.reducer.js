@@ -9,7 +9,7 @@ const DELETE_RECEIVER = 'DELETE_RECEIVER';
 const UPDATE_RECEIVER = 'UPDATE_RECEIVER';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getReceiverList = body => dispatch => {
   return (
     fetch(API.RECEIVER_LIST, {

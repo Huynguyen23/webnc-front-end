@@ -8,7 +8,7 @@ const PAY_HISTORY = 'PAY_HISTORY';
 const DEBT_HISTORY = 'DEBT_HISTORY';
 
 // action
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getReceiveHistoryList = body => dispatch => {
   return (
     fetch(API.RECEIVE_HISTORY, {

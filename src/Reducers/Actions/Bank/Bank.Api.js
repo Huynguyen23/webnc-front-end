@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import API from '../../../Services/API';
 import URL from '../../../Services/URL';
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 const BANK_URL =["", "money-partner-group2/add-money", "money-partner-group15/add-money" ]
 export const getBankList = (callBack) => {
   return fetch(API.GET_BANK_LIST, {

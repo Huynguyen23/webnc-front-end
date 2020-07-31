@@ -11,7 +11,7 @@ const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
 const PROMOTE_EMPLOYEE = 'PROMOTE_EMPLOYEE';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))
+const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getEmployeeList = body => dispatch => {
   return (
     fetch(API.EMPLOYEE_LIST, {

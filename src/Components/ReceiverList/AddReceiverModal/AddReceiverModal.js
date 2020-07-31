@@ -72,7 +72,6 @@ const AddReceiverModal = props => {
     form
       .validateFields()
       .then(v => {
-        console.log("v", banklist);
         setLoading(true);
         const param = v;
         param.ten = banklist.find(i=>i.id === param.id_ngan_hang).ten;

@@ -10,7 +10,6 @@ import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
 import socketIOClient from "socket.io-client";
-import { notification } from 'antd';
 import decode from 'jwt-decode';
 import { ChangePass } from '../ChangePass';
 import { InterBankTransfer } from '../InterBankTransfer';
@@ -40,7 +39,6 @@ function App() {
       const token = JSON.parse(localStorage.getItem('tokens'));
       const { exp } = decode(token.accessToken);
       if (exp < new Date().getTime() / 1000) {
-        console.log("r", exp < new Date().getTime() / 1000)
         setAuthTokens(false);
       }else {
         setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
@@ -60,7 +58,6 @@ function App() {
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
 
-        console.log("expfgdfghgghfhgfh", exp);
         // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
         //   if (res){
         //   tokens.accessToken = res.accessToken;
@@ -72,14 +69,12 @@ function App() {
         setAuthTokens(false);
         // localStorage.removeItem('tokens');
       } else {
-        console.log("time");
         // const time = Number.parseInt(exp*60000 - new Date().getTime());
         const time = Number.parseInt(exp  - new Date().getTime() / 1000)*800;
         setTimeout(() => {
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
             setTokens(tokens);
-            console.log("time", time);
           });
           
         }, time);

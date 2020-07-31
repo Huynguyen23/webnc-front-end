@@ -40,7 +40,6 @@ export const DebtReminder = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const {data, data1, payDebt, addReminder, deleteReminder, getSendList, getReceiveList} = props;
   const [isModal, setIsModal] = useState(false);
-  const [isOk, setIsOk] = useState(false);
   const socket = useSocket();
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -178,7 +177,6 @@ export const DebtReminder = props => {
   };
 
   const handleDelete = param => {
-    console.log("param", param);
     setLoading(true);
     deleteReminder(param).then(res=>{
       if(res.status > 0){
@@ -280,23 +278,8 @@ export const DebtReminder = props => {
           style={{ verticalAlign: 'center', color:'#00CD00' }}
           onClick={() => {
             setValues(record);
-            getOTP({stk_thanh_toan: info.stkThanhToan}); 
+            getOTP({stk_thanh_toan: info.stkThanhToan, type: 2}); 
             setOTP(!OTP);
-            // if (isOk) {
-            //   console.log("isOk")
-            //   payDebt({
-            //     id : record.id,
-            //     stk_nguoi_gui: record.stk_nguoi_nhan,
-            //     ten_nguoi_gui: record.ten,
-            //     noi_dung_xoa: "hoan tat"
-            //   }).then(res=>{
-            //     if(res.status > 0){
-            //       Swal.fire('Thông Báo', 'Đã Thanh Toán Nợ Thành Công', "success");
-            //     } else {
-            //       Swal.fire('Lỗi', 'Lỗi Không Thể Thanh Toán Nợ', "error");
-            //     }
-            //   });
-            // }
           }}
         /> 
         : <CheckOutlined />

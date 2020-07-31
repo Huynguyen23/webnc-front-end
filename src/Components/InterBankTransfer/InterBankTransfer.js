@@ -27,7 +27,6 @@ const { TextArea } = Input;
 
 export const InterBankTransfer = props => {
   const {data, getReceiverList} = props;
-  const [isShow, setIsShow] = useState(true);
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
@@ -43,13 +42,10 @@ export const InterBankTransfer = props => {
       setLoading(false);
     });
   }, [getReceiverList, info.stkThanhToan]);
-  const handleOk = () => {
-  
-  };
+
   const onFinish = param => {
-    
     setValue(param);
-    getOTP({stk_thanh_toan: info.stkThanhToan}); 
+    getOTP({stk_thanh_toan: info.stkThanhToan, type: 1}); 
     setOTP(!OTP);
   };
 
@@ -58,9 +54,6 @@ export const InterBankTransfer = props => {
   };
   const onChange = () => {getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
   
-  const callback = () => {
-    setIsShow(!isShow);
-  };
   const columns = [
     {
       title: 'Chọn',
