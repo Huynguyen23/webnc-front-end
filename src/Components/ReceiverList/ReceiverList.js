@@ -47,7 +47,6 @@ export const ReceiverList = props => {
   }, [getReceiverList, info.stkThanhToan]);
 
   const onFinish = param => {
-    console.log("param", param);
     param.stk_nguoi_gui = info.stkThanhToan;
     getReceiverList(param).finally(() => {
       setLoading(false);

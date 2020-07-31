@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Layout,
   Row,
@@ -7,24 +7,16 @@ import {
   Button,
   Typography,
   Form,
-  Select,
   Result,
   Input,
   Card
 } from 'antd';
 import {
   InteractionFilled,
-  CopyFilled,
-  IdcardFilled
 } from '@ant-design/icons';
 import './PayMoney.css';
-import { getUserInfo } from '../../Reducers/Actions/Users';
-import {getOTP} from '../../Reducers/Actions/Bank';
-import { Redirect, Route, BrowserRouter as Router } from 'react-router-dom';
 const { Content } = Layout;
 const { Title,Text } = Typography;
-const { Option } = Select;
-const { TextArea } = Input;
 
 export const PayMoney = props => {
   const [payInfo, setPayInfo] = useState({});
@@ -34,20 +26,13 @@ export const PayMoney = props => {
     labelCol: { span: 24 },
     wrapperCol: { span: 6 }
   };
-  
-  const handleOk = () => {
-  
-  };
+
   const onFinish = param => {
     setIsShow(!isShow);
     console.log(param);
     setPayInfo(param);
   };
 
-  const handleDelete = param => {
-    
-  };
-  
   const result = () => {
     
     return (
