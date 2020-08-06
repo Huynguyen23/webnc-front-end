@@ -2,8 +2,9 @@ import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
 import API from '../../../Services/API';
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
+
 export const getReportList = () => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.REPORT_LIST, {
       method: 'GET',
@@ -24,6 +25,7 @@ export const getReportList = () => {
   );
 };
 export const getBankList = () => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.GET_BANK_LIST, {
       method: 'GET',

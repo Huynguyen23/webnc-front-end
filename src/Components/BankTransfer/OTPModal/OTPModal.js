@@ -10,7 +10,6 @@ const OTPModal = props => {
   const [loading, setLoading] = useState(false);
   const [OTP, setOTP] = useState("");
   const onFinish = param => {
-    console.log("val", value);
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
       outerPay(value).then(res=> {

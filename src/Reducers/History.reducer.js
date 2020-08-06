@@ -8,8 +8,9 @@ const PAY_HISTORY = 'PAY_HISTORY';
 const DEBT_HISTORY = 'DEBT_HISTORY';
 
 // action
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
+
 export const getReceiveHistoryList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.RECEIVE_HISTORY, {
       method: 'POST',
@@ -31,6 +32,7 @@ export const getReceiveHistoryList = body => dispatch => {
 };
 
 export const getPayHistoryList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.PAY_HISTORY, {
       method: 'POST',
@@ -52,6 +54,7 @@ export const getPayHistoryList = body => dispatch => {
 };
 
 export const getDebtHistoryList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.DEBT_HISTORY, {
       method: 'POST',

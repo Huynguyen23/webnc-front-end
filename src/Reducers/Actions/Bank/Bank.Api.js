@@ -3,9 +3,10 @@ import Swal from 'sweetalert2';
 import API from '../../../Services/API';
 import URL from '../../../Services/URL';
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
+
 const BANK_URL =["", "money-partner-group2/add-money", "money-partner-group15/add-money" ]
 export const getBankList = (callBack) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.GET_BANK_LIST, {
     method: 'GET',
     headers: {
@@ -24,6 +25,7 @@ export const getBankList = (callBack) => {
 };
 
 export const getOTP = (body, callBack) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.GET_OTP, {
     method: 'POST', 
     body: JSON.stringify(body),
@@ -43,6 +45,7 @@ export const getOTP = (body, callBack) => {
 };
 
 export const verify = (body) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.VERIFY, {
     method: 'POST', 
     body: JSON.stringify(body),
@@ -62,6 +65,7 @@ export const verify = (body) => {
     });
 };
 export const inPay = (body) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.PAY_MONEY, {
     method: 'POST', 
     body: JSON.stringify(body),
@@ -81,6 +85,7 @@ export const inPay = (body) => {
     });
 };
 export const outerPay = (body) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   const url = BANK_URL[body.id_ngan_hang];
   return fetch(`${URL}/api/`+ url, {
     method: 'POST', 
@@ -102,6 +107,7 @@ export const outerPay = (body) => {
 };
 
 export const sendMoney = (body) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.SEND_MONEY, {
     method: 'POST', 
     body: JSON.stringify(body),

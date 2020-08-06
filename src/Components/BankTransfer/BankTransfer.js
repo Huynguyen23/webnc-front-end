@@ -15,7 +15,6 @@ import {
   InteractionFilled,
   CopyFilled,
 } from '@ant-design/icons';
-import Swal from 'sweetalert2';
 import './BankTransfer.css';
 import { getUserInfo } from '../../Reducers/Actions/Users';
 import {getOTP, getBankList} from '../../Reducers/Actions/Bank';

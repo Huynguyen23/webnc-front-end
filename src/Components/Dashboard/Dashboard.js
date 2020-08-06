@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import { Card, Table , Row, Col, Descriptions , Typography } from 'antd';
+import {Table , Row, Col, Descriptions , Typography } from 'antd';
 import { BookFilled } from '@ant-design/icons';
 import { getInfo } from '../../Reducers/Actions/Home';
 import moment from 'moment';
@@ -13,7 +13,6 @@ const Dashboard = () => {
   useEffect(()=>{
     getInfo( info.stkThanhToan, setDataAcct);
   }, [info.stkThanhToan]);
-  console.log('dataAcct',dataAcct);
   const columns = [
     {
       title: 'Số tài khoản',

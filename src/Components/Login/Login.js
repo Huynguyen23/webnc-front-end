@@ -33,7 +33,6 @@ const Login = () => {
     }
   };
 const onChange= value => {
-  console.log("Captcha value:", value);
   if (value){
     setExpired(true);
   }
