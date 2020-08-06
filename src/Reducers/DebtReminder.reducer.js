@@ -12,8 +12,9 @@ const DELETE_SEND_REMINDER = 'DELETE_SEND_REMINDER';
 const UPDATE_REMINDER = 'UPDATE_REMINDER';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || ""
 export const getReceiveList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
+  console.log("accessToken", accessToken);
   return (
     fetch(API.RECEIVE_LIST, {
       method: 'POST',
@@ -35,6 +36,7 @@ export const getReceiveList = body => dispatch => {
 };
 
 export const getSendList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.SEND_LIST, {
       method: 'POST',
@@ -56,6 +58,7 @@ export const getSendList = body => dispatch => {
 };
 
 export const addReminder = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.ADD_REMINDER, {
       method: 'POST',
@@ -76,6 +79,7 @@ export const addReminder = body => dispatch => {
 };
 
 export const updateReminder = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.UPDATE_REMINDER, {
       method: 'PUT',
@@ -96,6 +100,7 @@ export const updateReminder = body => dispatch => {
 };
 
 export const deleteReminder = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.DELETE_REMINDER, {
     method: 'POST',
     body:JSON.stringify(body),
@@ -118,6 +123,7 @@ export const deleteReminder = body => dispatch => {
 };
 
 export const payDebt = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.PAY_DEBT, {
     method: 'POST',
     body:JSON.stringify(body),

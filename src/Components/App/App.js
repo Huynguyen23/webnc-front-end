@@ -10,6 +10,7 @@ import { Login } from '../Login';
 import { BankLayout } from '../BankLayout';
 import { ReceiverList } from '../ReceiverList';
 import socketIOClient from "socket.io-client";
+import Swal from 'sweetalert2';
 import decode from 'jwt-decode';
 import { ChangePass } from '../ChangePass';
 import { InterBankTransfer } from '../InterBankTransfer';
@@ -26,8 +27,8 @@ import { Dashboard } from '../Dashboard';
 import { EmployeeManagement } from '../EmployeeManagement';
 import { ReportManagement } from '../ReportManagement';
 import { ForgotPass } from '../ForgotPass';
-import {changeAccessToken} from '../../Reducers/Actions/Users'
-import Swal from 'sweetalert2';
+import {changeAccessToken} from '../../Reducers/Actions/Users';
+
 const ENDPOINT = "http://localhost:3000";
 
 function App() {
@@ -38,8 +39,11 @@ function App() {
     try {
       const token = JSON.parse(localStorage.getItem('tokens'));
       const { exp } = decode(token.accessToken);
+      console.log("APP 0", token, JSON.parse(localStorage.getItem('tokens')));
       if (exp < new Date().getTime() / 1000) {
+        console.log("APP 1", token, JSON.parse(localStorage.getItem('tokens')));
         setAuthTokens(false);
+        localStorage.removeItem('tokens');
       }else {
         setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
       }
@@ -57,21 +61,23 @@ function App() {
     if(tokens!== null){
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-
-        // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-        //   if (res){
-        //   tokens.accessToken = res.accessToken;
-        //   setTokens(tokens);
-        //   }else {
-        //     Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-        //   }
-        // });
-        setAuthTokens(false);
+        console.log("APP 2", tokens, JSON.parse(localStorage.getItem('tokens')));
+        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+          if (res){
+            console.log("token", res);
+          tokens.accessToken = res.accessToken;
+          setTokens(tokens);
+          }else {
+            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+          }
+        });
+        // setAuthTokens(false);
         // localStorage.removeItem('tokens');
       } else {
         // const time = Number.parseInt(exp*60000 - new Date().getTime());
         const time = Number.parseInt(exp  - new Date().getTime() / 1000)*800;
         setTimeout(() => {
+          console.log("APP 3", tokens, JSON.parse(localStorage.getItem('tokens')));
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
             setTokens(tokens);

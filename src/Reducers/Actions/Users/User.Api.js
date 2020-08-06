@@ -4,9 +4,9 @@ import {message} from 'antd';
 import API from '../../../Services/API';
 import URL from '../../../Services/URL';
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens'))|| "";
 const BANK_INFO_URL = ["user/info", "money-partner-group2/info", "money-partner-group15/info"]
 export const login = (username, password, callBack) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.LOGIN, {
     method: 'POST',
     body:`stk_thanh_toan=${username}&ma_pin=${password}`,
@@ -30,6 +30,7 @@ export const login = (username, password, callBack) => {
 };
 
 export const getUserInfo = (body, callBack) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   const url = BANK_INFO_URL[body.id_ngan_hang || 0]
   return fetch(`${URL}/api/`+ url, {
     method: 'POST',
@@ -64,6 +65,7 @@ export const getUserInfo = (body, callBack) => {
 };
 
 export const addUser = (body) => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.ADD_USER, {
     method: 'POST',
     body: JSON.stringify(body),
@@ -82,6 +84,7 @@ export const addUser = (body) => {
 };
 
 export const changePass = body =>{
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.CHANGE_PASS, {
     method: 'PUT',
     body: JSON.stringify(body),
@@ -100,7 +103,8 @@ export const changePass = body =>{
   
 }
 
-export const resetPass = body =>{
+export const resetPass = body => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.FORGOT_PASS, {
     method: 'PUT',
     body: JSON.stringify(body),
@@ -119,6 +123,7 @@ export const resetPass = body =>{
 }
 
 export const changeAccessToken = body =>{
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.GET_NEW_TOKEN, {
     method: 'POST',
     body: JSON.stringify(body),

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Layout, Menu, Dropdown,Badge, notification, Row, Col } from 'antd';
+import { Layout, Menu, Dropdown,Badge, Row, Col } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -165,7 +165,6 @@ const BankLayout = props => {
     }
 
     if (tempList.length > 0){
-      console.log("tempList", tempList);
       tempList = tempList.filter(i=> i.key !== "0");
     }
     setList(tempList);

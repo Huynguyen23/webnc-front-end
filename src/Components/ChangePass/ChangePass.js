@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { KeyOutlined } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
 import { useAuth } from '../Routes/Context';
-import OtpInput from 'react-otp-input';
 import Swal from 'sweetalert2';
 import {changePass} from '../../Reducers/Actions/Users';
 

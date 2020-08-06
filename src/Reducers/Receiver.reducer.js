@@ -9,8 +9,9 @@ const DELETE_RECEIVER = 'DELETE_RECEIVER';
 const UPDATE_RECEIVER = 'UPDATE_RECEIVER';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
+
 export const getReceiverList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.RECEIVER_LIST, {
       method: 'POST',
@@ -32,6 +33,7 @@ export const getReceiverList = body => dispatch => {
 };
 
 export const addReceiver = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   const param = {...body};
   delete param.ten;
   return (
@@ -54,6 +56,7 @@ export const addReceiver = body => dispatch => {
 };
 
 export const updateReceiver = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.UPDATE_RECEIVER, {
       method: 'PUT',
@@ -74,7 +77,7 @@ export const updateReceiver = body => dispatch => {
 };
 
 export const deleteReceiver = body => dispatch => {
-
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.DELETE_RECEIVER, {
     method: 'PUT',
     body:JSON.stringify(body),

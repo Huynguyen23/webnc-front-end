@@ -11,8 +11,8 @@ const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE';
 const PROMOTE_EMPLOYEE = 'PROMOTE_EMPLOYEE';
 // action
 
-const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
 export const getEmployeeList = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.EMPLOYEE_LIST, {
       method: 'GET',
@@ -34,6 +34,7 @@ export const getEmployeeList = body => dispatch => {
 };
 
 export const addEmployee = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.ADD_EMPLOYEE, {
       method: 'POST',
@@ -57,6 +58,7 @@ export const addEmployee = body => dispatch => {
 };
 
 export const updateEmployee = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.UPDATE_EMPLOYEE, {
       method: 'PUT',
@@ -76,6 +78,7 @@ export const updateEmployee = body => dispatch => {
   );
 };
 export const promoteEmployee = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return (
     fetch(API.PROMOTE_EMPLOYEE, {
       method: 'PUT',
@@ -96,6 +99,7 @@ export const promoteEmployee = body => dispatch => {
 };
 
 export const deleteEmployee = body => dispatch => {
+  const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
   return fetch(API.DELETE_EMPLOYEE, {
     method: 'PUT',
     body:JSON.stringify(body),
