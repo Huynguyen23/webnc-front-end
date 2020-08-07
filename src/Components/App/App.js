@@ -39,9 +39,7 @@ function App() {
     try {
       const token = JSON.parse(localStorage.getItem('tokens'));
       const { exp } = decode(token.accessToken);
-      console.log("APP 0", token, JSON.parse(localStorage.getItem('tokens')));
       if (exp < new Date().getTime() / 1000) {
-        console.log("APP 1", token, JSON.parse(localStorage.getItem('tokens')));
         setAuthTokens(false);
         localStorage.removeItem('tokens');
       }else {
@@ -52,46 +50,44 @@ function App() {
     }
   }
   const setTokens = data => {
+
     localStorage.setItem('tokens', JSON.stringify(data));
     setAuthTokens(data);
   };
   useEffect(() => {
+
     const tokens = JSON.parse(localStorage.getItem('tokens'));
-    
-    if(tokens!== null){
+    if(tokens!== null) {
+
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-        console.log("APP 2", tokens, JSON.parse(localStorage.getItem('tokens')));
+
         changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
           if (res){
-            console.log("token", res);
           tokens.accessToken = res.accessToken;
           setTokens(tokens);
           }else {
             Swal.fire("Lỗi", "Mất kết nối mạng", "error");
           }
         });
-        // setAuthTokens(false);
-        // localStorage.removeItem('tokens');
       } else {
-        // const time = Number.parseInt(exp*60000 - new Date().getTime());
-        const time = Number.parseInt(exp  - new Date().getTime() / 1000)*800;
+        const time = Number.parseInt(exp  - new Date().getTime() / 1000)*0.8;
         setTimeout(() => {
-          console.log("APP 3", tokens, JSON.parse(localStorage.getItem('tokens')));
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
             setTokens(tokens);
           });
-          
         }, time);
       }
     }
   }, []);
   useEffect(() => {
+
     const socket = socketIOClient(ENDPOINT);
     setSocket(socket);
     if(authTokens){
       if (socket) {
+        
         const tokens = JSON.parse(localStorage.getItem('tokens'));
         if(tokens !== null){
           socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
