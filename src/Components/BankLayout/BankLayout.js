@@ -164,7 +164,7 @@ const BankLayout = props => {
         break;
     }
 
-    if (tempList.length > 0){
+    if (tempList.length > 0 && tempList[1]){
       tempList = tempList.filter(i=> i.key !== "0");
     }
     setList(tempList);
