@@ -33,6 +33,7 @@ const ENDPOINT = "http://localhost:3000";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
+  const [refresh, setRefresh] = useState(false);
   const [socket, setSocket] = useState(null);
 
   if (localStorage.getItem('tokens') && authTokens === '') {
@@ -42,6 +43,7 @@ function App() {
       if (exp < new Date().getTime() / 1000) {
         setAuthTokens(false);
         localStorage.removeItem('tokens');
+        setRefresh(true);
       }else {
         setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
       }
@@ -55,13 +57,10 @@ function App() {
     setAuthTokens(data);
   };
   useEffect(() => {
-
     const tokens = JSON.parse(localStorage.getItem('tokens'));
     if(tokens!== null) {
-
       const { exp } = decode(tokens.accessToken);
       if (exp < new Date().getTime() / 1000) {
-
         changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
           if (res){
           tokens.accessToken = res.accessToken;
@@ -70,17 +69,19 @@ function App() {
             Swal.fire("Lỗi", "Mất kết nối mạng", "error");
           }
         });
-      } else {
-        const time = Number.parseInt(exp  - new Date().getTime() / 1000)*0.8;
+      } else { 
+        const time = Number.parseInt(exp  - new Date().getTime() / 1000)*900;
         setTimeout(() => {
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
+            setRefresh(true);
             setTokens(tokens);
           });
         }, time);
       }
     }
-  }, []);
+  }, [refresh]);
+
   useEffect(() => {
 
     const socket = socketIOClient(ENDPOINT);

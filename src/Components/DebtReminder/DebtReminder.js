@@ -88,7 +88,6 @@ export const DebtReminder = props => {
 
   useEffect(()=>{
     setLoading(true);
-    console.log("useEffect", info);
     getSendList({stk_nguoi_gui:info.stkThanhToan}).finally(()=>{
       setLoading(false);
     });
