@@ -43,7 +43,6 @@ function App() {
       if (exp < new Date().getTime() / 1000) {
         setAuthTokens(false);
         localStorage.removeItem('tokens');
-        setRefresh(true);
       }else {
         setAuthTokens(JSON.parse(localStorage.getItem('tokens')));
       }
@@ -58,9 +57,15 @@ function App() {
   };
   useEffect(() => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
-    if(tokens!== null) {
-      const { exp } = decode(tokens.accessToken);
-      if (exp < new Date().getTime() / 1000) {
+    //if(tokens!== null) {
+      
+      if(!tokens) {
+        setAuthTokens(false);
+        localStorage.removeItem('tokens');
+        return;
+      }
+      const {exp} = decode(tokens.accessToken);
+      if (exp < new Date().getTime() / 1000 ) {
         changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
           if (res){
           tokens.accessToken = res.accessToken;
@@ -79,8 +84,8 @@ function App() {
           });
         }, time);
       }
-    }
-  }, [refresh]);
+    //}
+  }, [refresh, authTokens]);
 
   useEffect(() => {
 
