@@ -52,7 +52,6 @@ export const ReceiverList = props => {
       setLoading(false);
     });
   };
-
   const handleDelete = record => {
     const param ={
       stk_nguoi_gui: info.stkThanhToan,
@@ -99,7 +98,6 @@ export const ReceiverList = props => {
         <EditFilled
           style={{ verticalAlign: 'center' }}
           onClick={() => {
-            console.log("ngan hang", record);
             setValues(record);
             setVisible(true);
           }}

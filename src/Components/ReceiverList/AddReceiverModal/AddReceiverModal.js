@@ -13,6 +13,7 @@ const AddReceiverModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const { show, handleCancel, values, addReceiver, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [field, setField] =useState({});
   const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
@@ -64,6 +65,11 @@ const AddReceiverModal = props => {
     getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'),id_ngan_hang:form.getFieldValue('id_ngan_hang')}, setField).then(data =>{
       const temp ={...data};
       temp.ten_goi_nho = temp.ten;
+      if(temp.ten_goi_nho !== ""){
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
       form.setFieldsValue(temp);
     });
     
@@ -157,7 +163,7 @@ const AddReceiverModal = props => {
             label="Tên Gợi Nhớ"
             style={{fontWeight:'bold'}}
           >
-            <Input />
+            <Input disabled={isDisabled}/>
           </Form.Item>
           <Form.Item
           name="id_ngan_hang"
@@ -174,7 +180,7 @@ const AddReceiverModal = props => {
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
-              disabled={values ? true : false}
+              disabled={isDisabled}
             >
                {[
                 ...banklist?.map(i => (
