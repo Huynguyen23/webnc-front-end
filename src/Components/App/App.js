@@ -33,7 +33,6 @@ const ENDPOINT = "http://localhost:3000";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
-  const [refresh, setRefresh] = useState(false);
   const [socket, setSocket] = useState(null);
 
   if (localStorage.getItem('tokens') && authTokens === '') {
@@ -57,8 +56,6 @@ function App() {
   };
   useEffect(() => {
     const tokens = JSON.parse(localStorage.getItem('tokens'));
-    //if(tokens!== null) {
-      
       if(!tokens) {
         setAuthTokens(false);
         localStorage.removeItem('tokens');
@@ -79,13 +76,11 @@ function App() {
         setTimeout(() => {
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
-            setRefresh(true);
             setTokens(tokens);
           });
         }, time);
       }
-    //}
-  }, [refresh, authTokens]);
+  }, [authTokens]);
 
   useEffect(() => {
 
