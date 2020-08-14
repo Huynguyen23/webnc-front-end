@@ -223,7 +223,11 @@ export const DebtReminder = props => {
       dataIndex: 'tg_tao',
       render: (text, record) =>{
         return moment(record.tg_tao, 'YYYY-MM-DD HH:mm:ss').fromNow();
-      }
+      },
+      sorter: {
+        compare: (a, b) => a.tg_tao > b.tg_tao,
+        multiple: 1,
+      },
     },
     {
       title: 'Trạng Thái',
@@ -314,7 +318,11 @@ export const DebtReminder = props => {
       dataIndex: 'tg_tao',
       render: (text, record) =>{
         return moment(record.tg_tao, 'YYYY-MM-DD HH:mm:ss').fromNow();
-      }
+      },
+      sorter: {
+        compare: (a, b) => a.tg_tao > b.tg_tao,
+        multiple: 1,
+      },
     },
     {
       title: 'Trạng Thái',
