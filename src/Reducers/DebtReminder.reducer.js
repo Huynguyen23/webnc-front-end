@@ -14,7 +14,6 @@ const UPDATE_REMINDER = 'UPDATE_REMINDER';
 
 export const getReceiveList = body => dispatch => {
   const {accessToken} = JSON.parse(localStorage.getItem('tokens')) || "";
-  console.log("accessToken", accessToken);
   return (
     fetch(API.RECEIVE_LIST, {
       method: 'POST',

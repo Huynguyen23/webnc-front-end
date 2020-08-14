@@ -21,10 +21,11 @@ const OTPModal = props => {
     setLoading(true);
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
+       console.log("values",values)
         payDebt({
           id : values.id,
           stk_nguoi_gui: values.stk_nguoi_nhan,
-          ten_nguoi_gui: values.ten,
+          ten_nguoi_gui: info.ten,
           noi_dung_xoa: "hoan tat"
         }).then(res=>{
           if(res.status > 0){

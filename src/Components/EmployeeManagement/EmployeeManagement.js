@@ -85,30 +85,23 @@ export const EmployeeManagement = props => {
 
   const onFinish = param => {
     let temp = employeeList.slice();
-    console.log("temp0", temp)
     if(param.tai_khoan) {
       temp = temp.filter(i=>i.tai_khoan.includes(param.tai_khoan));
-      console.log("temp1", temp)
     }
     if (param.ten) {
       temp = temp.filter(i=>i.tai_khoan.includes(param.ten));
-      console.log("temp2", temp)
     }
     if (param.ngay_sinh && param.ngay_sinh[0]) {
       temp = temp.filter(i=>moment(i.ngay_sinh) >= moment(param.ngay_sinh[0]));
-      console.log("temp3", temp)
     }
     if (param.ngay_sinh && param.ngay_sinh[1]) {
       temp = temp.filter(i=>moment(i.ngay_sinh) <= moment(param.ngay_sinh[1]));
-      console.log("temp4", temp)
     }
     if (param.ngay_tao && param.ngay_tao[0]) {
       temp = temp.filter(i=>moment(i.ngay_tao) >= moment(param.ngay_tao[0]));
-      console.log("temp5", temp)
     }
     if (param.ngay_tao && param.ngay_tao[1]) {
       temp = temp.filter(i=>moment(i.ngay_tao) <= moment(param.ngay_tao[1]));
-      console.log("temp6", temp)
     }
     setData(temp);
   };

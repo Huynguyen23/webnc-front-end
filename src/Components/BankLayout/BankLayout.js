@@ -21,7 +21,7 @@ const BankLayout = props => {
   const [type, setType] = useState(-1);
   const [response, setResponse] = useState();
   const [list, setList] =useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(-1);
   const socket = useSocket();
   const { setAuthTokens } = useAuth();
   const [audio] = useState(new Audio('./messenger.mp3'));
@@ -41,9 +41,19 @@ const BankLayout = props => {
       const newList = list.filter(i=> i.key !== item.key);
       setList(newList);
     }
+    if(count <= 0) {
+      setCount(0);
+      setList([<Menu.Item key="0" style={{fontWeight:'bold'}} onClick={onClick}>
+      <Link to="/" >Bạn không có thông báo mới</Link>
+    </Menu.Item>]);
+    }
     return <Redirect to="/history"/>
 
   }
+  useEffect(()=>{
+    let countTemp = count + 1;
+    setCount(countTemp);
+  }, [response] )
   useEffect(() => {
     if (socket) {
       socket.emit("stkTT", JSON.parse(localStorage.getItem("tokens")).stkThanhToan);
@@ -52,16 +62,15 @@ const BankLayout = props => {
       // });
       socket.on('debt', data =>{ // co nguoi nhac no minh
         console.log('debt: co nguoi nhac no minh', data);
+        console.log("count", count)
         audio.play();
         setResponse(data);
-        setCount(count+1);
         setType(1);
       });
 
       socket.on('deleteDebt0', data =>{ // no tu huy nhac no cua no rồi
         console.log('debt: nguoi ta tu huy nhac no cua nguoi ta: ',data);
         audio.play();
-        setCount(count+1);
         setResponse(data);
         setType(2);
       });
@@ -69,29 +78,28 @@ const BankLayout = props => {
       socket.on('deleteDebt1', data =>{ // nó dám hủy nhắc nợ của mình !!!
         console.log('nguoi ta huy nhac no cua minh: ',data);
         audio.play();
-        setCount(count+1);
         setResponse(data);
         setType(3);
       });
 
       socket.on('payDebt', data=>{ // bạn hiền đã thanh toán nhắc nợ cho mình r nè
         console.log('co nguoi thanh toan no cho ban: ', data);
+        
         info.soDuHienTai = info.soDuHienTai || 0;
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien);
         audio.play();
         setTokens(info);
-        setCount(count+1);
         setResponse(data);
         setType(4);
       });
 
       socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
         console.log('co nguoi chuyen tien: ', data);
+        console.log("count",count)
         info.soDuHienTai = info.soDuHienTai || 0;
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         audio.play();
         setTokens(info);
-        setCount(count+1);
         setResponse(data);
         setType(5);
       });
@@ -101,13 +109,11 @@ const BankLayout = props => {
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         audio.play();
         setTokens(info);
-        setCount(count+1);
         setResponse(data);
         setType(6);
       });
       socket.on('notification', data=>{ // thông báo khi ko online
         console.log('notification: ', data);
-        setCount(count+1);
         setResponse(data);
         audio.play();
       });
@@ -125,11 +131,11 @@ const BankLayout = props => {
   
     switch (type) {
       case 0:
-        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}>
+        tempList.push(<Menu.Item key={tempList.lenght + 1} style={{fontWeight:'bold'}} onClick={onClick}>
           <Link to="/history">{response?.ten_nguoi_gui} đã chuyển tiền cho bạn.</Link></Menu.Item>);
         break;
       case 1:
-        tempList.push(<Menu.Item key={tempList.lenght} style={{fontWeight:'bold'}} onClick={onClick}>
+        tempList.push(<Menu.Item key={tempList.lenght + 1} style={{fontWeight:'bold'}} onClick={onClick}>
           <Link to="/debt-reminder">Bạn nhận được 1 nhắc nợ từ {response.ten_nguoi_gui}</Link>
         </Menu.Item>);
         break;
@@ -140,7 +146,7 @@ const BankLayout = props => {
         break;
       case 3:
         tempList.push(<Menu.Item key={tempList.length + 1} style={{fontWeight:'bold'}} onClick={onClick}>
-          <Link to="/debt-reminder">{response.stk_nguoi_gui} đã hủy nhắc nợ của bạn.</Link>
+          <Link to="/debt-reminder">{response.ten_nguoi_xoa} đã hủy nhắc nợ của bạn.</Link>
         </Menu.Item>);
         break;
       case 4:
@@ -218,7 +224,7 @@ const BankLayout = props => {
           </Col>
           <Col span={ collapsed ? 12: 10}>
             <div style={{float:'right'}}>
-            <Badge className="ant-badge" count={count > 0 ? count : ""} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
+            <Badge className="ant-badge" count={count} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
               <Dropdown overlay={menuNoti}>
                 <BellFilled style={{marginTop:24,fontSize:20}}/>
               </Dropdown>
