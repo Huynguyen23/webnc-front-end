@@ -31,6 +31,7 @@ export const BankTransfer = props => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
   const [isDisable, setIsDisable] = useState(true);
+  const [isDisBtn, setIsDisBtn] = useState(true);
   const [bankList, setBankList] = useState([]);
   const [form] = Form.useForm();
   const layout = {
@@ -55,7 +56,12 @@ export const BankTransfer = props => {
     form.resetFields()
   };
   const onChange = () => {
-    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'), id_ngan_hang:form.getFieldValue('id_ngan_hang')}, form.setFieldsValue)
+    setIsDisBtn(true);
+    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'), id_ngan_hang:form.getFieldValue('id_ngan_hang')}, form.setFieldsValue).then(res=>{
+      if(res.status > 0 || res.status === undefined) {
+        setIsDisBtn(false);
+      }
+    })
   };
   const columns = [
     {
@@ -151,7 +157,7 @@ export const BankTransfer = props => {
           </Select>
           </Form.Item>
           <Form.Item>
-            <Button style={{backgroundColor:"#006600", border:"#006600"}} type="primary" htmlType="submit" >
+            <Button style={{backgroundColor:"#006600", border:"#006600", color: "#FFFFFF"}} type="primary" htmlType="submit" disabled={isDisBtn}>
               THANH TOÁN
             </Button>
               {OTP && (
