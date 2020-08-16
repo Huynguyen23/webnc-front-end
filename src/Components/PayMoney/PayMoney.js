@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Layout,
   Row,
@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
   Form,
-  Select,
   Result,
   Input,
   Card

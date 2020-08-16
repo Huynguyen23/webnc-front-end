@@ -162,7 +162,7 @@ const AddReceiverModal = props => {
           <Form.Item
           name="id_ngan_hang"
           label="Ngân Hàng"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "Vui lòng chọn ngân hàng!" }]}
           style={{fontWeight:'bold'}}
           initialValue = {0}
           >
@@ -182,17 +182,14 @@ const AddReceiverModal = props => {
                   <Option key={i.id} value={i.id}>
                     {i.ten}
                   </Option>
-                )),
-                <Option key={null} value={null}>
-                  Khác
-                </Option>
+                ))
               ]}
           </Select>
           </Form.Item>
           <Form.Item
             name="stk_nguoi_nhan"
             label="Số Tài Khoản"
-            rules={[{ required: true }, { type: 'string', message: "Vui lòng nhập số tài khoản!" }]}
+            rules={[{ required: true, message: "Vui lòng nhập số tài khoản!" }]}
             style={{fontWeight:'bold'}}
           >
             <Input onBlur={onBlur} disabled={!!values} style={{color:'#666666'}}/>

@@ -12,7 +12,6 @@ import {
 } from '@ant-design/icons';
 import './MenuLeft.css';
 import {RemindIcon, TransfrerIcon, CreateAcctIcon, RechargeIcon, EmployeeIcon} from './icons';
-const { SubMenu } = Menu;
 const MenuLeft = props => {
   const role = JSON.parse(localStorage.getItem('tokens')).role;
   const {collapsed} =props;

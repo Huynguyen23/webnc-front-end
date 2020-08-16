@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SecurityScanFilled } from '@ant-design/icons';
 import { Layout, Row, Col, Form, Input, Button } from 'antd';
-import { useAuth } from '../Routes/Context';
-import Swal from 'sweetalert2';
 import {OTPModal} from './OTPModal';
 import {ChangePassModal} from './ChangePassModal';
 import './ForgotPass.css';
 import { Redirect } from 'react-router-dom';
-import { useForm } from 'antd/lib/form/util';
 
 const { Content } = Layout;
 

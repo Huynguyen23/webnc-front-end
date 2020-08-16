@@ -15,7 +15,6 @@ import {
   InteractionFilled
 } from '@ant-design/icons';
 import './History.css';
-// import moment from 'moment';
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -36,17 +35,6 @@ export const History = props => {
       getDebtHistoryList({stk_nguoi_thanh_toan:info.stkThanhToan})
     }
   }, [getDebtHistoryList, getPayHistoryList, getReceiveHistoryList, info.stkThanhToan, role]);
-//   id: 4
-// nguoi_xoa: 1
-// noi_dung: "tra tien de ban"
-// noi_dung_xoa: "ok ban"
-// so_tien: "2400000"
-// stk_nguoi_gui: "3423595061234"
-// stk_nguoi_nhan: "4999655041234"
-// ten: "Âu Dương Phong"
-// tg_tao: "2020-06-22T13:50:36.000Z"
-// tg_xoa: "2020-06-22T13:53:00.000Z"
-// trang_thai: 2
   const onFinish = param => {
       getReceiveHistoryList({stk_nguoi_nhan:param.stk});
       getPayHistoryList({stk_nguoi_gui:param.stk});
@@ -96,27 +84,12 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian_gui',
-      // render:(text, record)=>{
-      //   return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
-      // },
       sorter: {
         compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
         multiple: 1,
       },
     },
   ];
-  // "id": 2,
-  // "id_ngan_hang_gui": 0,
-  // "id_ngan_hang_nhan": 0,
-  // "phi": "3000",
-  // "stk_nguon": "1234567891234",
-  // "stk_dich": "4505168721234",
-  // "ten_nguoi_gui": "",
-  // "ten_nguoi_nhan": "",
-  // "noi_dung": "tra luong thang 6",
-  // "so_tien_gui": "300000",
-  // "so_tien_nhan": "300000",
-  // "thoi_gian_gui": "2020-06-17 10:46:27"
   const columns2 = [
     {
       title: 'Người Nhận',
@@ -160,23 +133,12 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian_gui',
-      // render:(text, record)=>{
-      //   return moment(record.thoi_gian_gui, 'YYYY-MM-DD').calendar();
-      // },
       sorter: {
         compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
         multiple: 1,
       },
     },
   ];
-  // "id": 2,
-  // "thoi_gian": "2020-06-17 16:51:44",
-  // "stk_nguon": "3423595061234",
-  // "stk_dich": "1234567891234",
-  // "ten_nguoi_nhan": "Nguyễn Văn A",
-  // "ten_nguoi_gui": "Đồ Văn Án",
-  // "noi_dung": "da thanh toan",
-  // "so_tien": "200000"
   const columns3 = [
     {
       title: 'Người Nhận',
@@ -212,8 +174,6 @@ export const History = props => {
           currency: 'VND',
         }).format(text);
       },
-        //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
-        // },
       sorter: {
         compare: (a, b) => a.so_tien - b.so_tien,
         multiple: 2,
@@ -222,9 +182,6 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian',
-      // render:(text, record)=>{
-      //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
-      // },
       sorter: {
         compare: (a, b) => a.thoi_gian < b.thoi_gian,
         multiple: 1,

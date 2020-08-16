@@ -6,7 +6,6 @@ import {
   Col,
   Button,
   Typography,
-  Form,
   Table,
   Popconfirm,
   Space,
@@ -46,12 +45,6 @@ export const DebtReminder = props => {
   const [values, setValues] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-
-  const [form] = Form.useForm();
-  const layout = {
-    labelCol: { span: 24 },
-    wrapperCol: { span: 6 }
-  };
 
   useEffect(() => {
     if (socket) {

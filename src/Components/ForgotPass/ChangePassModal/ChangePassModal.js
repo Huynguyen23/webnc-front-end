@@ -5,7 +5,7 @@ import { SecurityScanFilled } from '@ant-design/icons';
 import {resetPass} from '../../../Reducers/Actions/Users';
 import './ChangePassModal.css';
 const ChangePassModal = props => {
-  const { show, setRedirect, handleCancel, value } = props;
+  const { show, setRedirect, value } = props;
   const [loading, setLoading] = useState(false);
 
   const onFinish = param => {
@@ -29,7 +29,6 @@ const ChangePassModal = props => {
   return (
       <Modal
         visible={show}
-       
         closable={false}
         style={{borderRadius:5}}
         footer={false}
