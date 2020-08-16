@@ -43,14 +43,14 @@ export const getUserInfo = (body, callBack) => {
   .then(response => response.json())
     .then(res => {
       if (res.data) {
-        if(body.id_ngan_hang){
-          res.data = {
-            ten_nguoi_nhan: res.data.ten
-          }
+        // if(body.id_ngan_hang){
+        //   res.data = {
+        //     ten_nguoi_nhan: res.data.ten
+        //   }
+        //   callBack(res.data);
+        // } else {
           callBack(res.data);
-        } else {
-          callBack(res.data);
-        }
+        // }
         return res.data;
       } else {
         message.error('Không tìm thấy thông tin');
