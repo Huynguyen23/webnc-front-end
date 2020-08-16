@@ -224,7 +224,7 @@ const BankLayout = props => {
           </Col>
           <Col span={ collapsed ? 12: 10}>
             <div style={{float:'right'}}>
-            <Badge className="ant-badge" count={count} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
+            <Badge className="ant-badge" count={count > 0 ? count : 0} style={{marginTop:24, fontWeight:'bold',marginRight:20 }}>
               <Dropdown overlay={menuNoti}>
                 <BellFilled style={{marginTop:24,fontSize:20}}/>
               </Dropdown>

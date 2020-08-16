@@ -13,7 +13,6 @@ const AddReceiverModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
   const { show, handleCancel, values, addReceiver, updateReceiver } = props;
   const [loading, setLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
   const [field, setField] =useState({});
   const [banklist, setBankList] = useState([]);
   const [form] = Form.useForm();
@@ -62,18 +61,27 @@ const AddReceiverModal = props => {
       });
   };
   const onBlur =()=>{
-    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'),id_ngan_hang:form.getFieldValue('id_ngan_hang')}, setField).then(data =>{
-      const temp ={...data};
-      temp.ten_goi_nho = temp.ten;
-      if(temp.ten_goi_nho !== ""){
-        setIsDisabled(true);
-      } else {
-        setIsDisabled(false);
-      }
-      form.setFieldsValue(temp);
-    });
-    
+
+    if(form.getFieldValue("stk_nguoi_nhan") !== "" ) {
+      getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'),id_ngan_hang:form.getFieldValue('id_ngan_hang')}, setField).then(data =>{
+        const temp ={...data};
+        temp.ten_goi_nho = temp.ten;
+        form.setFieldsValue(temp);
+      });
+    }
   };
+
+  const onSelectHandler = param => {
+    
+    if(form.getFieldValue("stk_nguoi_nhan") !== "" ) {
+      getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'),id_ngan_hang:form.getFieldValue('id_ngan_hang')}, setField).then(data =>{
+        const temp ={...data};
+        temp.ten_goi_nho = temp.ten;
+        form.setFieldsValue(temp);
+      });
+    }
+  };
+
   const onOk  =  () => {
     form
       .validateFields()
@@ -141,6 +149,7 @@ const AddReceiverModal = props => {
           )
         ]}
       >
+
         <Form
           form={form}
           {...layout}
@@ -149,21 +158,6 @@ const AddReceiverModal = props => {
         >
           <Form.Item name="id" style={{ height: 0 }}>
             <Input hidden />
-          </Form.Item>
-          <Form.Item
-            name="stk_nguoi_nhan"
-            label="Số Tài Khoản"
-            rules={[{ required: true }, { type: 'string' }]}
-            style={{fontWeight:'bold'}}
-          >
-            <Input onBlur={onBlur} disabled={!!values} style={{color:'#666666'}}/>
-          </Form.Item>
-          <Form.Item
-            name="ten_goi_nho"
-            label="Tên Gợi Nhớ"
-            style={{fontWeight:'bold'}}
-          >
-            <Input disabled={isDisabled}/>
           </Form.Item>
           <Form.Item
           name="id_ngan_hang"
@@ -177,10 +171,11 @@ const AddReceiverModal = props => {
               allowClear
               placeholder="Ngân Hàng"
               optionFilterProp="children"
+              onChange={onSelectHandler}
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
-              disabled={isDisabled}
+              disabled={!!values}
             >
                {[
                 ...banklist?.map(i => (
@@ -193,8 +188,23 @@ const AddReceiverModal = props => {
                 </Option>
               ]}
           </Select>
-          
           </Form.Item>
+          <Form.Item
+            name="stk_nguoi_nhan"
+            label="Số Tài Khoản"
+            rules={[{ required: true }, { type: 'string', message: "Vui lòng nhập số tài khoản!" }]}
+            style={{fontWeight:'bold'}}
+          >
+            <Input onBlur={onBlur} disabled={!!values} style={{color:'#666666'}}/>
+          </Form.Item>
+          <Form.Item
+            name="ten_goi_nho"
+            label="Tên Gợi Nhớ"
+            style={{fontWeight:'bold'}}
+          >
+            <Input />
+          </Form.Item>
+         
         </Form>
       </Modal>
   );

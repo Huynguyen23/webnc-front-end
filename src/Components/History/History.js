@@ -100,7 +100,7 @@ export const History = props => {
       //   return moment(record.tg_tao, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui.length - b.thoi_gian_gui.length,
+        compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
         multiple: 1,
       },
     },
@@ -164,7 +164,7 @@ export const History = props => {
       //   return moment(record.thoi_gian_gui, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui.length - b.thoi_gian_gui.length,
+        compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
         multiple: 1,
       },
     },
@@ -226,7 +226,7 @@ export const History = props => {
       //   return moment(record.thoi_gian, 'YYYY-MM-DD').calendar();
       // },
       sorter: {
-        compare: (a, b) => a.thoi_gian.length - b.thoi_gian.length,
+        compare: (a, b) => a.thoi_gian < b.thoi_gian,
         multiple: 1,
       },
     },
