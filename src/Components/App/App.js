@@ -29,7 +29,7 @@ import { ReportManagement } from '../ReportManagement';
 import { ForgotPass } from '../ForgotPass';
 import {changeAccessToken} from '../../Reducers/Actions/Users';
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "https://smartbankinghk.herokuapp.com";
 
 function App() {
   const [authTokens, setAuthTokens] = useState('');
