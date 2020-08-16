@@ -8,7 +8,6 @@ import moment from 'moment';
 import './AddEmployeeModal.css';
 
 const AddEmployeeModal = props => {
-  const info = JSON.parse(localStorage.getItem('tokens'));
   const { show, handleCancel, values, addEmployee, onReset, updateEmployee } = props;
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -18,7 +17,6 @@ const AddEmployeeModal = props => {
   };
 
   const onFill = param => {
-    console.log("param", param)
     
     form.setFieldsValue({
       id: param.id,
@@ -92,7 +90,7 @@ const layoutUpdate =(
         <Form.Item
           name="tai_khoan"
           label="Mã Nhân Viên"
-          rules={[{ required: true }, { type: 'string' }]}
+          rules={[{ required: true, message: "Vui lòng nhập mã nhân viên!" }]}
           style={{fontWeight:'bold'}}
         >
           <Input disabled={!!values} style={{color:'#666666'}}/>

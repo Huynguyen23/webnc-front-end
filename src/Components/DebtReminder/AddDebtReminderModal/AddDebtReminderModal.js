@@ -78,7 +78,7 @@ const AddDebtReminderModal = props => {
           <Form.Item
             name="stk_nguoi_nhan"
             label="Số Tài Khoản"
-            rules={[{ required: true }, { type: 'string' }]}
+            rules={[{ required: true, message: "Vui lòng nhập số tài khoản!" }]}
             style={{fontWeight:'bold'}}
           >
             <Input onBlur={onBlur} style={{color:'#666666'}}/>
@@ -86,14 +86,14 @@ const AddDebtReminderModal = props => {
           <Form.Item
             name="ten"
             label="Tên Gợi Nhớ"
-            rules={[{ required: true }, { type: 'string' }]}
+            rules={[{ required: true, message: "Vui lòng nhập tên gợi nhớ!" }]}
           >
             <Input disabled style={{backgroundColor: '#FFFFFF', color: '#000000', fontWeight: 'bold'}}/>
           </Form.Item>
           <Form.Item
             name="so_tien"
             label="Số Tiền"
-            rules={[{ required: true }, { type: 'string' }]}
+            rules={[{ required: true, message: "Vui lòng nhập số tiền!" }]}
             
           >
             <Input />
@@ -101,7 +101,7 @@ const AddDebtReminderModal = props => {
           <Form.Item
             name="noi_dung"
             label="Nội Dung"
-            rules={[{ required: true }, { type: 'string' }]}
+            rules={[{ required: true, message: "Nội dung chuyển tiền không được trống!" }]}
            
           >
             <Input />

@@ -66,11 +66,6 @@ const Dashboard = () => {
           }
         
       </Descriptions>
-      {/* <Card title="TÀI KHOẢN THANH TOÁN" bordered={false} style={{fontSize:15}}>
-        <p>Chủ Thẻ: {info.ten}</p>
-        <p>Số Tài Khoản: {info.stkThanhToan}</p>
-        <p>Số Dư: {Number(info.soDuHienTai).toLocaleString('vi',{style: 'currency', currency: 'VND'})}</p>
-      </Card>  */}
     </Col>
     </Row>
       <Table

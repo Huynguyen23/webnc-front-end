@@ -115,6 +115,7 @@ const BankLayout = props => {
       socket.on('notification', data=>{ // thông báo khi ko online
         console.log('notification: ', data);
         setResponse(data);
+        setType(data.type);
         audio.play();
       });
     }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Row, Col, Form, Button } from 'antd';
 import OtpInput from 'react-otp-input';
-import Swal from 'sweetalert2';
 import {verify} from '../../Reducers/Actions/Bank';
 
 import './OTP.css';

@@ -1,7 +1,7 @@
 import { Modal, Button, Form } from 'antd';
 import Swal from 'sweetalert2';
 import OTPInput, { ResendOTP } from '../../../lib';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../Routes/Context';
 import { getOTP, verify, inPay } from '../../../Reducers/Actions/Bank';
 import './OTPModal.css';
@@ -23,7 +23,6 @@ const OTPModal = props => {
       inPay(value).then(res=> {
         if(res.status > 0){
           Swal.fire('Thông Báo', 'Đã chuyển tiền thành công', "success");
-          console.log("inPay",parseInt(info.soDuHienTai) + parseInt(value.so_tien_gui))
           info.soDuHienTai = parseInt(info.soDuHienTai) - parseInt(value.so_tien_gui);
           setTokens(info);  
           clear();

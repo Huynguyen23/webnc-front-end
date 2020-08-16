@@ -67,13 +67,6 @@ const OTPModal = props => {
           disabled={false}
         />
         <ResendOTP onResendClick={() => getOTP({stk_thanh_toan: info.stkThanhToan})}/>
-        {/* <OtpInput
-          onChange={otp => setOTP(otp)}
-          numInputs={6}
-          value ={OTP}
-          inputStyle="inputStyle"
-          separator={<span>-</span>}
-        /> */}
       </Modal>
   );
 };
