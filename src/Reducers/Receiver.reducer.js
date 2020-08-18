@@ -105,9 +105,9 @@ export const receiverList = (state = [], action) => {
     case DELETE_RECEIVER:
       return state.filter(item => item.stk_nguoi_nhan !== action.payload);
     case UPDATE_RECEIVER: {
-      const oldValue= state.filter(item => item.stk_nguoi_nhan === action.payload.stk_nguoi_nhan)[0];
-      const newState = state.filter(item => item.stk_nguoi_nhan !== action.payload.stk_nguoi_nhan);
-      return [...newState, {stk_nguoi_nhan:action.payload.stk_nguoi_nhan,ten_goi_nho:action.payload.ten, id_ngan_hang: oldValue.id_ngan_hang}];
+      var receiver = state.find(i=>i.stk_nguoi_nhan=== action.payload.stk_nguoi_nhan);
+      receiver.ten_goi_nho = action.payload.ten;
+      return state;
     }
     default:
       return state;
