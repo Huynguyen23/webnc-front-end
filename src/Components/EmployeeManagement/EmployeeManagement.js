@@ -84,6 +84,7 @@ export const EmployeeManagement = props => {
   };
 
   const onFinish = param => {
+    console.log("param", param);
     let temp = employeeList.slice();
     if(param.tai_khoan) {
       temp = temp.filter(i=>i.tai_khoan.includes(param.tai_khoan));
