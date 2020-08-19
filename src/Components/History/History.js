@@ -14,7 +14,9 @@ import {
 import {
   InteractionFilled
 } from '@ant-design/icons';
+import moment from 'moment';
 import './History.css';
+
 const { Content } = Layout;
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -84,8 +86,9 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian_gui',
+      defaultSortOrder: 'descend',
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
+        compare: (a, b) => moment(a.thoi_gian_gui) - moment(b.thoi_gian_gui),
         multiple: 1,
       },
     },
@@ -103,6 +106,7 @@ export const History = props => {
       title: 'Số Tài Khoản',
       dataIndex: 'stk_dich',
       sorter: {
+        sortDirections:'ascend',
         compare: (a, b) => a.stk_nguoi_nhan.length - b.stk_nguoi_nhan.length,
         multiple: 4,
       },
@@ -133,8 +137,9 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian_gui',
+      defaultSortOrder: 'descend',
       sorter: {
-        compare: (a, b) => a.thoi_gian_gui < b.thoi_gian_gui,
+        compare: (a, b) => moment(a.thoi_gian_gui) - moment(b.thoi_gian_gui),
         multiple: 1,
       },
     },
@@ -182,8 +187,9 @@ export const History = props => {
     {
       title: 'Thời Gian',
       dataIndex: 'thoi_gian',
+      defaultSortOrder: 'descend',
       sorter: {
-        compare: (a, b) => a.thoi_gian < b.thoi_gian,
+        compare: (a, b) => moment(a.thoi_gian) - moment(b.thoi_gian),
         multiple: 1,
       },
     },

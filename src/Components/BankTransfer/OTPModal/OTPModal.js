@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import OTPInput, { ResendOTP } from '../../../lib';
 import React, { useState } from 'react';
 import { getOTP, verify, outerPay } from '../../../Reducers/Actions/Bank';
+import { addReceiver } from '../../../Reducers/Receiver.reducer';
+import store from '../../../Store/store';
 import './OTPModal.css';
 const OTPModal = props => {
   const info = JSON.parse(localStorage.getItem('tokens'));
@@ -12,9 +14,28 @@ const OTPModal = props => {
   const onFinish = param => {
     verify({stk_thanh_toan: info.stkThanhToan, ma_otp: OTP}).then(res =>{
      if(res.status > 0){
-      outerPay(value).then(res=> {
-        if(res.status > 0){
-          Swal.fire('Thông Báo', 'Đã chuyển tiền thành công', "success");
+      outerPay(value).then(resInPay=> {
+        if(resInPay.status > 0){
+          Swal.fire('Thông Báo', 'Đã chuyển tiền thành công', "success").then((result) => {
+            if (result.value && !resInPay.isExist) {
+              Swal.fire({
+                title: 'Bạn có muốn lưu thông tin người nhận ?',
+                icon:'question',
+                showCancelButton: true
+              }).then((res1) =>{
+                if (res1.value) {
+                  var param = resInPay.data;
+                  delete param.isExist;
+                  addReceiver(param)(store.dispatch).then(res2 => {
+                    if (res2.status > 0) {
+                      Swal.fire('Thành Công', 'Đã Thêm Người Nhận Thành Công', 'success');
+                    } else {
+                      Swal.fire('Lỗi', 'Người Nhận Đã Có Trong Danh Sách', 'error');
+                    }
+                  });
+                }
+              })
+            }});
           clear();
         } else {
           Swal.fire('Lỗi', 'Không thể chuyển tiền lúc này', "error");

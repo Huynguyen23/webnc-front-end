@@ -47,6 +47,7 @@ export const addReceiver = body => dispatch => {
     })
       .then(response => response.json())
       .then(res => {
+        console.log("payload", body)
         if (res.status > 0) {
           dispatch({ type: ADD_RECEIVER, payload: body });
         } 
