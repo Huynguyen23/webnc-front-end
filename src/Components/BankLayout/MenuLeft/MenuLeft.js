@@ -66,7 +66,7 @@ const MenuLeft = props => {
       <Menu.Item key="1">
         <Link to="/">
           <HomeOutlined />
-          <span>Danh Sách Tài Khoản</span>
+          <span> Danh Sách Tài Khoản</span>
         </Link>
       </Menu.Item>
       <Menu.Item key="2">
@@ -134,7 +134,7 @@ const MenuLeft = props => {
       <Menu.Item key="1">
         <Link to="/">
           <HomeOutlined />
-          <span>Danh Sách Tài Khoản</span>
+          <span>Thông Tin Tài Khoản</span>
         </Link>
       </Menu.Item>
       <Menu.Item key="6">
@@ -173,7 +173,7 @@ const MenuLeft = props => {
       <Menu.Item key="1">
         <Link to="/">
           <HomeOutlined />
-          <span>Danh Sách Tài Khoản</span>
+          <span>Thông Tin Tài Khoản</span>
         </Link>
       </Menu.Item>
       <Menu.Item key="9">
