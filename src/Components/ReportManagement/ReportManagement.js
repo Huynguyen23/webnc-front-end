@@ -35,36 +35,43 @@ const ReportManagement = () => {
     });
     setTotal(t);
     let temp = data.slice();
-    temp = temp.map(i => ({...i, ten_ngan_hang: bankList.find(t=>t.id === i.id_ngan_hang_doi_tac).ten}))
+    temp = temp.map(i => ({...i, ten_ngan_hang: bankList.find(t=>t.id === i.id_ngan_hang_doi_tac)?.ten}))
+    setData(temp);
     setReportList(temp);
   }, [bankList]);
-  const onChange = () => {
-    
-  };
 
+  useEffect(()=>{
+    let t = 0;
+    reportList.forEach(element => {
+      t += Number(element.so_tien); 
+    });
+    setTotal(t);
+  }, [reportList])
+  const onChange = () => {
+  };
   const onFinish = (param) => {
-    setReportList(data);
+    let temp = data.slice();
     if (param.start_date && param.end_date && (param.start_date > param.end_date)) {
       Swal.fire("Thông báo", "Ngày bắt đầu và ngày kết thúc không hợp lệ", "warning");
       return;
     } 
     if (param.start_date && !param.end_date) {
-      const start_date = moment(param.start_date).format('DD/MM/YYYY');
-      setReportList(reportList.filter(i=>moment(i.thoi_gian).format('DD/MM/YYYY') >= start_date));
-      return;
+      const start_date = moment(param.start_date).format('YYYYMMDD');
+      temp = temp.filter(i=>moment(i.thoi_gian).format('YYYYMMDD') >= start_date);
     }
     if (!param.start_date && param.end_date) {
-      const end_date = moment(param.end_date).format('DD/MM/YYYY');
-      setReportList(reportList.filter(i=>moment(i.thoi_gian).format('DD/MM/YYYY') <= end_date));
+      const end_date = moment(param.end_date).format('YYYYMMDD');
+      temp = temp.filter(i=>moment(i.thoi_gian).format('YYYYMMDD') <= end_date);
     }
     if (param.start_date && param.end_date) {
-      const start_date = moment(param.start_date).format('DD/MM/YYYY');
-      const end_date = moment(param.end_date).format('DD/MM/YYYY');
-      setReportList(reportList.filter(i=>moment(i.thoi_gian).format('DD/MM/YYYY') >= start_date && moment(i.thoi_gian).format('DD/MM/YYYY') <= end_date));
+      const start_date = moment(param.start_date).format('YYYYMMDD');
+      const end_date = moment(param.end_date).format('YYYYMMDD');
+      temp = temp.filter(i=>moment(i.thoi_gian).format('YYYYMMDD') >= start_date && moment(i.thoi_gian).format('YYYYMMDD') <= end_date);
     }
     if (param.bank !== 'all') {
-      setReportList(reportList.filter(i=>i.id_ngan_hang_doi_tac === param.bank));
+      temp = temp.filter(i=>i.id_ngan_hang_doi_tac === param.bank);
     }
+    setReportList(temp);
   };
 
   const columns = [
@@ -96,7 +103,7 @@ const ReportManagement = () => {
       title: 'Ngày Giao Dịch',
       dataIndex: 'thoi_gian',
       render: (value, row, index) => {
-        return moment(value).format('DD/MM/YYYY');
+        return moment(value).format('DD-MM-YYYY');
       }
     }
   ]
