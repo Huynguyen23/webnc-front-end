@@ -95,7 +95,6 @@ const BankLayout = props => {
 
       socket.on('receiveMoney', data=>{ // co nguoi chuyen tien cho minh
         console.log('co nguoi chuyen tien: ', data);
-        console.log("count",count)
         info.soDuHienTai = info.soDuHienTai || 0;
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         audio.play();
@@ -106,6 +105,7 @@ const BankLayout = props => {
 
       socket.on('receiveMoneyEmployee', data=>{ // tự nạp tiền vào tài khoản bằng nhân viên của ngân hàng
         console.log('ngan hang da nap tien cho ban: ', data);
+        info.soDuHienTai = info.soDuHienTai || 0;
         info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
         audio.play();
         setTokens(info);
@@ -114,6 +114,11 @@ const BankLayout = props => {
       });
       socket.on('notification', data=>{ // thông báo khi ko online
         console.log('notification: ', data);
+        if (data.type >= 4) {
+          info.soDuHienTai = info.soDuHienTai || 0;
+          info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
+          setTokens(info);
+        }
         setResponse(data);
         setType(data.type);
         audio.play();

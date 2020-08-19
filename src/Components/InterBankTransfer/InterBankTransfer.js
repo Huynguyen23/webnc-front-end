@@ -30,6 +30,7 @@ export const InterBankTransfer = props => {
   const [OTP, setOTP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState({});
+  const [isDisBtn, setIsDisBtn] = useState(true);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 24 },
@@ -50,9 +51,10 @@ export const InterBankTransfer = props => {
   };
 
   const btnClearHandler = () => {
+    setIsDisBtn(true);
     form.resetFields()
   };
-  const onChange = () => {getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
+  const onChange = () => {setIsDisBtn(true); getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
   
   const columns = [
     {
@@ -131,7 +133,7 @@ export const InterBankTransfer = props => {
           </Select>
           </Form.Item>
           <Form.Item>
-            <Button style={{backgroundColor:"#006600", border:"#006600"}} type="primary" htmlType="submit" >
+            <Button style={{backgroundColor:"#006600", border:"#006600", color: "#FFFFFF"}} type="primary" htmlType="submit" disabled={isDisBtn}>
               THANH TOÁN
             </Button>
               {OTP && (

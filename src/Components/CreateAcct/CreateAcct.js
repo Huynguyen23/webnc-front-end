@@ -28,7 +28,27 @@ const CreateAcct = () => {
       if(res.status < 0){
         Swal.fire('Lỗi', res.msg, 'error');
       } else {
-        Swal.fire('Chúc Mừng', res.msg, 'success');
+        console.log("res", res);
+        Swal.fire({
+          title: 'THÔNG TIN TÀI KHOẢN',
+          icon:'success',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          // eslint-disable-next-line no-useless-concat
+          html:
+          'Tên:' + res?.ten +'<br/>'+
+          'Số tài khoản: ' + res?.stk_thanh_toan + '<br/>' +
+          'Số dư hiện tại: ' +res?.so_du_hien_tai + 'VND<br/>'+
+          'Số CMND: ' + res?.cmnd + '<br/>'+
+          'Email: '+ res?.email + '<br/>'+
+          'Ngày sinh:' + res?.ngay_sinh + '<br/>'+
+          'Số điện thoại: ' + res?.so_dien_thoai + '<br/>'+
+          'Ngày tạo: ' + res?.ngay_tao,
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        });
       }
       
     });

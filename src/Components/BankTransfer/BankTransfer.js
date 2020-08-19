@@ -53,11 +53,16 @@ export const BankTransfer = props => {
   };
 
   const btnClearHandler = () => {
+    setIsDisBtn(true);
     form.resetFields()
   };
   const onChange = () => {
     setIsDisBtn(true);
     getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan'), id_ngan_hang:form.getFieldValue('id_ngan_hang')}, form.setFieldsValue).then(res=>{
+      console.log("res", res);
+      const temp ={...res};
+      temp.ten_nguoi_nhan = temp.ten;
+      form.setFieldsValue(temp);
       if(res.status > 0 || res.status === undefined) {
         setIsDisBtn(false);
       }
@@ -141,7 +146,7 @@ export const BankTransfer = props => {
             <Input disabled= {isDisable} onBlur={onChange}/>
           </Form.Item>
           <Form.Item name="ten_nguoi_nhan" label="TÊN NGƯỜI NHẬN" initialValue =''> 
-            <Input disabled= {isDisable} />
+            <Input disabled= {isDisable} readOnly/>
           </Form.Item>
          
           <Form.Item name="so_tien" initialValue ='' label="SỐ TIỀN GỬI">

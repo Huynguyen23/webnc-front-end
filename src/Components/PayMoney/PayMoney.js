@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons';
 import './PayMoney.css';
 import {sendMoney} from '../../Reducers/Actions/Bank';
+import { getUserInfo } from '../../Reducers/Actions/Users';
 import Swal from 'sweetalert2';
 const { Content } = Layout;
 const { Title,Text } = Typography;
@@ -29,7 +30,12 @@ export const PayMoney = props => {
     labelCol: { span: 24 },
     wrapperCol: { span: 6 }
   };
-  
+
+  const onBlur =()=>{
+    getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue).then(res=>{
+      console.log("res", res);
+    });
+  };
   const handleOk = () => {
     sendMoney({stk_nguoi_nhan: payInfo.stk_nguoi_nhan, so_tien_gui: payInfo.so_tien_gui, tai_khoan: info.stkThanhToan}).then(res=>{
       if (res.status > 0){
@@ -103,7 +109,10 @@ export const PayMoney = props => {
         </Row>
         <Form form={form} {...layout} onFinish={onFinish} name="control-hooks">
           <Form.Item name="stk_nguoi_nhan" hasFeedback label="SỐ TÀI KHOẢN"  rules={[{ required: true, message:"Không được để trống"}]}>
-            <Input />
+            <Input onBlur={onBlur}/>
+          </Form.Item>
+          <Form.Item name="ten_goi_nho" label="CHỦ TÀI KHOẢN" >
+            <Input readOnly />
           </Form.Item>
           <Form.Item name="so_tien_gui" hasFeedback label="SỐ TIỀN GỬI" rules={[{ required: true, message:"Vui lòng nhập số tiền gửi"}]}>
             <Input />
