@@ -114,13 +114,15 @@ const BankLayout = props => {
       });
       socket.on('notification', data=>{ // thông báo khi ko online
         console.log('notification: ', data);
-        if (data.type >= 4) {
-          info.soDuHienTai = info.soDuHienTai || 0;
-          info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(data.so_tien_gui);
-          setTokens(info);
-        }
-        setResponse(data);
-        setType(data.type);
+        data.forEach(element => {
+          if (element.type >= 4) {
+            info.soDuHienTai = info.soDuHienTai || 0;
+            info.soDuHienTai = parseInt(info.soDuHienTai) + parseInt(element.noi_dung.so_tien || element.noi_dung.so_tien_gui);
+          }
+          setResponse(element.noi_dung);
+          setType(element.type);
+        });
+        setTokens(info);
         audio.play();
       });
     }
