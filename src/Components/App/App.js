@@ -34,7 +34,7 @@ const ENDPOINT = "https://smartbankinghk.herokuapp.com";
 function App() {
   const [authTokens, setAuthTokens] = useState('');
   const [socket, setSocket] = useState(null);
-
+  const [myTime, setMyTime] = useState(null);
   if (localStorage.getItem('tokens') && authTokens === '') {
     try {
       const token = JSON.parse(localStorage.getItem('tokens'));
@@ -59,26 +59,29 @@ function App() {
       if(!tokens) {
         setAuthTokens(false);
         localStorage.removeItem('tokens');
+        clearTimeout(myTime);
         return;
       }
       const {exp} = decode(tokens.accessToken);
-      if (exp < new Date().getTime() / 1000 ) {
-        changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
-          if (res){
-          tokens.accessToken = res.accessToken;
-          setTokens(tokens);
-          }else {
-            Swal.fire("Lỗi", "Mất kết nối mạng", "error");
-          }
-        });
-      } else { 
+      // if (exp < new Date().getTime() / 1000 ) {
+      //   // changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
+      //   //   if (res){
+      //   //   tokens.accessToken = res.accessToken;
+      //   //   setTokens(tokens);
+      //   //   }else {
+      //   //     Swal.fire("Lỗi", "Mất kết nối mạng", "error");
+      //   //   }
+      //   // });
+      // } else
+       if (exp >= new Date().getTime() / 1000 ) { 
         const time = Number.parseInt(exp  - new Date().getTime() / 1000)*900;
-        setTimeout(() => {
+
+        setMyTime(setTimeout(() => {
           changeAccessToken({accessToken:tokens.accessToken, refreshToken: tokens.refreshToken}).then(res=>{
             tokens.accessToken = res.accessToken;
             setTokens(tokens);
           });
-        }, time);
+        }, time));
       }
   }, [authTokens]);
 
