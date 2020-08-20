@@ -54,7 +54,14 @@ export const InterBankTransfer = props => {
     setIsDisBtn(true);
     form.resetFields()
   };
-  const onChange = () => {setIsDisBtn(true); getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue)};
+  const onChange = () => {
+    setIsDisBtn(true);
+     getUserInfo({stk_thanh_toan:form.getFieldValue('stk_nguoi_nhan')}, form.setFieldsValue).then(res=>{
+      if(res.status > 0 || res.status === undefined) {
+        setIsDisBtn(false);
+      }
+      })
+  };
   
   const columns = [
     {
